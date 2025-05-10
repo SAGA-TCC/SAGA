@@ -1,0 +1,64 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    background: transparent;
+}
+
+thead tr {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    background: transparent;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+.content-box {
+    padding-top: 15px;
+}
+
+.content-box h1 {
+    padding-bottom: 15px;
+}
+
+.selectBotton {
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    appearance: none;
+    text-align: justify;
+    margin-bottom: 10px;
+    text-align-last: center;
+    
+}
+
+.selectBotton:hover {
+    background-color: black;
+    color: white;
+}
+
+
+footer {
+    position: relative;
+}

@@ -1,0 +1,35 @@
+{
+  "name": "dev",
+  "version": "1.0.0",
+  "description": "<img src=\"https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png\" alt=\"Express Logo\" width=\"200\">    <img src=\"https://cdn.worldvectorlogo.com/logos/jwt-3.svg\" alt=\"JWT Logo\" width=\"50\" height=\"50\">",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "sqlite3": "^5.1.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HugoSants/AuthenticateNode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HugoSants/AuthenticateNode/issues"
+  },
+  "homepage": "https://github.com/HugoSants/AuthenticateNode#readme",
+  "devDependencies": {
+    "prisma": "^6.6.0"
+  }
+}

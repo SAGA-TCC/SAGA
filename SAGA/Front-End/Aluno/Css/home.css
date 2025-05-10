@@ -1,0 +1,277 @@
+/* Reset básico */
+body,
+h3,
+p,
+button {
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    color: white;
+
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background:
+        linear-gradient(0deg, rgba(0, 0, 0, 0.80) 0%, rgba(0, 0, 0, 0.80) 100%),
+        url('../Img/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+header {
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #1a1a4b;
+}
+
+.logo {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+}
+
+.perfil {
+    font-size: large;
+    display: flex;
+    align-items: center;
+}
+
+.circulo {
+    width: 56px;
+    height: 56px;
+    background: white;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 50px 20px;
+    min-height: calc(93vh - 140px);
+    align-items: center;
+}
+
+
+.card {
+    background-color: rgba(25, 25, 57, 0.80);
+    border-radius: 10px;
+    width: 200px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+    fill: rgba(25, 25, 57, 0.80);
+    text-align: center;
+    align-items: center;
+}
+
+.card h3 {
+    margin: 0;
+    padding: 15px 0px 15px 10px;
+    text-align: left;
+    font-size: 22px;
+}
+
+.card p {
+    padding: 0px 0px 15px 10px;
+    text-align: left;
+    font-size: 15px;
+}
+
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+button {
+    background-color: white;
+    color: #1a1a4b;
+    border: none;
+    padding: 10px 60px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 20px;
+    font-weight: bold;
+    align-items: center;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+footer {
+    background-color: #1a1a4b;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    font-size: 10px;
+}
+
+
+/* PAFINA DE AJUDA*/
+
+.box {
+    background-color: rgba(25, 25, 57, 0.80);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+    fill: rgba(25, 25, 57, 0.80);
+    text-align: center;
+    align-items: center;
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+}
+
+/*
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: url("bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #1a1a4b;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    width: 60px;
+    height: auto;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ccc;
+}
+
+.perfil {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    border: 2px solid #fff;
+    padding: 20px;
+    max-width: 800px;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+thead tr {
+    background-color: #fff;
+    color: #000;
+}
+
+thead th {
+    padding: 15px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+tbody tr {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+tbody td {
+    padding: 15px;
+    font-size: 16px;
+    color: #fff;
+}
+
+tbody tr:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+footer {
+    background-color: #1a1a4b;
+    text-align: center;
+    padding: 10px 20px;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    thead th,
+    tbody td {
+        font-size: 14px;
+    }
+}
+*/

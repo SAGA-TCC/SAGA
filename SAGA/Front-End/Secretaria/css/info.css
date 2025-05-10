@@ -1,0 +1,124 @@
+
+
+/* Container principal */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+
+/* Layout Principal */
+.profile-content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* Foto de perfil */
+.profile-photo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photo-placeholder {
+    width: 180px;
+    height: 220px;
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.profile-photo p {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+/* Campos do Formulário */
+.info-fields {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Grid de inputs */
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Agrupamento de label e input */
+.input-group {
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* Estilo dos labels */
+.input-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Estilo dos inputs */
+.input-group input {
+    padding: 8px;
+    background: none;
+    color: white;
+    outline: none;
+    border-radius: 15px;
+    border: 3px solid #FFF;
+
+}
+
+/* Larguras específicas */
+.full-width {
+    width: 100%;
+}
+
+.half-width {
+    width: 48%;
+}
+
+.medium-width {
+    width: 30%;
+}
+
+.small-width {
+    width: 20%;
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-grid {
+        flex-direction: column;
+    }
+
+    .half-width,
+    .medium-width,
+    .small-width {
+        width: 100%;
+    }
+}
+
+/* Ajusta os labels para ficarem alinhados à esquerda */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Alinha o label à esquerda */
+}
+
+/* Deixa os inputs com largura 100% para melhor alinhamento */
+.input-group input {
+    width: 100%;
+}

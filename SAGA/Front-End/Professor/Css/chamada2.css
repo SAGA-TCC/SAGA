@@ -1,0 +1,89 @@
+.chamada-box {
+    width: 100%;
+    max-width: 80%;
+    background-color: rgba(25, 25, 57, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+}
+
+.tabela-chamada {
+    margin-top: 30px;
+    overflow-x: auto;
+    border-radius: 10px;
+}
+
+.tabela-chamada table {
+    width: 100%;
+    background: transparent;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.tabela-chamada thead th {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: 15px;
+    text-align: center;
+}
+
+.tabela-chamada tbody td {
+    padding: 15px;
+    text-align: center;
+    color: white;
+    background: transparent;
+}
+
+.tabela-chamada tbody tr {
+    border-bottom: 2px solid white;
+}
+
+.tabela-chamada tbody tr:last-child {
+    border-bottom: none;
+}
+
+.status {
+    font-weight: bold;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 16px;
+    color: white;
+}
+
+.status.verde {
+    background-color: #00B000;
+}
+
+.status.vermelho {
+    background-color: #D00000;
+}
+
+.status.amarelo {
+    background-color: #D6C300;
+}
+
+.botao-lancar {
+    margin-top: 40px;
+    padding: 12px 25px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.botao-lancar:hover {
+    background-color: black;
+    color: white;
+}

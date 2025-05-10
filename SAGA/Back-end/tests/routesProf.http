@@ -1,0 +1,63 @@
+### Login como secretaria para obter o token
+
+POST http://localhost:8081/login 
+Content-Type: application/json
+
+{
+    "email": "felipe@sec.com",
+    "senha": "12345678"
+}
+
+### Buscar todas as turmas associadas ao professor
+
+GET http://localhost:8081/prof/turmas/ff728ef9-b353-46c7-9642-10eacc323c6b 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Content-Type: application/json
+
+### Buscar todas as matérias associadas ao professor
+
+GET http://localhost:8081/prof/materias/ff728ef9-b353-46c7-9642-10eacc323c6b 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Content-Type: application/json
+
+### Buscar todos os alunos de uma turma associada ao professor
+
+GET http://localhost:8081/prof/alunos/726ebc36-4f9d-4eb0-967b-4c7a938e3d0a 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Content-Type: application/json
+
+### Criar uma nova chamada
+
+POST http://localhost:8081/prof/chamada 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Content-Type: application/json
+
+{
+    "id_professor": "ecd55b03-9599-4fbe-98ce-c26d5efddc48",
+    "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969",
+    "data": "2024-05-08T08:00:00.000Z"
+}
+
+### Criar uma nova chamada com presenças dos alunos
+
+POST http://localhost:8081/prof/chamada 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Content-Type: application/json
+
+{
+  "id_professor": "ecd55b03-9599-4fbe-98ce-c26d5efddc48",
+  "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969",
+  "data": "2024-05-08T08:00:00.000Z",
+  "presencas": [
+    { "id_aluno": "4fb7e821-b0c2-497e-9e15-a896e2c75af7", "presente": true },
+    { "id_aluno": "3fc3ce6d-6a0f-4a62-b817-97096a1b54a8", "presente": false }
+  ]
+}
+
+### 
+//Consultar chamada por id
+
+GET http://localhost:8081/prof/chamada/6d50c981-07e3-48cd-bf37-bcccd20b8969
+Authorization: Barer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Content-Type: application/json
+

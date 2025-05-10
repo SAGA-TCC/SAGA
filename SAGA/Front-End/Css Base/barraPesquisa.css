@@ -1,0 +1,31 @@
+.search-box {
+    display: flex;
+    background-color: #16162e; /* Cor de fundo semelhante à da imagem */
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 309px;
+    height: 45px;
+    position: relative;
+    align-items: center;
+}
+
+.search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.search-box button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding-bottom: 25px;
+    padding-left: 45px;
+
+}

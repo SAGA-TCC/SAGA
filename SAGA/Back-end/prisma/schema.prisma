@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id_user   String   @id @default(uuid())
+  matricula Int      @default(autoincrement())
+  nome      String
+  email     String   @unique
+  senha     String
+  dt_nasc   DateTime
+  telefone  String   @unique
+  cpf       String   @unique
+  ft_perfil String
+  tipo      Int
+
+  professores Professor[]
+  alunos      Aluno[]
+  secretarias Secretaria[]
+
+  @@map("user")
+}
+
+model Professor {
+  id_professor String @id @default(uuid())
+  id_user      String @unique
+  user         User   @relation(fields: [id_user], references: [id_user])
+
+  turmasRelation ProfessorTurma[]
+  notas Nota[]
+  Chamadas Chamada[]
+
+  @@map("professor")
+}
+
+model Aluno {
+  id_aluno String @id @default(uuid())
+  id_user  String @unique
+  id_turma String
+
+  user  User  @relation(fields: [id_user], references: [id_user])
+  turma Turma @relation(fields: [id_turma], references: [id_turma])
+  notas Nota[]
+  presencas Presenca[]
+  
+
+  @@map("aluno")
+}
+
+model Secretaria {
+  id_secretaria String @id @default(uuid())
+  id_user       String @unique
+
+  user User @relation(fields: [id_user], references: [id_user])
+
+  @@map("secretaria")
+}
+
+model Curso {
+  id_curso  String @id @default(uuid())
+  nome      String
+  codigo    Int    @unique @default(autoincrement())
+  periodo   String
+  descricao String
+  ch_total  String
+  freq_min  String
+
+  turmas   Turma[]
+  materias Materia[]
+
+  @@map("curso")
+}
+
+model Materia {
+  id_materia String @id @default(uuid())
+  nome       String
+  codigo     Int    @unique @default(autoincrement())
+  descricao  String
+  ch_total   String
+  freq_min   String
+  id_curso   String
+
+  curso Curso @relation(fields: [id_curso], references: [id_curso])
+  notas Nota[]
+
+  @@map("materia")
+}
+
+model Turma {
+  id_turma  String   @id @default(uuid())
+  nome      String
+  dt_inicio DateTime
+  semestres String
+  id_curso  String
+
+  curso  Curso   @relation(fields: [id_curso], references: [id_curso])
+  alunos Aluno[]
+
+  professoresRelation ProfessorTurma[]
+  notas              Nota[]
+  Chamadas Chamada[]
+
+  @@map("turma")
+}
+
+model ProfessorTurma {
+  id_prof_turma String @id @default(uuid())
+  id_professor  String
+  id_turma      String
+
+  professor Professor @relation(fields: [id_professor], references: [id_professor])
+  turma     Turma     @relation(fields: [id_turma], references: [id_turma])
+
+  @@map("professor_turma")
+}
+
+model Nota {
+  id_nota     String   @id @default(uuid())
+  id_aluno    String
+  id_materia  String
+  id_professor String
+  id_turma    String
+  valor       Float
+  data DateTime @default(now())
+  bimestre   Int
+
+  aluno      Aluno      @relation(fields: [id_aluno], references: [id_aluno])
+  materia    Materia    @relation(fields: [id_materia], references: [id_materia])
+  professor  Professor  @relation(fields: [id_professor], references: [id_professor])
+  turma      Turma      @relation(fields: [id_turma], references: [id_turma])
+
+  @@map("nota")
+}
+
+model Chamada {
+  id_chamada    String   @id @default(uuid())
+  id_professor  String
+  id_turma      String
+  data          DateTime @default(now())
+
+  professor     Professor @relation(fields: [id_professor], references: [id_professor])
+  turma         Turma     @relation(fields: [id_turma], references: [id_turma])
+  presencas     Presenca[]
+  @@map("chamada")
+}
+
+model Presenca {
+  id_presenca   String   @id @default(uuid())
+  id_chamada    String
+  id_aluno      String
+  presente      Boolean
+
+  chamada       Chamada  @relation(fields: [id_chamada], references: [id_chamada])
+  aluno         Aluno    @relation(fields: [id_aluno], references: [id_aluno])
+
+  @@map("presenca")
+}
+
+
+

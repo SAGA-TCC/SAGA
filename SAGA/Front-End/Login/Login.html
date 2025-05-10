@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - SAGA</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Estilo para o fundo com gradiente e imagem */
+    body {
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), url('Img/bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+    /* Ajustes no card para manter o estilo similar */
+    .card-custom {
+      background: rgba(139, 139, 139, 0.70);
+      border: none;
+      border-radius: 7px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      max-width: 350px;
+      width: 100%;
+    }
+    .card-custom h2 {
+      font-size: 40px;
+      font-weight: 600;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container d-flex align-items-center justify-content-center vh-100">
+    <div class="card card-custom p-4 text-center">
+      <img src="Img/logo.svg" alt="Logo SAGA" class="img-fluid mb-3" style="width: 45%;">
+      <h2 class="text-white">Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <input type="email" id="email" class="form-control" placeholder="Email:" required>
+        </div>
+        <div class="form-group">
+          <input type="password" id="password" class="form-control" placeholder="Senha:" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="background-color: #191939; border: none;">Entrar</button>
+        <a href="#" class="d-block mt-2 text-white">Esqueceu a senha?</a>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts do Bootstrap e dependências -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="Js/login.js"></script>
+</body>
+</html>

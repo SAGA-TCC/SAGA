@@ -1,0 +1,191 @@
+/* Reset básico */
+body,
+h3,
+p,
+button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.80) 0%, rgba(0, 0, 0, 0.80) 100%),
+                url('../Img/bg.jpg') fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+header {
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #1a1a4b;
+}
+
+.logo {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+}
+
+.perfil {
+    font-size: large;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.circulo {
+    width: 56px;
+    height: 56px;
+    background: white;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px 20px;
+    min-height: calc(93vh - 140px);
+    align-items: center;
+}
+
+.card {
+    background-color: rgba(25, 25, 57, 0.80);
+    border-radius: 15px;
+    width: 220px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+
+.card img {
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    margin: 0;
+    padding: 15px 0;
+    font-size: 20px;
+    text-align: center;
+}
+
+.card p {
+    padding: 0 0 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+button {
+    background-color: white;
+    color: #1a1a4b;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+footer {
+    background-color: #1a1a4b;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+footer p {
+    font-size: 12px;
+}
+
+/* Menu suspenso do perfil */
+.menu-suspenso {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    color: #1a1a40;
+    border-radius: 10px;
+    padding: 15px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 100;
+    margin-top: 5px;
+}
+
+.menu-suspenso.ativo {
+    display: block;
+}
+
+.menu-suspenso h4 {
+    margin: 0 0 10px;
+    font-weight: bold;
+    color: #1a1a40;
+}
+
+.menu-suspenso p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #1a1a40;
+}
+
+.menu-suspenso small {
+    color: #666;
+}
+
+.menu-suspenso .sair {
+    background-color: #1a1a40;
+    color: white;
+    padding: 8px 12px;
+    width: 100%;
+}
+
+.menu-suspenso .sair:hover {
+    background-color: #333366;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .card {
+        width: 100%;
+        max-width: 220px;
+    }
+    
+    .menu-suspenso {
+        right: -20px;
+    }
+}

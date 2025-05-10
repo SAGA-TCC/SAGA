@@ -1,0 +1,168 @@
+### Login como secretaria para obter o token
+POST http://localhost:8081/login
+Content-Type: application/json
+
+{
+    "email": "felipe@sec.com",
+    "senha": "12345678"
+}
+
+### consultar usuario
+GET http://localhost:8081/sec/consultarUsuario/57e8086c-de2c-47e1-9074-6ff8bf6aba50
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+
+### cadAluno
+POST http://localhost:8081/sec/cadAluno
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+  "nome": "Hugo Rocha", 
+  "email": "hugo@aluno.com", 
+  "senha": "12345678", 
+  "dt_nasc": "2006-05-01T00:00:00.000Z", 
+  "telefone": "1912956060", 
+  "cpf": "123456906", 
+  "ft_perfil": "sem foto",
+  "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969"
+}
+
+### cadProfessor
+POST http://localhost:8081/sec/cadProfessor
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+  "nome": "Hugo Rocha", 
+  "email": "hugo@prof.com", 
+  "senha": "12345678", 
+  "dt_nasc": "2006-05-01T00:00:00.000Z", 
+  "telefone": "13448952060", 
+  "cpf": "12344528406", 
+  "ft_perfil": "sem foto"
+}
+
+### cadSecretaria
+POST http://localhost:8081/sec/cadSecretaria
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+  "nome": "Felipe Farias", 
+  "email": "felipe@sec.com",
+  "senha": "12345678",
+  "dt_nasc": "2006-05-01T00:00:00.000Z",
+  "telefone": "19948972060",
+  "cpf": "12345321406",
+  "ft_perfil": "sem foto"
+}
+
+### 
+
+GET http://localhost:8081/sec/listarUsuarios
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+### Testes das rotas de Curso ###
+
+### Cadastrar novo curso
+POST http://localhost:8081/sec/curso
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+    "nome": "Curso Teste",
+    "periodo": "Noturno",
+    "descricao": "Curso para teste",
+    "ch_total": "120",
+    "freq_min": "75"
+}
+
+### Listar todos os cursos
+GET http://localhost:8081/sec/listarCursos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+### Editar curso
+PUT http://localhost:8081/sec/editarCurso/d7c1991d-6c27-4c43-a3eb-b512ca37bbe5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+    "nome": "Curso Atualizado",
+    "periodo": "Matutino",
+    "descricao": "Descrição atualizada",
+    "ch_total": "150",
+    "freq_min": "80"
+}
+
+### Excluir curso
+DELETE http://localhost:8081/sec/excluirCurso/79a13da2-a58e-4ba5-9a05-f3868d923425
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+### Testes das rotas de Matéria ###
+
+### Cadastrar matéria
+POST http://localhost:8081/sec/materia/9c12579f-e1e4-4466-b2e9-cb40a5a24ccf
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+    "nome": "Matéria Teste",
+    "descricao": "Matéria para teste",
+    "ch_total": "60",
+    "freq_min": "75"
+}
+
+### Listar matérias de um curso
+GET http://localhost:8081/sec/listarMaterias/22c8e7f7-69ef-43cc-b0cf-81de35ee910a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+### Testes das rotas de Turma ###
+
+### Cadastrar turma
+POST http://localhost:8081/sec/Turma/cadastrar
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+    "nome": "Turma Teste",
+    "periodo": "Noturno",
+    "descricao": "Turma para teste",
+    "ch_total": "120",
+    "freq_min": "75",
+    "id_curso": "9c12579f-e1e4-4466-b2e9-cb40a5a24ccf",
+    "dt_inicio": "2025-05-01T00:00:00.000Z",
+    "semestres": "2"
+}
+
+### Consultar turmas
+GET http://localhost:8081/sec/Turma/listar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+### Editar turma
+PUT http://localhost:8081/sec/Turma/editar/6d50c981-07e3-48cd-bf37-bcccd20b8969
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+    "nome": "Turma Atualizada",
+    "dt_inicio": "2025-05-01T00:00:00.000Z",
+    "semestres": "2",
+    "id_curso": "22c8e7f7-69ef-43cc-b0cf-81de35ee910a"
+}
+x
+### Vincular professor à turma
+POST http://localhost:8081/sec/vicularProfessor
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+
+{
+    "id_professor": "ecd55b03-9599-4fbe-98ce-c26d5efddc48",
+    "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969"
+}
+
+### Deletar turma
+DELETE http://localhost:8081/sec/Turma/deletar/726ebc36-4f9d-4eb0-967b-4c7a938e3d0a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI

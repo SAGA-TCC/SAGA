@@ -1,0 +1,143 @@
+/* Reset básico */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Fundo de tela */
+body {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), 
+                    url('../Img/bg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        background-color: lightgray;
+}
+
+/* Container centralizado */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Card de login */
+.login-card {
+    
+    padding: 30px;
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    border-radius: 7px;
+    background: rgba(139, 139, 139, 0.70);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    align-items: center;
+    
+}
+
+/* Logo */
+.logo {
+    width: 45%;
+    
+}
+
+/* Título */
+h2 {
+    color: #FFF;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; 
+    margin: 3%;
+    
+}
+
+p {
+    color: #FFF;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; 
+    margin: 3%;
+}
+
+/* Campos de entrada */
+input[type="email"],
+input[type="password"] {
+    width: 93%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 1px solid rgba(204, 204, 204, 0.90);
+    background: rgba(255, 255, 255, 0.50);
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color:  #191939;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #34495e;
+}
+
+/* Link de senha */
+.forgot-password {
+    display: block;
+    margin-top: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.forgot-password:hover {
+    color: #000;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .login-card {
+        width: 100%;
+        padding: 20px;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    button {
+        font-size: 14px;
+    }
+
+    .logo {
+        width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 15px;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    button {
+        font-size: 12px;
+    }
+
+    .logo {
+        width: 70px;
+    }
+}

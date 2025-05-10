@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGA - Curso</title>
+    <link rel="stylesheet" href="../Css Base/base.css">
+    <link rel="stylesheet" href="../Css Base/tabela.css">
+    <link rel="stylesheet" href="../Css Base/barraPesquisa.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <img src="../Img/logo.svg" alt="SAGA Logo">
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Frequência</a>
+            <a href="#">Boletim</a>
+            <a href="#">Curso</a>
+
+        </nav>
+        <div class="profile-icon"></div>
+    </header>
+
+    <main class="container">
+        <div class="content-box">
+            <h1>Listar Usuários</h1>
+            <div class="search-box">
+                <input type="text" placeholder="Pesquisar...">
+                <button>
+                    <img src="../Img/Search.svg">
+                </button>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome do Curso</th>
+                        <th>Data De Cadastro</th>
+                        <th> </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody id="ListaCursosTableBody">
+                    <!-- Dados serão inseridos pelo JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        Copyright &copy; 2024 - All Rights Reserved - SAGA
+    </footer>
+    <script src="Js/ListarCursos.js"></script>
+</body>
+
+</html>
