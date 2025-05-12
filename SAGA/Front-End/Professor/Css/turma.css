@@ -1,0 +1,44 @@
+.container {
+    padding: 2rem;
+}
+
+.content-box {
+    background-color: rgba(0, 0, 50, 0.5);
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: transparent;
+    border-radius: 10px;
+    overflow: hidden;
+    color: white;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    color: white; 
+    background-color: transparent;
+}
+
+th {
+    font-weight: bold;
+    border-bottom: 2px solid white;
+    background-color: white;
+    color: black;
+}
+
+tr:not(:last-child) {
+    border-bottom: 2px solid white; 
+}

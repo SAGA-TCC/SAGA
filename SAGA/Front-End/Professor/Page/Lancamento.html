@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGA - Lançamento de Notas</title>
+    <link rel="stylesheet" href="../../Css Base/base.css">
+    <link rel="stylesheet" href="../Css/lancamento.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <img src="../../Img/logo.svg" alt="SAGA Logo">
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Turmas</a>
+            <a href="#">Chamada</a>
+            <a href="#">Lançamento</a>
+        </nav>
+        <div class="profile-icon"></div>
+    </header>
+
+    <main class="container">
+        <div class="content-box">
+            <h1>Lançamento</h1>
+
+            <div class="select-group">
+                <select>
+                    <option>1º Módulo</option>
+                    <option>2º Módulo</option>
+                    <option>3º Módulo</option>
+                </select>
+                <select>
+                    <option>Matéria</option>
+                    <option>Lógica</option>
+                    <option>Marketing</option>
+                </select>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Nome</th>
+                        <th>1º Bimestre</th>
+                        <th>2º Bimestre</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaLancamento">
+
+                </tbody>
+            </table>
+
+            <div class="btn-container">
+                <button class="btn-lancar">Lançar Notas</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        Copyright © 2024 - All Rights Reserved - SAGA
+    </footer>
+
+    <script src="../Js/lancamento.js"></script>
+</body>
+
+</html>

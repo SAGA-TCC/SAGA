@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Boletim</title>
-    <link rel="stylesheet" href="../Css/base.css">
-    <link rel="stylesheet" href="../Css/curso.css">
-</head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SAGA - Turmas</title>
+    <link rel="stylesheet" href="../../Css Base/base.css" />
+    
+    <link rel="stylesheet" href="../Css/turma.css" />
 
+</head>
 <body>
     <header class="navbar">
-        <img src="../Img/logo.svg" alt="SAGA Logo">
+        <img src="../../Img/logo.svg" alt="SAGA Logo" />
         <nav class="nav-links">
             <a href="#">Home</a>
-            <a href="#">Frequência</a>
-            <a href="#">Boletim</a>
-            <a href="#">Curso</a>
+            <a href="#">Turmas</a>
+            <a href="#">Chamada</a>
+            <a href="#">Lançamento</a>
         </nav>
         <div class="profile-icon"></div>
     </header>
 
     <main class="container">
         <div class="content-box">
-            <h1>Boletim</h1>
-
+            <h1>Turmas</h1>
             <table>
                 <thead>
                     <tr>
+                        <th>Módulo</th>
                         <th>Matéria</th>
-                        <th>1º Bimestre</th>
-                        <th>2º Bimestre</th>
-                        <th>Frequência</th>
+                        <th>Total de aulas Semanais</th>
+                        <th>Carga Horária</th>
                     </tr>
                 </thead>
-                <tbody id="boletimTableBody">
-                    <!-- Dados serão inseridos pelo JS -->
+                <tbody id="turmaTableBody">
+
                 </tbody>
             </table>
         </div>
@@ -44,7 +43,6 @@
     <footer>
         Copyright © 2024 - All Rights Reserved - SAGA
     </footer>
-    <script src="../Js/boletim.js"></script>
+    <script src="../Js/turma.js"></script>
 </body>
-
 </html>

@@ -2,49 +2,59 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Boletim</title>
-    <link rel="stylesheet" href="../Css/base.css">
-    <link rel="stylesheet" href="../Css/curso.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAGA - Boletim</title>
+  <link rel="stylesheet" href="../../Css Base/base.css" />
+  <link rel="stylesheet" href="../../Css Base/tabela.css" />
+  <link rel="stylesheet" href="../Css/boletim.css" />
 </head>
 
 <body>
-    <header class="navbar">
-        <img src="../Img/logo.svg" alt="SAGA Logo">
-        <nav class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Frequência</a>
-            <a href="#">Boletim</a>
-            <a href="#">Curso</a>
-        </nav>
-        <div class="profile-icon"></div>
-    </header>
+  <header class="navbar">
+    <img src="../Img/logo.svg" alt="SAGA Logo" />
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Frequência</a>
+      <a href="#">Boletim</a>
+      <a href="#">Curso</a>
+    </nav>
+    <div class="profile-icon"></div>
+  </header>
 
-    <main class="container">
-        <div class="content-box">
-            <h1>Boletim</h1>
+  <main class="container">
+    <div class="content-box boletim-box">
+      <h1 class="titulo-centralizado">Boletim</h1>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Matéria</th>
-                        <th>1º Bimestre</th>
-                        <th>2º Bimestre</th>
-                        <th>Frequência</th>
-                    </tr>
-                </thead>
-                <tbody id="boletimTableBody">
-                    <!-- Dados serão inseridos pelo JS -->
-                </tbody>
-            </table>
-        </div>
-    </main>
+      <div class="seletor-modulo">
+        <select id="moduloSelect">
+          <option>1º Módulo</option>
+        </select>
+      </div>
 
-    <footer>
-        Copyright &copy; 2024 - All Rights Reserved - SAGA
-    </footer>
-    <script src="../Js/boletim.js"></script>
+      <div class="tabela-boletim">
+        <table>
+          <thead>
+            <tr>
+              <th>Matéria</th>
+              <th>1º Bimestre</th>
+              <th>2º Bimestre</th>
+              <th>Frequência</th>
+            </tr>
+          </thead>
+          <tbody id="boletimTableBody">
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Copyright © 2024 - All Rights Reserved - SAGA
+  </footer>
+
+  <script src="../Js/boletim.js"></script>
 </body>
 
 </html>

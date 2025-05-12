@@ -87,3 +87,43 @@
     background-color: black;
     color: white;
 }
+
+.tabela-chamada {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabela-chamada > table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-chamada > table thead th {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: 15px;
+    text-align: center;
+}
+
+.tabela-scroll {
+    max-height: 300px; 
+    overflow-y: auto;
+}
+
+.tabela-scroll table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-scroll table tbody td {
+    padding: 15px;
+    text-align: center;
+    color: white;
+    background: transparent;
+    border-bottom: 2px solid white;
+}
+
+.tabela-scroll table tbody tr:last-child td {
+    border-bottom: none;
+}
