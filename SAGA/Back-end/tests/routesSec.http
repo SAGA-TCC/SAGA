@@ -117,7 +117,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyM
 
 ### Listar matérias de um curso
 GET http://localhost:8081/sec/listarMaterias/22c8e7f7-69ef-43cc-b0cf-81de35ee910a
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcwOTYwMDcsImV4cCI6MTc0NzEzMjAwN30.79Be9R2VPzjY8rltwYdv1DtIgbxD40VLUtFpOJ4C48M
 
 ### Testes das rotas de Turma ###
 

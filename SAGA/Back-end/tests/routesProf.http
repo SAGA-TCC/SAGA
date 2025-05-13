@@ -17,7 +17,7 @@ Content-Type: application/json
 ### Buscar todas as matérias associadas ao professor
 
 GET http://localhost:8081/prof/materias/ff728ef9-b353-46c7-9642-10eacc323c6b 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcwOTYwMDcsImV4cCI6MTc0NzEzMjAwN30.79Be9R2VPzjY8rltwYdv1DtIgbxD40VLUtFpOJ4C48M
 Content-Type: application/json
 
 ### Buscar todos os alunos de uma turma associada ao professor
@@ -60,4 +60,18 @@ Content-Type: application/json
 GET http://localhost:8081/prof/chamada/6d50c981-07e3-48cd-bf37-bcccd20b8969
 Authorization: Barer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
 Content-Type: application/json
+
+###
+
+POST http://localhost:8081/prof/lancarNota
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcwOTYwMDcsImV4cCI6MTc0NzEzMjAwN30.79Be9R2VPzjY8rltwYdv1DtIgbxD40VLUtFpOJ4C48M
+
+{
+  "id_aluno": "1b85aab0-e2b2-4bc7-896b-cc19a30e691e",
+  "id_materia": "107cf2d4-8c9f-4376-a0c7-65bc92c06af6",
+  "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969",
+  "nota": 9.2,
+  "bimestre": 1
+}
 
