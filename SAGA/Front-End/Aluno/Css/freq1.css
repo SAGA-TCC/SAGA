@@ -1,0 +1,152 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    padding: 2rem;
+    height: calc(100vh - 100px);
+    box-sizing: border-box;
+  }
+  
+  .content-box {
+    background-color: rgba(0, 0, 50, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    color: white;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .freq-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+    height: calc(100% - 80px);
+  }
+  
+  /* CALENDARIO */
+  .calendar {
+    background-color: white;
+    color: black;
+    border-radius: 15px;
+    padding: 1.5rem;
+    flex: 1 1 450px;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    margin-top: -30px;
+  }
+  
+  
+  .cal-header select {
+    padding: 0.6rem; 
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 0.5rem;
+  }
+  
+  .cal-table th,
+  .cal-table td {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+
+  .cal-table td.present {
+    background-color: #00b000;
+    color: white;
+  }
+  
+  .cal-table td.absent {
+    background-color: #d00000;
+    color: white;
+  }
+  
+  .cal-table td.holiday {
+    background-color: #D6C300;
+    color: white;
+  }
+  
+  .cal-table td.off {
+    color: #ccc;
+  }
+  
+  /* GRAFICO */
+  .chart-container {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-10px);
+  }
+  
+  .chart-container canvas {
+    width: 230px !important;
+    height: 230px !important;
+    margin-bottom: 1rem;
+  }
+  
+  .legend {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+    color: white;
+  }
+  
+  .legend li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .legend .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+  }
+  
+  .legend .present {
+    background-color: #00B000;
+  }
+  
+  .legend .absent {
+    background-color: #D00000;
+  }
+  
+  .legend .holiday {
+    background-color: #D6C300;
+  }
+
+  .stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: -60px;
+    margin-right: 65px;
+    color: white;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    gap: 1rem;
+    max-width: 220px;
+    flex: 1 1 220px;
+  }
+  
