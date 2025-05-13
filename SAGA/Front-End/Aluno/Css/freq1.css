@@ -38,54 +38,52 @@ body, html {
   }
   
   /* CALENDARIO */
-  .calendar {
-    background-color: white;
-    color: black;
-    border-radius: 15px;
-    padding: 1.5rem;
-    flex: 1 1 450px;
-    max-width: 500px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    margin-top: -30px;
+  #calendar {
+    max-width: 900px;
+    margin: 40px auto;
+    background-color: #f0f8ff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  
-  
-  .cal-header select {
-    padding: 0.6rem; 
-    font-size: 1.1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-left: 0.5rem;
-  }
-  
-  .cal-table th,
-  .cal-table td {
-    text-align: center;
-    padding: 1rem;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 1.1rem;
-  }
-  
 
-  .cal-table td.present {
-    background-color: #00b000;
+  /* Cor do cabeçalho (nome do mês e botões) */
+  .fc-toolbar-title {
+    color: #003366;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .fc-button {
+    background-color: #006699;
     color: white;
+    border: none;
+  }
+
+  .fc-button:hover {
+    background-color: #004d66;
+  }
+
+  /* Cor dos nomes dos dias da semana */
+  .fc-col-header-cell {
+    background-color: #cce7ff;
+    color: #003366;
+    font-weight: bold;
+  }
+
+  /* Cor das células do calendário */
+  .fc-daygrid-day {
+    background-color: #ffffff;
+  }
+
+  /* Destaque ao passar o mouse nos dias */
+  .fc-daygrid-day:hover {
+    background-color: #e6f7ff;
   }
   
-  .cal-table td.absent {
-    background-color: #d00000;
-    color: white;
-  }
-  
-  .cal-table td.holiday {
-    background-color: #D6C300;
-    color: white;
-  }
-  
-  .cal-table td.off {
-    color: #ccc;
-  }
+.fc-daygrid-day-number {
+  color: black !important;
+}
   
   /* GRAFICO */
   .chart-container {

@@ -31,28 +31,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  const dayCells = document.querySelectorAll(".cal-table td");
+document.addEventListener('DOMContentLoaded', function () {
+  var calendarEl = document.getElementById('calendar');
 
-  dayCells.forEach(cell => {
-    const day = cell.textContent.trim();
-    const isDay = !cell.classList.contains("off") && day !== "";
-
-    if (isDay) {
-      cell.style.cursor = "pointer";
-      cell.addEventListener("click", () => {
-        let status = "indefinido";
-
-        if (cell.classList.contains("present")) {
-          status = "presente";
-        } else if (cell.classList.contains("absent")) {
-          status = "ausente";
-        } else if (cell.classList.contains("holiday")) {
-          status = "nao letivo";
-        }
-
-        window.location.href = `dia.html?dia=${day}&status=${status}`;
-      });
-    }
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale: 'pt-br',
+    headerToolbar: {
+      end: 'today prev,next',
+      start: 'title'
+    },
   });
+
+  calendar.render();
 });
