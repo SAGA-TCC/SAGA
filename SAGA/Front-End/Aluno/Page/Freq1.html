@@ -1,29 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Curso</title>
-    <link rel="stylesheet" href="../Css/base.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SAGA - Frequência</title>
+  <link rel="stylesheet" href="../../Css Base/base.css" />
+  <link rel="stylesheet" href="../Css/freq1.css" />
+  <!-- aquele grafico formato torta -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>  
 </head>
 <body>
-    <header class="navbar">
-        <img src="../Img/logo.svg" alt="SAGA Logo">
-        <nav class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Frequência</a>
-            <a href="#">Boletim</a>
-            <a href="#">Curso</a>
-        </nav>
-        <div class="profile-icon"></div>
-    </header>
-    <main class="container">
-        <div class="content-box">
-            <h1>Curso</h1>
+  <header class="navbar">
+    <img src="../../Img/logo.svg" alt="SAGA Logo" />
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Frequência</a>
+      <a href="#">Boletim</a>
+      <a href="#">Curso</a>
+    </nav>
+    <div class="profile-icon"></div>
+  </header>
+
+  <main class="container">
+    <div class="content-box freq-box">
+      <h1>Frequência</h1>
+
+      <div class="freq-content">
+
+        <div class="calendar">
+          <div class="cal-header">
+            <select id="monthSelect">
+              <option>Abril</option>
+            </select>
+            <select id="yearSelect">
+              <option>2025</option>
+            </select>
+          </div>
+          <table class="cal-table">
+            <thead>
+              <tr>
+                <th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th>
+                <th>Sex</th><th>Sab</th><th>Dom</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="off">29</td><td class="off">30</td><td class="off">31</td>
+                <td class="present day" data-day="2025-04-01">1</td><td class="absent day" data-day="2025-04-02">2</td><td class="holiday day" data-day="2025-04-03">3</td><td class="holiday day" data-day="2025-04-04">4</td>
+              </tr>
+              <tr>
+                <td class="absent day" data-day="2025-04-05">5</td><td class="present day" data-day="2025-04-06">6</td><td class="present day" data-day="2025-04-07">7</td>
+                <td class="present day" data-day="2025-04-08">8</td><td class="present day" data-day="2025-04-09">9</td><td class="holiday day" data-day="2025-04-10">10</td><td class="holiday day" data-day="2025-04-11">11</td>
+              </tr>
+              <tr>
+                <td class="absent day" data-day="2025-04-12">12</td><td class="present day" data-day="2025-04-13">13</td><td class="present day" data-day="2025-04-14">14</td>
+                <td class="present day" data-day="2025-04-15">15</td><td class="present day" data-day="2025-04-16">16</td><td class="holiday day" data-day="2025-04-17">17</td><td class="holiday day" data-day="2025-04-18">18</td>
+              </tr>
+              <tr>
+                <td class="present day" data-day="2025-04-19">19</td><td class="absent day" data-day="2025-04-20">20</td><td class="absent day" data-day="2025-04-21">21</td>
+                <td class="holiday day" data-day="2025-04-22">22</td><td class="holiday day" data-day="2025-04-23">23</td><td class="holiday day" data-day="2025-04-24">24</td><td class="holiday day" data-day="2025-04-25">25</td>
+              </tr>
+              <tr>
+                <td class="absent day" data-day="2025-04-26">26</td><td class="present day" data-day="2025-04-27">27</td><td class="present day" data-day="2025-04-28">28</td>
+                <td class="present day" data-day="2025-04-29">29</td><td class="present day" data-day="2025-04-30">30</td><td class="off">1</td><td class="off">2</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-    </main>
-    <footer>
-        Copyright &copy; 2024 - All Rights Reserved - SAGA
-    </footer>
+
+        <div class="chart-container">
+          <canvas id="freqChart"></canvas>
+          <ul class="legend">
+            <li><span class="dot present"></span>Presença</li>
+            <li><span class="dot absent"></span>Ausência</li>
+            <li><span class="dot holiday"></span>Dias não letivos</li>
+          </ul>
+        </div>
+
+        <div class="stats">
+          <p><strong>Faltas</strong><br/>4 Ausências</p>
+          <p><strong>Frequência</strong><br/>4 Presenças</p>
+          <p><strong>Faltas Permitidas no Curso</strong><br/>75 Ausências</p>
+          <p><strong>Total de Aulas</strong><br/>100 Aulas</p>
+          <p><strong>Carga Horária</strong><br/>500 Horas</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Copyright © 2024 - All Rights Reserved - SAGA
+  </footer>
+
+  <script src="../Js/freq1.js"></script>
 </body>
 </html>
