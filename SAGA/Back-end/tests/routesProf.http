@@ -61,25 +61,12 @@ GET http://localhost:8081/prof/chamada/6d50c981-07e3-48cd-bf37-bcccd20b8969
 Authorization: Barer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
 Content-Type: application/json
 
-###
-
-POST http://localhost:8081/prof/lancarNota
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcwOTYwMDcsImV4cCI6MTc0NzEzMjAwN30.79Be9R2VPzjY8rltwYdv1DtIgbxD40VLUtFpOJ4C48M
-
-{
-  "id_aluno": "3fc3ce6d-6a0f-4a62-b817-97096a1b54a8",
-  "id_materia": "107cf2d4-8c9f-4376-a0c7-65bc92c06af6",
-  "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969",
-  "id_professor": "ecd55b03-9599-4fbe-98ce-c26d5efddc48",
-  "nota": 9.2,
-  "bimestre": 1
-}
 
 ###
+//lançar notas
 
 POST http://localhost:8081/prof/lancarNotas
-Authorization: Bearer <seu_token>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNjQ3ODMsImV4cCI6MTc0NzMwMDc4M30.9ZTqielU4LyA6VIe5e7Nrwlr0Wfj5wqFo7WFOwU3b_U
 Content-Type: application/json
 
 {

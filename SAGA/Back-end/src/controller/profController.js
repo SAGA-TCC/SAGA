@@ -139,59 +139,111 @@ export class ProfController {
 
     //lançar notas 
 
+    // Lança notas para uma avaliação (Nota) de uma turma, matéria e professor
     async lancarNotas(req, res) {
-        const { id_professor, id_materia, id_turma, bimestre, notas } = req.body;
-    
-        if (!id_professor || !id_materia || !id_turma || !bimestre || !Array.isArray(notas)) {
-            return res.status(400).json({ erro: "Dados obrigatórios faltando ou inválidos." });
+        const { id_professor, id_turma, id_materia, tipo_avaliacao, notas } = req.body;
+
+        if (!Array.isArray(notas)) {
+            return res.status(400).json({ erro: "O campo 'notas' deve ser um array com id_aluno e valor." });
         }
-    
+
         try {
-            const resultados = [];
-    
-            for (const notaInfo of notas) {
-                const { id_aluno, nota } = notaInfo;
-    
-                if (!id_aluno || typeof nota !== "number" || isNaN(nota)) {
-                    resultados.push({ id_aluno, erro: "Dados inválidos para o aluno." });
-                    continue;
-                }
-    
-                const notaExistente = await prisma.nota.findFirst({
-                    where: { id_aluno, id_materia, id_turma, bimestre }
-                });
-    
-                let notaLancada;
-                if (notaExistente) {
-                    notaLancada = await prisma.nota.update({
-                        where: { id: notaExistente.id },
-                        data: {
-                            valor: nota,
-                            id_professor
-                        }
-                    });
-                } else {
-                    notaLancada = await prisma.nota.create({
-                        data: {
-                            id_aluno,
-                            id_materia,
-                            id_turma,
-                            bimestre,
-                            valor: nota,
-                            id_professor
-                        }
-                    });
-                }
-    
-                resultados.push({ id_aluno, sucesso: "Nota lançada com sucesso.", nota: notaLancada.valor });
+            // Verifica se o professor está associado à turma
+            const relacao = await prisma.professorTurma.findFirst({
+                where: { id_professor, id_turma }
+            });
+
+            if (!relacao) {
+                return res.status(404).json({ erro: "Professor não associado a essa turma." });
             }
-    
-            return res.status(200).json({ resultados });
+
+            // Cria o registro da avaliação
+            const nota = await prisma.nota.create({
+                data: {
+                    id_professor,
+                    id_turma,
+                    id_materia,
+                    tipo_avaliacao,
+                    notasAlunos: {
+                        create: notas.map(n => ({
+                            id_aluno: n.id_aluno,
+                            valor: n.valor
+                        }))
+                    }
+                },
+                include: { notasAlunos: true }
+            });
+
+            return res.status(200).json({ sucesso: "Notas lançadas com sucesso!", nota });
         } catch (error) {
-            console.error("Erro ao lançar notas:", error);
             return res.status(500).json({ erro: "Erro ao lançar notas", detalhes: error.message });
         }
     }
-    
+
+
+    // async lancarNotas(req, res) {
+    //     const { id_professor, id_materia, id_turma, bimestre, notas } = req.body;
+
+    //     if (!id_professor || !id_materia || !id_turma || !bimestre || !Array.isArray(notas)) {
+    //         return res.status(400).json({ erro: "Dados obrigatórios faltando ou inválidos." });
+    //     }
+
+    //     try {
+    //         const resultados = [];
+
+    //         for (const notaInfo of notas) {
+    //             const { id_aluno, nota } = notaInfo;
+
+    //             if (!id_aluno || typeof nota !== "number" || isNaN(nota)) {
+    //                 resultados.push({ id_aluno, erro: "Dados inválidos para o aluno." });
+    //                 continue;
+    //             }
+
+    //             // Verifica se o aluno existe
+    //             const alunoExiste = await prisma.aluno.findUnique({
+    //                 where: { id_aluno }
+    //             });
+
+    //             if (!alunoExiste) {
+    //                 resultados.push({ id_aluno, erro: "Aluno não encontrado no banco de dados." });
+    //                 continue;
+    //             }
+
+    //             const notaExistente = await prisma.nota.findFirst({
+    //                 where: { id_aluno, id_materia, id_turma, bimestre }
+    //             });
+
+    //             let notaLancada;
+    //             if (notaExistente) {
+    //                 notaLancada = await prisma.nota.update({
+    //                     where: { id: notaExistente.id },
+    //                     data: {
+    //                         valor: nota,
+    //                         id_professor
+    //                     }
+    //                 });
+    //             } else {
+    //                 notaLancada = await prisma.nota.create({
+    //                     data: {
+    //                         id_aluno,
+    //                         id_materia,
+    //                         id_turma,
+    //                         bimestre,
+    //                         valor: nota,
+    //                         id_professor
+    //                     }
+    //                 });
+    //             }
+
+    //             resultados.push({ id_aluno, sucesso: "Nota lançada com sucesso.", nota: notaLancada.valor });
+    //         }
+
+    //         return res.status(200).json({ resultados });
+    //     } catch (error) {
+    //         console.error("Erro ao lançar notas:", error);
+    //         return res.status(500).json({ erro: "Erro ao lançar notas", detalhes: error.message });
+    //     }
+    // }
+
 }
 
