@@ -46,10 +46,18 @@ input[readonly] {
 /* Melhorando a aparência do select de turmas */
 select#id_turma {
     padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
     width: 100%;
     font-size: 14px;
+    background: none;
+    color: white;
+    outline: none;
+    border-radius: 15px;
+    border: 3px solid #FFF;
+}
+
+#id_turma * {
+    color: black;
+    border-color: #007bff;
 }
 
 /* Estilo para erros de validação */

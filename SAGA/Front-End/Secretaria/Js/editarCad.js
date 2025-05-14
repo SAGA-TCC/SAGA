@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             <div class="input-group half-width">
                                 <label for="id_turma">Turma:</label>
                                 <select id="id_turma">
-                                    <option value="">Selecione uma turma</option>
+                                    <option value="" selected disabled style="color: gray;">Selecione uma turma</option>
                                     ${turmas.map(turma => 
                                         `<option value="${turma.id_turma}" ${alunoData.id_turma === turma.id_turma ? 'selected' : ''}>
                                             ${turma.nome}
