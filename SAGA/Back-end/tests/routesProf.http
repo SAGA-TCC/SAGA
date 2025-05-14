@@ -68,9 +68,10 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcwOTYwMDcsImV4cCI6MTc0NzEzMjAwN30.79Be9R2VPzjY8rltwYdv1DtIgbxD40VLUtFpOJ4C48M
 
 {
-  "id_aluno": "1b85aab0-e2b2-4bc7-896b-cc19a30e691e",
+  "id_aluno": "3fc3ce6d-6a0f-4a62-b817-97096a1b54a8",
   "id_materia": "107cf2d4-8c9f-4376-a0c7-65bc92c06af6",
   "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969",
+  "id_professor": "ecd55b03-9599-4fbe-98ce-c26d5efddc48",
   "nota": 9.2,
   "bimestre": 1
 }

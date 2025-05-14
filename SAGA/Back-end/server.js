@@ -15,11 +15,24 @@ const PORT = process.env.PORT
 export const JWT_SECRET = process.env.JWT_SECRET
 
 const server = express()
-server.use(cors())
+
+// Configuração correta do CORS
+server.use(cors({
+  origin: 'http://127.0.0.1:5500', // Substitua pela origem exata do seu frontend
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+}));
+
 server.timeout = 300000;
 server.use(express.json())
 server.use(routerGeral, routerAluno, routerProf, routerSec)
 
+// Adicionando um endpoint de health check
+server.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'Server is running' });
+});
+
 server.listen(PORT, ()=>{
-    console.log("Rodando servidor!")
+    console.log(`Servidor rodando na porta ${PORT}!`)
 })
