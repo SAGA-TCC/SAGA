@@ -139,55 +139,59 @@ export class ProfController {
 
     //lançar notas 
 
-    async lancarNota(req, res) {
-        const { id_aluno, id_materia, id_turma, nota, bimestre, id_professor } = req.body;
-
-        if (!id_aluno || !id_materia || !id_turma || typeof nota !== "number" || !bimestre || !id_professor
-        ) {
+    async lancarNotas(req, res) {
+        const { id_professor, id_materia, id_turma, bimestre, notas } = req.body;
+    
+        if (!id_professor || !id_materia || !id_turma || !bimestre || !Array.isArray(notas)) {
             return res.status(400).json({ erro: "Dados obrigatórios faltando ou inválidos." });
         }
-
+    
         try {
-            // Verifica se já existe uma nota lançada para esse aluno, matéria, turma e bimestre
-            const notaExistente = await prisma.nota.findFirst({
-                where: { id_aluno, id_materia, id_turma, bimestre }
-            });
-
-            // Garante que nota é um número válido
-            const valorNota = Number(nota);
-            if (isNaN(valorNota)) {
-                return res.status(400).json({ erro: "Nota inválida." });
-            }
-
-            // Log para debug
-            console.log('Dados enviados para o Prisma:', { id_aluno, id_materia, id_turma, id_professor, bimestre, valor: valorNota });
-
-            let notaLancada;
-            if (notaExistente) {
-                // Atualiza a nota existente
-                notaLancada = await prisma.nota.update({
-                    where: { id: notaExistente.id },
-                    data: { valor: valorNota, id_professor }
+            const resultados = [];
+    
+            for (const notaInfo of notas) {
+                const { id_aluno, nota } = notaInfo;
+    
+                if (!id_aluno || typeof nota !== "number" || isNaN(nota)) {
+                    resultados.push({ id_aluno, erro: "Dados inválidos para o aluno." });
+                    continue;
+                }
+    
+                const notaExistente = await prisma.nota.findFirst({
+                    where: { id_aluno, id_materia, id_turma, bimestre }
                 });
-            } else {
-                // Cria uma nova nota
-                notaLancada = await prisma.nota.create({
-                    data: {
-                        id_aluno,
-                        id_materia,
-                        id_turma,
-                        id_professor,
-                        bimestre,
-                        valor: valorNota
-                    }
-                });
+    
+                let notaLancada;
+                if (notaExistente) {
+                    notaLancada = await prisma.nota.update({
+                        where: { id: notaExistente.id },
+                        data: {
+                            valor: nota,
+                            id_professor
+                        }
+                    });
+                } else {
+                    notaLancada = await prisma.nota.create({
+                        data: {
+                            id_aluno,
+                            id_materia,
+                            id_turma,
+                            bimestre,
+                            valor: nota,
+                            id_professor
+                        }
+                    });
+                }
+    
+                resultados.push({ id_aluno, sucesso: "Nota lançada com sucesso.", nota: notaLancada.valor });
             }
-
-            return res.status(200).json({ sucesso: "Nota lançada com sucesso!", nota: notaLancada });
+    
+            return res.status(200).json({ resultados });
         } catch (error) {
-            console.error('Erro ao lançar nota:', error);
-            return res.status(500).json({ erro: "Erro ao lançar nota", detalhes: error.message });
+            console.error("Erro ao lançar notas:", error);
+            return res.status(500).json({ erro: "Erro ao lançar notas", detalhes: error.message });
         }
     }
+    
 }
 
