@@ -1,89 +1,142 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-  }
-  
-  .container {
-    padding: 2rem;
-    height: calc(100vh - 100px);
-    box-sizing: border-box;
-  }
-  
-  .content-box {
-    background-color: rgba(0, 0, 50, 0.5);
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    padding: 2rem;
-    color: white;
-    height: 100%;
-    overflow: hidden;
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-  .freq-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 2rem;
-    height: calc(100% - 80px);
-  }
-  
-  /* CALENDARIO */
-  #calendar {
-    max-width: 900px;
-    margin: 40px auto;
-    background-color: #f0f8ff;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Cor do cabeçalho (nome do mês e botões) */
-  .fc-toolbar-title {
-    color: #003366;
-    font-weight: bold;
-    font-size: 1.5rem;
-  }
-
-  .fc-button {
-    background-color: #006699;
-    color: white;
-    border: none;
-  }
-
-  .fc-button:hover {
-    background-color: #004d66;
-  }
-
-  /* Cor dos nomes dos dias da semana */
-  .fc-col-header-cell {
-    background-color: #cce7ff;
-    color: #003366;
-    font-weight: bold;
-  }
-
-  /* Cor das células do calendário */
-  .fc-daygrid-day {
-    background-color: #ffffff;
-  }
-
-  /* Destaque ao passar o mouse nos dias */
-  .fc-daygrid-day:hover {
-    background-color: #e6f7ff;
-  }
-  
-.fc-daygrid-day-number {
-  color: black !important;
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
+
+body {
+  background-color: #000020; /* fundo escuro visível em telas grandes */
+}
+
+header.navbar {
+  height: 80px;
+  background-color: #001144;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+footer {
+  height: 40px;
+  background-color: #001144;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+main.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.content-box {
+  background-color: rgba(0, 0, 50, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  padding: 2rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 1300px;
+  min-height: 500px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.freq-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  flex: 1;
+}
+
+/* CALENDÁRIO */
+#calendar {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex: 1 1 600px;
+}
+
+/* Chart */
+.chart-container {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-container canvas {
+  width: 230px !important;
+  height: 230px !important;
+  margin-bottom: 1rem;
+}
+
+.legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  color: white;
+}
+
+.legend li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.legend .dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+}
+
+.present {
+  background-color: #00B000;
+}
+.absent {
+  background-color: #D00000;
+}
+.holiday {
+  background-color: #D6C300;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  gap: 1rem;
+  max-width: 220px;
+  flex: 1 1 220px;
+  color: white;
+}
+
   
   /* GRAFICO */
   .chart-container {
@@ -91,7 +144,6 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform: translateY(-10px);
   }
   
   .chart-container canvas {
@@ -122,29 +174,50 @@ body, html {
     border-radius: 50%;
   }
   
-  .legend .present {
+  .present {
     background-color: #00B000;
   }
-  
-  .legend .absent {
+  .absent {
     background-color: #D00000;
   }
-  
-  .legend .holiday {
+  .holiday {
     background-color: #D6C300;
   }
-
-  .stats {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-top: -60px;
-    margin-right: 65px;
-    color: white;
-    font-size: 1.2rem;
-    line-height: 1.8;
-    gap: 1rem;
-    max-width: 220px;
-    flex: 1 1 220px;
-  }
   
+ /* Cor do cabeçalho (nome do mês e botões) */
+ .fc-toolbar-title {
+  color: #003366;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.fc-button {
+  background-color: #006699;
+  color: white;
+  border: none;
+}
+
+.fc-button:hover {
+  background-color: #004d66;
+}
+
+/* Cor dos nomes dos dias da semana */
+.fc-col-header-cell {
+  background-color: #cce7ff;
+  color: #003366;
+  font-weight: bold;
+}
+
+/* Cor das células do calendário */
+.fc-daygrid-day {
+  background-color: #ffffff;
+}
+
+/* Destaque ao passar o mouse nos dias */
+.fc-daygrid-day:hover {
+  background-color: #e6f7ff;
+}
+
+.fc-daygrid-day-number {
+color: black !important;
+}
