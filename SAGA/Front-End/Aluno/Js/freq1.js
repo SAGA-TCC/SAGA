@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
       ],
     },
     options: {
+       animation: {
+      duration: 1250
+      },
       plugins: {
         tooltip: { enabled: false },
         legend: { display: false },
