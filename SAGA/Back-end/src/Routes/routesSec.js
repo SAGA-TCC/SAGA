@@ -31,6 +31,16 @@ routerSec.get('/sec/listarUsuarios', tokenAuthenticate, secController.listarUsua
 routerSec.put('/sec/editarUsuario/:id_user', tokenAuthenticate, secController.editarUsuario);
 routerSec.delete('/sec/excluirUsuario/:id_user', tokenAuthenticate, secController.excluirUsuario);
 routerSec.get('/sec/consultarUsuario/:id_user', tokenAuthenticate, secController.consultarUsuario);
+routerSec.get('/sec/consultarAluno/:id_user', tokenAuthenticate, secController.consultarAluno);
+routerSec.get('/sec/consultarProfessor/:id_user', tokenAuthenticate, secController.consultarProfessor);
+routerSec.get('/sec/consultarSecretaria/:id_user', tokenAuthenticate, secController.consultarSecretaria);
+
+// Rotas para atualização de dados específicos
+routerSec.put('/sec/atualizarTurmaAluno/:id_user', tokenAuthenticate, secController.atualizarTurmaAluno);
+routerSec.put('/sec/atualizarEspecialidadeProfessor/:id_user', tokenAuthenticate, secController.atualizarEspecialidadeProfessor);
+routerSec.put('/sec/atualizarSetorSecretaria/:id_user', tokenAuthenticate, secController.atualizarSetorSecretaria);
+routerSec.get('/sec/listarTurmasProfessor/:id_user', tokenAuthenticate, secController.listarTurmasProfessor);
+routerSec.put('/sec/atualizarTurmasProfessor/:id_user', tokenAuthenticate, secController.atualizarTurmasProfessor);
 
 //Turma
 routerSec.post('/sec/Turma/cadastrar', tokenAuthenticate, secController.cadTurma)

@@ -10,13 +10,13 @@ Content-Type: application/json
 ### consultar usuario
 GET http://localhost:8081/sec/consultarUsuario/57e8086c-de2c-47e1-9074-6ff8bf6aba50
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 
 ### cadAluno
 POST http://localhost:8081/sec/cadAluno
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
   "nome": "Hugo Rocha", 
@@ -32,7 +32,7 @@ authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyM
 ### cadProfessor
 POST http://localhost:8081/sec/cadProfessor
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
   "nome": "Hugo Rocha", 
@@ -47,7 +47,7 @@ authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyM
 ### cadSecretaria
 POST http://localhost:8081/sec/cadSecretaria
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
   "nome": "Felipe Farias", 
@@ -63,14 +63,14 @@ authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyM
 
 GET http://localhost:8081/sec/listarUsuarios
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 ### Testes das rotas de Curso ###
 
 ### Cadastrar novo curso
 POST http://localhost:8081/sec/curso
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
     "nome": "Curso Teste",
@@ -82,12 +82,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyM
 
 ### Listar todos os cursos
 GET http://localhost:8081/sec/listarCursos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 ### Editar curso
 PUT http://localhost:8081/sec/editarCurso/d7c1991d-6c27-4c43-a3eb-b512ca37bbe5
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
     "nome": "Curso Atualizado",
@@ -99,14 +99,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyM
 
 ### Excluir curso
 DELETE http://localhost:8081/sec/excluirCurso/79a13da2-a58e-4ba5-9a05-f3868d923425
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 ### Testes das rotas de Matéria ###
 
 ### Cadastrar matéria
 POST http://localhost:8081/sec/materia/9c12579f-e1e4-4466-b2e9-cb40a5a24ccf
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
     "nome": "Matéria Teste",
@@ -124,7 +124,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcwOTYwM
 ### Cadastrar turma
 POST http://localhost:8081/sec/Turma/cadastrar
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
     "nome": "Turma Teste",
@@ -139,12 +139,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyM
 
 ### Consultar turmas
 GET http://localhost:8081/sec/Turma/listar
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 ### Editar turma
 PUT http://localhost:8081/sec/Turma/editar/6d50c981-07e3-48cd-bf37-bcccd20b8969
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
     "nome": "Turma Atualizada",
@@ -156,7 +156,7 @@ x
 ### Vincular professor à turma
 POST http://localhost:8081/sec/vicularProfessor
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
 
 {
     "id_professor": "ecd55b03-9599-4fbe-98ce-c26d5efddc48",
@@ -165,4 +165,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyM
 
 ### Deletar turma
 DELETE http://localhost:8081/sec/Turma/deletar/726ebc36-4f9d-4eb0-967b-4c7a938e3d0a
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc

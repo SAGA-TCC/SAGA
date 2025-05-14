@@ -243,6 +243,7 @@ export class SecController {
             const usuarios = await prisma.user.findMany({
                 select: {
                     id_user: true,
+                    matricula: true,
                     nome: true,
                     email: true,
                     dt_nasc: true,
@@ -265,30 +266,42 @@ export class SecController {
 
     async editarUsuario(req, res) {
         const { id_user } = req.params;
-        const { nome, email, senha, dt_nasc, telefone } = req.body;
+        const { nome, email, senha, dt_nasc, telefone, cpf, ft_perfil } = req.body;
 
         try {
+            // Verifica se o usuário existe - CORRIGIDO de id para id_user
             const usuarioExistente = await prisma.user.findUnique({
-                where: { id: id_user }
+                where: { id_user: id_user }
             });
 
             if (!usuarioExistente) {
                 return res.status(404).json({ erro: "Usuário não encontrado" });
             }
 
+            // Prepara os dados para atualização
             const updateData = {
                 nome,
                 email,
-                telefone,
-                dt_nasc: new Date(dt_nasc)
+                dt_nasc: new Date(dt_nasc),
+                telefone
             };
 
+            // Adicionar campos opcionais somente se fornecidos
             if (senha) {
                 updateData.senha = await bcrypt.hash(senha, 10);
             }
+            
+            if (cpf) {
+                updateData.cpf = cpf;
+            }
+            
+            if (ft_perfil) {
+                updateData.ft_perfil = ft_perfil;
+            }
 
+            // CORRIGIDO de id para id_user
             const usuario = await prisma.user.update({
-                where: { id: id_user },
+                where: { id_user: id_user },
                 data: updateData
             });
 
@@ -307,16 +320,110 @@ export class SecController {
         const { id_user } = req.params;
 
         try {
+            // Verificar se o usuário existe
+            const usuarioExistente = await prisma.user.findUnique({
+                where: { id_user: id_user }
+            });
+
+            if (!usuarioExistente) {
+                return res.status(404).json({ message: "Usuário não encontrado!" });
+            }
+
+            // Excluir registros relacionados com base no tipo de usuário
+            if (usuarioExistente.tipo === 3) { // Aluno
+                // Encontrar o registro de aluno
+                const aluno = await prisma.aluno.findFirst({
+                    where: { id_user: id_user }
+                });
+                
+                if (aluno) {
+                    // Excluir registros de presença relacionados ao aluno
+                    if (prisma.presenca) {
+                        await prisma.presenca.deleteMany({
+                            where: { id_aluno: aluno.id_aluno }
+                        });
+                    }
+                    
+                    // Excluir registros de notas relacionados ao aluno
+                    if (prisma.nota) {
+                        await prisma.nota.deleteMany({
+                            where: { id_aluno: aluno.id_aluno }
+                        });
+                    }
+                    
+                    // Excluir registros de frequência relacionados ao aluno
+                    if (prisma.frequencia) {
+                        await prisma.frequencia.deleteMany({
+                            where: { id_aluno: aluno.id_aluno }
+                        });
+                    }
+                    
+                    // Excluir o aluno
+                    await prisma.aluno.delete({
+                        where: { id_aluno: aluno.id_aluno }
+                    });
+                }
+            } else if (usuarioExistente.tipo === 2) { // Professor
+                // Restante do código para professor permanece igual
+                const professor = await prisma.professor.findFirst({
+                    where: { id_user: id_user }
+                });
+                
+                if (professor) {
+                    // Se houver modelo professorTurma definido
+                    if (prisma.professorTurma) {
+                        await prisma.professorTurma.deleteMany({
+                            where: { id_professor: professor.id_professor }
+                        });
+                    }
+                    
+                    // Se houver modelo professorMateria definido
+                    if (prisma.professorMateria) {
+                        await prisma.professorMateria.deleteMany({
+                            where: { id_professor: professor.id_professor }
+                        });
+                    }
+                    
+                    // Excluir o professor
+                    await prisma.professor.delete({
+                        where: { id_professor: professor.id_professor }
+                    });
+                }
+            } else if (usuarioExistente.tipo === 1) { // Secretaria
+                const secretaria = await prisma.secretaria.findFirst({
+                    where: { id_user: id_user }
+                });
+                
+                if (secretaria) {
+                    await prisma.secretaria.delete({
+                        where: { id_secretaria: secretaria.id_secretaria }
+                    });
+                }
+            }
+
+            // Finalmente, exclui o usuário
             await prisma.user.delete({
-                where: { id: id_user }
+                where: { id_user: id_user }
             });
 
             return res.status(200).json({ message: "Usuário excluído com sucesso!" });
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
-                return res.status(404).json({ message: "Usuário não encontrado!" });
+            // Tratamento de erros específicos
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === 'P2025') {
+                    return res.status(404).json({ message: "Usuário não encontrado!" });
+                } else if (error.code === 'P2003') {
+                    // Log detalhado para facilitar diagnóstico de problemas futuros
+                    console.error("Violação de restrição de chave estrangeira:", error.meta);
+                    return res.status(500).json({ 
+                        message: "Erro ao excluir usuário: existem registros relacionados que precisam ser removidos primeiro.",
+                        constraint: error.meta?.constraint,
+                        error: error.message
+                    });
+                }
             }
 
+            console.error("Erro ao excluir usuário:", error);
             return res.status(500).json({ message: "Erro ao excluir usuário!", error: error.message });
         }
     }
@@ -421,6 +528,252 @@ export class SecController {
         }
     }
 
+    // Consultar dados específicos de aluno
+    async consultarAluno(req, res) {
+        const { id_user } = req.params;
+        
+        try {
+            // Busca dados do aluno relacionados ao usuário
+            const aluno = await prisma.aluno.findFirst({
+                where: { id_user: id_user },
+                include: { turma: true }
+            });
+            
+            if (!aluno) {
+                return res.status(404).json({ erro: "Aluno não encontrado" });
+            }
+            
+            return res.json(aluno);
+        } catch (error) {
+            console.error("Erro ao consultar aluno:", error);
+            return res.status(500).json({
+                erro: "Erro ao consultar aluno",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Consultar dados específicos de professor
+    async consultarProfessor(req, res) {
+        const { id_user } = req.params;
+        
+        try {
+            // Busca dados do professor relacionados ao usuário
+            const professor = await prisma.professor.findFirst({
+                where: { id_user: id_user }
+            });
+            
+            if (!professor) {
+                return res.status(404).json({ erro: "Professor não encontrado" });
+            }
+            
+            return res.json(professor);
+        } catch (error) {
+            console.error("Erro ao consultar professor:", error);
+            return res.status(500).json({
+                erro: "Erro ao consultar professor",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Consultar dados específicos de secretaria
+    async consultarSecretaria(req, res) {
+        const { id_user } = req.params;
+        
+        try {
+            // Busca dados da secretaria relacionados ao usuário
+            const secretaria = await prisma.secretaria.findFirst({
+                where: { id_user: id_user }
+            });
+            
+            if (!secretaria) {
+                return res.status(404).json({ erro: "Secretaria não encontrada" });
+            }
+            
+            return res.json(secretaria);
+        } catch (error) {
+            console.error("Erro ao consultar secretaria:", error);
+            return res.status(500).json({
+                erro: "Erro ao consultar secretaria",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Atualizar turma do aluno
+    async atualizarTurmaAluno(req, res) {
+        const { id_user } = req.params;
+        const { id_turma } = req.body;
+        
+        try {
+            // Busca o aluno pelo id_user
+            const aluno = await prisma.aluno.findFirst({
+                where: { id_user: id_user }
+            });
+            
+            if (!aluno) {
+                return res.status(404).json({ erro: "Aluno não encontrado" });
+            }
+            
+            // Atualiza a turma do aluno
+            const alunoAtualizado = await prisma.aluno.update({
+                where: { id_aluno: aluno.id_aluno },
+                data: { id_turma }
+            });
+            
+            return res.json(alunoAtualizado);
+        } catch (error) {
+            console.error("Erro ao atualizar turma do aluno:", error);
+            return res.status(500).json({
+                erro: "Erro ao atualizar turma do aluno",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Atualizar especialidade do professor
+    async atualizarEspecialidadeProfessor(req, res) {
+        const { id_user } = req.params;
+        const { especialidade } = req.body;
+        
+        try {
+            // Busca o professor pelo id_user
+            const professor = await prisma.professor.findFirst({
+                where: { id_user: id_user }
+            });
+            
+            if (!professor) {
+                return res.status(404).json({ erro: "Professor não encontrado" });
+            }
+            
+            // Atualiza a especialidade do professor
+            const professorAtualizado = await prisma.professor.update({
+                where: { id_professor: professor.id_professor },
+                data: { especialidade }
+            });
+            
+            return res.json(professorAtualizado);
+        } catch (error) {
+            console.error("Erro ao atualizar especialidade do professor:", error);
+            return res.status(500).json({
+                erro: "Erro ao atualizar especialidade do professor",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Atualizar setor da secretaria
+    async atualizarSetorSecretaria(req, res) {
+        const { id_user } = req.params;
+        const { setor } = req.body;
+        
+        try {
+            // Busca a secretaria pelo id_user
+            const secretaria = await prisma.secretaria.findFirst({
+                where: { id_user: id_user }
+            });
+            
+            if (!secretaria) {
+                return res.status(404).json({ erro: "Secretaria não encontrada" });
+            }
+            
+            // Atualiza o setor da secretaria
+            const secretariaAtualizada = await prisma.secretaria.update({
+                where: { id_secretaria: secretaria.id_secretaria },
+                data: { setor }
+            });
+            
+            return res.json(secretariaAtualizada);
+        } catch (error) {
+            console.error("Erro ao atualizar setor da secretaria:", error);
+            return res.status(500).json({
+                erro: "Erro ao atualizar setor da secretaria",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Listar turmas associadas ao professor
+    async listarTurmasProfessor(req, res) {
+        const { id_user } = req.params;
+        
+        try {
+            // Busca o professor pelo id_user
+            const professor = await prisma.professor.findFirst({
+                where: { id_user: id_user }
+            });
+            
+            if (!professor) {
+                return res.status(404).json({ erro: "Professor não encontrado" });
+            }
+            
+            // Busca as turmas associadas ao professor através da tabela de relacionamento
+            const turmasProfessor = await prisma.professorTurma.findMany({
+                where: { id_professor: professor.id_professor },
+                include: {
+                    turma: {
+                        include: {
+                            curso: true
+                        }
+                    }
+                }
+            });
+            
+            // Extrair apenas as turmas da relação
+            const turmas = turmasProfessor.map(rel => rel.turma);
+            
+            return res.json(turmas);
+        } catch (error) {
+            console.error("Erro ao listar turmas do professor:", error);
+            return res.status(500).json({
+                erro: "Erro ao listar turmas do professor",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Atualizar turmas do professor
+    async atualizarTurmasProfessor(req, res) {
+        const { id_user } = req.params;
+        const { turmas } = req.body; // Array de IDs de turmas
+        
+        try {
+            // Busca o professor pelo id_user
+            const professor = await prisma.professor.findFirst({
+                where: { id_user: id_user }
+            });
+            
+            if (!professor) {
+                return res.status(404).json({ erro: "Professor não encontrado" });
+            }
+            
+            // Primeiro, remove todas as associações existentes do professor com turmas
+            await prisma.professorTurma.deleteMany({
+                where: { id_professor: professor.id_professor }
+            });
+            
+            // Em seguida, cria novas associações do professor com as turmas selecionadas
+            if (turmas && turmas.length > 0) {
+                const novasAssociacoes = turmas.map(id_turma => ({
+                    id_professor: professor.id_professor,
+                    id_turma: id_turma
+                }));
+                
+                await prisma.professorTurma.createMany({
+                    data: novasAssociacoes
+                });
+            }
+            
+            return res.json({ mensagem: "Turmas atualizadas com sucesso" });
+        } catch (error) {
+            console.error("Erro ao atualizar turmas do professor:", error);
+            return res.status(500).json({
+                erro: "Erro ao atualizar turmas do professor",
+                detalhes: error.message
+            });
+        }
+    }
 
     // => Turmas
 
@@ -428,15 +781,25 @@ export class SecController {
         const { nome, dt_inicio, semestres, id_curso, id_professor } = req.body;
 
         try {
+            // Criar a turma sem associação ao professor inicialmente
             const turma = await prisma.turma.create({
                 data: {
                     nome,
                     dt_inicio: new Date(dt_inicio),
                     semestres,
-                    id_curso,
-                    id_professor
+                    id_curso
                 }
             });
+            
+            // Se um professor foi especificado, criar a relação professor-turma
+            if (id_professor) {
+                await prisma.professorTurma.create({
+                    data: {
+                        id_professor,
+                        id_turma: turma.id_turma
+                    }
+                });
+            }
 
             return res.status(201).json(turma);
         } catch (error) {

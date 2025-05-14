@@ -25,7 +25,9 @@ server.use(cors({
 }));
 
 server.timeout = 300000;
-server.use(express.json())
+// Aumentando o limite de tamanho do corpo da requisição para 50MB
+server.use(express.json({ limit: '50mb' }));
+server.use(express.urlencoded({ limit: '50mb', extended: true }));
 server.use(routerGeral, routerAluno, routerProf, routerSec)
 
 // Adicionando um endpoint de health check

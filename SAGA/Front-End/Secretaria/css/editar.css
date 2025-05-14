@@ -1,0 +1,64 @@
+.user-type-indicator {
+    background-color: #f0f0f0;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    border-left: 4px solid #007bff;
+}
+
+.campos-especificos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Estilos para a seleção de turmas do professor */
+#turmas_professor {
+    width: 100%;
+    min-height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 5px;
+}
+
+.turmas-container {
+    width: 100%;
+}
+
+.turmas-help {
+    font-style: italic;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* Estilo para campos somente leitura */
+input[readonly] {
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+    color: #666;
+}
+
+/* Melhorando a aparência do select de turmas */
+select#id_turma {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* Estilo para erros de validação */
+.input-error {
+    border-color: #dc3545 !important;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 4px;
+}
