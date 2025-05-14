@@ -22,3 +22,5 @@ routerProf.post("/prof/chamada", tokenAuthenticate, (req, res) => profController
 
 routerProf.get("/prof/chamada/:id_turma", tokenAuthenticate, (req, res) => profController.listarChamada(req, res));
 
+routerProf.post("/prof/lancarNota", tokenAuthenticate, (req, res) => profController.lancarNota(req, res));
+
