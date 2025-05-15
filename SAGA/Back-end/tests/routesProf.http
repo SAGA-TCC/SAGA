@@ -62,20 +62,25 @@ Authorization: Barer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMj
 Content-Type: application/json
 
 
-###
-//lançar notas
-
+### Lançar notas para alunos
 POST http://localhost:8081/prof/lancarNotas
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNjQ3ODMsImV4cCI6MTc0NzMwMDc4M30.9ZTqielU4LyA6VIe5e7Nrwlr0Wfj5wqFo7WFOwU3b_U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNjk4NTUsImV4cCI6MTc0NzMwNTg1NX0.sIqpndYpJOo-7WacynPBOB6d-NvgoLFAOm-AAnra4wU
 Content-Type: application/json
 
 {
   "id_professor": "ecd55b03-9599-4fbe-98ce-c26d5efddc48",
-  "id_materia": "107cf2d4-8c9f-4376-a0c7-65bc92c06af6",
   "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969",
-  "bimestre": 1,
+  "id_materia": "107cf2d4-8c9f-4376-a0c7-65bc92c06af6",
+  "tipo_avaliacao": "Prova Final",
   "notas": [
-    { "id_aluno": "4fb7e821-b0c2-497e-9e15-a896e2c75af7", "nota": 9.5 },
-    { "id_aluno": "3fc3ce6d-6a0f-4a62-b817-97096a1b54a8", "nota": 7.2 }
+    {
+      "id_aluno": "ce54206f-937d-4a7b-9cd6-01d206bb288c",
+      "valor": 8.5
+    },
+    {
+      "id_aluno": "4fb7e821-b0c2-497e-9e15-a896e2c75af7",
+      "valor": 7.0
+    }
   ]
 }
+

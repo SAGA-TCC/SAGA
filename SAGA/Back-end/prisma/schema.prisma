@@ -45,7 +45,7 @@ model Aluno {
 
   user  User  @relation(fields: [id_user], references: [id_user])
   turma Turma @relation(fields: [id_turma], references: [id_turma])
-  notas Nota[]
+  notas NotaAluno[]
   presencas Presenca[]
   
 
@@ -136,7 +136,7 @@ model Nota {
   id_professor    String
   id_turma        String
   id_materia      String
-  tipo_avaliacao  String      // exemplo: "Prova", "Trabalho", etc.
+  tipo_avaliacao  String?     // exemplo: "Prova", "Trabalho", etc.
   data_lancamento DateTime    @default(now())
 
   professor       Professor   @relation(fields: [id_professor], references: [id_professor])
