@@ -14,19 +14,14 @@ export class LoginController {
             return res.status(401).json({ error: "Email não encontrado!" });
         }
 
-        const isPasswordValid = await bcrypt.compare(senha, userExists.senha);        if (!isPasswordValid) {
+        const isPasswordValid = await bcrypt.compare(senha, userExists.senha);
+        if (!isPasswordValid) {
             return res.status(401).json({ error: "Senha incorreta!" });
         }
 
-        console.log("userExists.id:", userExists.id);  // veja o valor aqui!
-
+<<<<<<< HEAD
         const id_user = userExists.id_user;
-        const token = jwt.sign(
-            { userId: id_user },
-            JWT_SECRET,
-            { expiresIn: '10h' }
-        );
-        
+        const token = jwt.sign({ userId: id_user }, JWT_SECRET, { expiresIn: '10h' });
         const tipo = userExists.tipo;
         const nome = userExists.nome;
         const emailDoBanco = userExists.email;
@@ -34,5 +29,23 @@ export class LoginController {
         
         console.log("Logado com sucesso!");
         return res.json({ token, tipo, id_user, nome, emailDoBanco, ft_perfil });
+
+=======
+        console.log("userExists.id:", userExists.id);  // veja o valor aqui!
+
+        const id_user = userExists.id_user; // <-- Corrigido
+
+        const token = jwt.sign(
+            { userId: id_user }, // <-- Corrigido
+            JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+
+        const tipo = userExists.tipo;
+
+        console.log("Logado com sucesso!");
+        return res.json({ token, tipo, id_user });
+>>>>>>> 2b3dff954379317e565f7a902e35d208910531f0
     }
 }
