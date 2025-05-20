@@ -156,10 +156,9 @@ x
 ### Vincular professor à turma
 POST http://localhost:8081/sec/vicularProfessor
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDcyNDE5OTEsImV4cCI6MTc0NzI3Nzk5MX0.-nVWBIVtbR_0yPvXq8zLR67AUz2iNEyjo-Iur5IUfMc
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNWM0ODE0Ni1mYWQ3LTQ3ZWItYWNmYi1lNDU5ZTQxZWQyYzIiLCJpYXQiOjE3NDc3NjM4MDksImV4cCI6MTc0Nzc5OTgwOX0.Nxqc2_rksNSXriCPoiEVsWA4tPkC_t72hBp-qRty5KY
 {
-    "id_professor": "ecd55b03-9599-4fbe-98ce-c26d5efddc48",
+    "id_professor": "35c48146-fad7-47eb-acfb-e459e41ed2c2",
     "id_turma": "6d50c981-07e3-48cd-bf37-bcccd20b8969"
 }
 
