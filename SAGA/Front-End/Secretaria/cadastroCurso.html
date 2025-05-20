@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAGA - Cadastro de Curso</title>
+  <link rel="stylesheet" href="../Css Base/base.css" />
+  <link rel="stylesheet" href="css/info.css" />
+  <link rel="stylesheet" href="css/cadastroCurso.css" />
+</head>
+
+<body>
+  <header class="navbar">
+    <img src="../Img/logo.svg" alt="SAGA Logo" />
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Usuários</a>
+      <a href="#">Cadastro</a>
+      <a href="#">Informações</a>
+    </nav>
+    <div class="profile-icon"></div>
+  </header>
+
+  <main class="container">
+    <div class="content-box">
+      <h1>Cadastro</h1>
+      <div class="dropdown-header">
+        <button class="dropdown-button">Curso</button>
+      </div>
+
+      <form class="form-grid" id="cursoForm">
+        <div class="input-group half-width">
+          <label for="nomeCurso">Nome:</label>
+          <input type="text" id="nomeCurso" required />
+        </div>
+
+        <div class="input-group half-width">
+          <label for="cargaHoraria">Carga Horária Total</label>
+          <input type="text" id="cargaHoraria" required />
+        </div>
+
+        <div class="input-group half-width">
+          <label for="codigoCurso">Código:</label>
+          <input type="text" id="codigoCurso" required />
+        </div>
+
+        <div class="input-group half-width">
+          <label for="serie">Série/Período:</label>
+          <input type="text" id="serie" required />
+        </div>
+
+        <div class="input-group half-width">
+          <label for="frequencia">Frequência Mínima</label>
+          <input type="text" id="frequencia" required />
+        </div>
+
+        <div class="input-group full-width">
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" rows="4" placeholder="Digite aqui o conteúdo/plano de ensino do curso" required></textarea>
+        </div>
+
+        <div class="input-group full-width">
+            <a href="cadastroDisciplina.html">
+                <button type="button">Definir Matérias</button>
+            </a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    Copyright &copy; 2024 - All Rights Reserved - SAGA
+  </footer>
+
+  <script>
+    document.getElementById("cursoForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      window.location.href = "cadastroDisciplina.html";
+    });
+  </script>
+
+</body>
+
+</html>
