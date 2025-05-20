@@ -8,8 +8,25 @@ const loginController = new LoginController();
 const controller = new commonController();
 
 routerGeral.post('/login', loginController.auth);
-routerGeral.get('/info', tokenAuthenticate, controller.info);
+routerGeral.get('/token', tokenAuthenticate, (req, res) => {
+    console.log("Verificação de token bem-sucedida para o usuário ID:", req.userId);
+    return res.status(200).json({ 
+        message: "Token válido", 
+        userId: req.userId,
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Endpoint de verificação de saúde do servidor (sem autenticação)
+routerGeral.get('/health', (req, res) => {
+    return res.status(200).json({ 
+        status: "UP", 
+        timestamp: new Date().toISOString(),
+        version: "1.0.0"
+    });
+});
+
 routerGeral.get('/info/:id_user', tokenAuthenticate, controller.info);
-routerGeral.get('/token', tokenAuthenticate);
+routerGeral.put('/editarInfo', tokenAuthenticate, controller.editarInfo);
 
 

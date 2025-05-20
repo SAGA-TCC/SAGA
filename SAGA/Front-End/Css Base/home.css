@@ -53,6 +53,11 @@ header {
     background: white;
     border-radius: 50%;
     margin-left: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .container {

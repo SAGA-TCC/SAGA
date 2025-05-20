@@ -327,6 +327,12 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             
             const result = await response.json();
+            
+            // Verificar se há erro na resposta
+            if (result.error) {
+                throw new Error(result.error);
+            }
+            
             alert(result.message || "Cadastro realizado com sucesso!");
             
             // Limpar campos após cadastro

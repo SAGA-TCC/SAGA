@@ -65,12 +65,27 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (response.ok) {
                 // Login bem-sucedido
-                // Salvar o token no localStorage para uso posterior
+                // Salvar o token e dados do usuário no localStorage para uso posterior
                 localStorage.setItem('token', data.token);
-                
+         
                 // Armazenar o tipo de usuário para uso posterior
                 if (data.tipo) {
                     localStorage.setItem('tipo', data.tipo);
+                }
+                if (data.id_user) {
+                    localStorage.setItem('userId', data.id_user);
+                }
+
+                if (data.nome) {
+                    localStorage.setItem('nomeUsuario', data.nome);
+                }
+                
+                if (data.email) {
+                    localStorage.setItem('emailUsuario', data.email);
+                }
+                
+                if (data.ft_perfil) {
+                    localStorage.setItem('fotoPerfil', data.ft_perfil);
                 }
                 
                 // Verificar o tipo de usuário e redirecionar para a página adequada
@@ -79,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     switch(data.tipo) {
                         case 'professor':
                         case 2: // Assumindo que 2 é o código para professor
-                            window.location.href = '../Professor/dashboard.html';
+                            window.location.href = '../Professor/Page/HomeProfessor.html';
                             break;
                         case 'secretaria':
                         case 1: // Assumindo que 1 é o código para secretaria
@@ -87,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             break;
                         case 'aluno':
                         case 3: // Assumindo que 3 é o código para aluno
-                            window.location.href = '../Aluno/dashboard.html';
+                            window.location.href = '../Aluno/Page/HomeAluno.html';
                             break;
                         default:
                             console.log('Tipo de usuário recebido:', data.tipo);
