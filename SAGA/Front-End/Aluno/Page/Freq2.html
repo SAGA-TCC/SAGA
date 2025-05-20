@@ -1,29 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Curso</title>
-    <link rel="stylesheet" href="../Css/base.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SAGA - Frequência</title>
+  <link rel="stylesheet" href="../../Css Base/base.css" />
+  <link rel="stylesheet" href="../../Css Base/tabela.css" />
+  <link rel="stylesheet" href="../Css/freq2.css" />
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 </head>
 <body>
-    <header class="navbar">
-        <img src="../Img/logo.svg" alt="SAGA Logo">
-        <nav class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Frequência</a>
-            <a href="#">Boletim</a>
-            <a href="#">Curso</a>
-        </nav>
-        <div class="profile-icon"></div>
-    </header>
-    <main class="container">
-        <div class="content-box">
-            <h1>Curso</h1>
+  <header class="navbar">
+    <img src="../../Img/logo.svg" alt="SAGA Logo" />
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Frequência</a>
+      <a href="#">Boletim</a>
+      <a href="#">Curso</a>
+    </nav>
+    <div class="profile-icon"></div>
+  </header>
+
+  <main class="container">
+    <div class="content-box freq-box">
+      <h1>Frequência</h1>
+
+      <div class="freq-content">
+
+        <div id="calendar"></div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Matéria</th>
+                <th>Professor</th>
+              </tr>
+            </thead>
+            <tbody id="freq2TableBody">
+            </tbody>
+          </table>
         </div>
-    </main>
-    <footer>
-        Copyright &copy; 2024 - All Rights Reserved - SAGA
-    </footer>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Copyright © 2024 - All Rights Reserved - SAGA
+  </footer>
+
+  <script src="../Js/freq2.js"></script>
 </body>
 </html>

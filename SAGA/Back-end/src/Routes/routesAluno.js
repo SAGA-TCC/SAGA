@@ -5,4 +5,7 @@ import { AlunoController } from "../controller/alunoController.js";
 export const routerAluno = new Router();
 const alunoController = new AlunoController();
 
-routerAluno.get('/aluno/listMateria',tokenAuthenticate ,alunoController.listMateriaAluno)
+routerAluno.get('/aluno/listMateria', tokenAuthenticate, (req, res) => alunoController.listInfoCurso(req, res));
+
+// Nova rota para listar informações do módulo
+routerAluno.get('/aluno/modulo/:modulo', tokenAuthenticate, (req, res) => alunoController.listModuloInfo(req, res));

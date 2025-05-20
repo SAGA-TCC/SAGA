@@ -1,0 +1,22 @@
+//Login como aluno
+
+POST http://localhost:8081/login 
+Content-Type: application/json
+
+{
+    "email": "hugo@aluno.com",
+    "senha": "12345678"
+}
+
+### Obter informações do curso do aluno autenticado
+
+GET http://localhost:8081/aluno/listMateria
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDczNTU3NjIsImV4cCI6MTc0NzM1OTM2Mn0.fYq5c8UihZDMyQre-RMg_H214ZnVT--5izkAM_wbZv4
+Content-Type: application/json
+
+### Obter informações de um módulo específico
+
+GET http://localhost:8081/aluno/modulo/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDczNTU3NjIsImV4cCI6MTc0NzM1OTM2Mn0.fYq5c8UihZDMyQre-RMg_H214ZnVT--5izkAM_wbZv4
+Content-Type: application/json
+
