@@ -45,7 +45,10 @@ header {
     font-size: large;
     display: flex;
     align-items: center;
+    position: relative;
+    cursor: pointer;
 }
+
 
 .circulo {
     width: 56px;
@@ -124,6 +127,52 @@ footer {
 
 footer p {
     font-size: 10px;
+}
+
+.menu-suspenso {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    color: #1a1a40;
+    border-radius: 10px;
+    padding: 15px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 100;
+    margin-top: 5px;
+}
+
+.menu-suspenso.ativo {
+    display: block;
+}
+
+.menu-suspenso h4 {
+    margin: 0 0 10px;
+    font-weight: bold;
+    color: #1a1a40;
+}
+
+.menu-suspenso p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #1a1a40;
+}
+
+.menu-suspenso small {
+    color: #666;
+}
+
+.menu-suspenso .sair {
+    background-color: #1a1a40;
+    color: white;
+    padding: 8px 12px;
+    width: 100%;
+}
+
+.menu-suspenso .sair:hover {
+    background-color: #333366;
 }
 
 

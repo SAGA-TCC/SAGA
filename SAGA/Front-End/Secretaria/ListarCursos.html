@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Curso</title>
+    <title>SAGA - Cursos</title>
     <link rel="stylesheet" href="../Css Base/base.css">
     <link rel="stylesheet" href="../Css Base/tabela.css">
     <link rel="stylesheet" href="../Css Base/barraPesquisa.css">
 </head>
-
 <body>
     <header class="navbar">
         <img src="../Img/logo.svg" alt="SAGA Logo">
@@ -27,13 +26,13 @@
         <div class="content-box">
             <h1>Listar Usuários</h1>
             <div class="search-box">
-                <input type="text" placeholder="Pesquisar...">
+                <input type="text" id="listInput" onkeyup="searchFunction()" placeholder="Pesquisar..." title="Search">
                 <button>
                     <img src="../Img/Search.svg">
                 </button>
             </div>
-            
-            <table>
+
+            <table id="listTable">
                 <thead>
                     <tr>
                         <th>Código</th>

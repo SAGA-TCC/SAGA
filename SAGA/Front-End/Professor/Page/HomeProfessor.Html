@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>SAGA - Painel do Professor</title>
     <link rel="stylesheet" href="../../Css Base/home.css" />
+    <script src="../Js/homeProf.js" defer></script>
+    <script src="../../Js/verificaToken.js"></script>
     <style>
         html, body {
-    height: 100%;
+    height: auto;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -17,7 +19,15 @@
 <body>
     <header>
         <img src="../../Img/logo.svg" alt="Logo SAGA" class="logo" />
-        <div class="perfil">Olá, <b>José</b> <div class="circulo"></div></div>
+        <div class="perfil">
+            Olá, <b>José</b>
+            <div class="circulo"></div>
+            <div class="menu-suspenso" id="menuSuspenso">
+                <h4>SAGA</h4>
+                <p>José Silva Souza<br><small>jose.silva.souza@email.example.com.br</small></p>
+                <button class="sair">Sair</button>
+            </div>
+        </div>
     </header>
 
     <main>
