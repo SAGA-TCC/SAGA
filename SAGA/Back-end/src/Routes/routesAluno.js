@@ -9,3 +9,7 @@ routerAluno.get('/aluno/listMateria', tokenAuthenticate, (req, res) => alunoCont
 
 // Nova rota para listar informações do módulo
 routerAluno.get('/aluno/modulo/:modulo', tokenAuthenticate, (req, res) => alunoController.listModuloInfo(req, res));
+
+// Frequencia
+routerAluno.get('/aluno/frequencia', tokenAuthenticate, (req, res) => alunoController.getFrequenciaByData(req, res));
+

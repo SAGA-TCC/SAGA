@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
     "email": "felipe@sec.com",
-    "senha": "12345678"
+    "senha": "1234"
 }
 
 ### Buscar todas as turmas associadas ao professor
@@ -39,9 +39,8 @@ Content-Type: application/json
 }
 
 ### Criar uma nova chamada com presenças dos alunos
-
 POST http://localhost:8081/prof/chamada 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NTRlODAwZC02MGQwLTRkMmEtYWRkMS1hMTdjOGI1MzY5MWIiLCJpYXQiOjE3NDc3OTAzNjAsImV4cCI6MTc0NzgyNjM2MH0.kW1yTS8DY7nWz4qOF-uyL4q--HKbxflFeS1k7-5Oy90
 Content-Type: application/json
 
 {
