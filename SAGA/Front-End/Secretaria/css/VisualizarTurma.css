@@ -1,0 +1,35 @@
+.content-box {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 180px);
+    overflow: hidden;
+}
+
+.table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+table thead th {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+}
+
+th:nth-child(2), td:nth-child(2) { 
+    min-width: 180px;
+}
+th:nth-child(3), td:nth-child(3) { 
+    min-width: 220px;
+}
+th:nth-child(4), td:nth-child(4) { 
+    min-width: 130px;
+}
+th:nth-child(5),
+th:nth-child(6),
+td:nth-child(5),
+td:nth-child(6) {
+    min-width: 80px;
+}

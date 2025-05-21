@@ -28,3 +28,23 @@ function showDetails(matricula) {
     // Aqui você pode tratar a ação do botão, por exemplo, redirecionar para uma página de detalhes.
     console.log("Matrícula do usuário: " + matricula);
 }
+
+function searchFunction() {
+    const input = document.getElementById("listInput");
+    const filter = input.value.toUpperCase();
+    const table = document.getElementById("listTable");
+    const trs = table.tBodies[0].getElementsByTagName("tr");
+
+    for (let i = 0; i < trs.length; i++) {
+        const tds = trs[i].getElementsByTagName("td");
+        trs[i].style.display = "none";
+
+        // Verifica nas duas primeiras colunas (matrícula e nome)
+        for (let j = 0; j < 3; j++) {
+            if (tds[j] && tds[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                trs[i].style.display = "";
+                break;
+            }
+        }
+    }
+}
