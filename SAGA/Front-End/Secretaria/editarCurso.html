@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/cadastroCurso.css" />
   <script src="../Js/verificaToken.js"></script>
   <script src="../Js/menu.js"></script>
-  <script src="Js/cadastroCurso.js"></script>
+  <script src="Js/editarCurso.js"></script>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
 
   <main class="container">
     <div class="content-box">
-      <h1>Cadastro de Curso</h1>
+      <h1>Editar Curso</h1>
 
       <form class="form-grid" id="cursoForm">
         <div class="input-group half-width">
@@ -38,6 +38,11 @@
         <div class="input-group half-width">
           <label for="cargaHoraria">Carga Horária Total</label>
           <input type="text" id="cargaHoraria" required />
+        </div>
+
+        <div class="input-group half-width">
+          <label for="codigoCurso">Código:</label>
+          <input type="text" id="codigoCurso" required />
         </div>
 
         <div class="input-group half-width">
@@ -54,9 +59,9 @@
           <label for="descricao">Descrição</label>
           <textarea id="descricao" rows="4" placeholder="Digite aqui o conteúdo/plano de ensino do curso"
             required></textarea>
+        </div>
 
-            <button type="button">Cadastrar Curso</button>
-
+        <div class="input-group full-width">
           <a href="cadastroDisciplina.html">
             <button type="button">Definir Matérias</button>
           </a>

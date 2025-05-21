@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SAGA - Cadastrar Disciplina</title>
+  <link rel="stylesheet" href="../Css Base/base.css" />
+  <link rel="stylesheet" href="css/info.css" />
+  <link rel="stylesheet" href="css/cadastroCurso.css" />
+<script src="Js/editarMateria.js"></script>
+</head>
+
+<body>
+  <header class="navbar">
+    <img src="../Img/logo.svg" alt="SAGA Logo" />
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Usuários</a>
+      <a href="#">Cadastro</a>
+      <a href="#">Informações</a>
+    </nav>
+    <div class="profile-icon"></div>
+  </header>
+
+  <main class="container">
+    <div class="content-box">
+      <h1>Editar Matéria</h1>
+
+      <form class="form-grid" id="disciplinaForm">
+        <div class="input-group half-width">
+          <label for="nomeDisciplina">Nome:</label>
+          <input type="text" id="nomeDisciplina" required />
+        </div>        <div class="input-group half-width">
+          <label for="cargaHorariaDisc">Carga Horária Total</label>
+          <input type="text" id="cargaHorariaDisc" required />
+        </div>
+
+        <div class="input-group half-width">
+          <label for="cursoDisciplina">Curso:</label>
+          <select id="cursoDisciplina" required>
+            <option value="">Selecione um curso...</option>
+          </select>
+        </div>
+
+        <div class="input-group half-width">
+          <label for="serieDisciplina">Série/Período:</label>
+          <input type="text" id="serieDisciplina" required />
+        </div>
+
+        <div class="input-group half-width">
+          <label for="frequenciaDisciplina">Frequência Mínima</label>
+          <input type="text" id="frequenciaDisciplina" required />
+        </div>
+
+        <div class="input-group full-width">
+          <label for="descricaoDisciplina">Descrição</label>
+          <textarea id="descricaoDisciplina" rows="4" placeholder="Digite aqui o conteúdo/plano de ensino do curso" required></textarea>
+        </div>
+
+        <div class="input-group full-width">
+          <button type="submit">Adicionar Disciplina</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    Copyright © 2024 - All Rights Reserved - SAGA
+  </footer>
+
+  
+</body>
+</html>
