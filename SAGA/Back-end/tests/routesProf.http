@@ -5,13 +5,13 @@ Content-Type: application/json
 
 {
     "email": "felipe@sec.com",
-    "senha": "12345678"
+    "senha": "1234"
 }
 
 ### Buscar todas as turmas associadas ao professor
 
-GET http://localhost:8081/prof/turmas/ff728ef9-b353-46c7-9642-10eacc323c6b 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+GET http://localhost:8081/prof/turmas/35c48146-fad7-47eb-acfb-e459e41ed2c2 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNWM0ODE0Ni1mYWQ3LTQ3ZWItYWNmYi1lNDU5ZTQxZWQyYzIiLCJpYXQiOjE3NDc3NjM4MDksImV4cCI6MTc0Nzc5OTgwOX0.Nxqc2_rksNSXriCPoiEVsWA4tPkC_t72hBp-qRty5KY
 Content-Type: application/json
 
 ### Buscar todas as matérias associadas ao professor
@@ -39,9 +39,8 @@ Content-Type: application/json
 }
 
 ### Criar uma nova chamada com presenças dos alunos
-
 POST http://localhost:8081/prof/chamada 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDY3NTIyMjAsImV4cCI6MTc0Njc4ODIyMH0.iRqFVP76h8KAlQWgW4T551lA8vMrG3eD9_ILhBVdmHI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NTRlODAwZC02MGQwLTRkMmEtYWRkMS1hMTdjOGI1MzY5MWIiLCJpYXQiOjE3NDc3OTAzNjAsImV4cCI6MTc0NzgyNjM2MH0.kW1yTS8DY7nWz4qOF-uyL4q--HKbxflFeS1k7-5Oy90
 Content-Type: application/json
 
 {

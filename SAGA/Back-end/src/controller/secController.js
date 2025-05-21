@@ -126,10 +126,25 @@ export class SecController {
     //cadastrar usuario aluno
     async cadAluno(req, res) {
         const { nome, email, senha, dt_nasc, telefone, cpf, ft_perfil, id_turma } = req.body;
+        
+        // Verificar email duplicado
         const emailHsh = await prisma.user.findUnique({ where: { email } });
         if (emailHsh) {
             return res.json({ error: "Email já cadastrado" });
         }
+        
+        // Verificar telefone duplicado
+        const telefoneHsh = await prisma.user.findUnique({ where: { telefone } });
+        if (telefoneHsh) {
+            return res.json({ error: "Telefone já cadastrado" });
+        }
+        
+        // Verificar CPF duplicado
+        const cpfHsh = await prisma.user.findUnique({ where: { cpf } });
+        if (cpfHsh) {
+            return res.json({ error: "CPF já cadastrado" });
+        }
+        
         const senhaHash = await bcrypt.hash(senha, 10);
         try {
             // Cria o usuário

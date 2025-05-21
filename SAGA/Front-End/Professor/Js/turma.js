@@ -3,17 +3,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     // Recuperar token do localStorage (assumindo que foi armazenado após login)
     const token = localStorage.getItem('token');
-    
-    // Recuperar ID do professor (pode ser armazenado após login ou vindo de outra fonte)
-    // Esta é apenas uma implementação de exemplo - você deve adaptar para sua lógica de autenticação
-    const professorId = localStorage.getItem('professorId');
-    
-    if (!token || !professorId) {
-        // Redirecionar para login se não houver token ou ID do professor
-        alert("Sessão expirada ou usuário não autenticado. Por favor, faça login novamente.");
-        window.location.href = "../Page/Login.html"; // Ajuste o caminho conforme necessário
-        return;
-    }
+    const professorId = localStorage.getItem('userId');
+
     
     try {
         // Mostrar um indicador de carregamento

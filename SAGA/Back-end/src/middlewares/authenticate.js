@@ -1,32 +1,22 @@
+// Exemplo de como deve ser a função tokenAuthenticate:
+import jwt from 'jsonwebtoken';
 
-import jwt from 'jsonwebtoken'
-import { JWT_SECRET } from "../../server.js"
+export function tokenAuthenticate(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-export const tokenAuthenticate = (req, res, next) => {
-  const authHeader = req.headers?.authorization;
-
-  if (!authHeader) {
-    return res.status(401).json({ error: "Token de autenticação não fornecido" });
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({ error: "Token inválido" });
-  }
-
-  jwt.verify(token, JWT_SECRET, (error, decoded) => {
-    if (error) {
-        return res.status(401).json({ error: "Token inválido ou expirado" });
+    if (!token) {
+        return res.status(401).json({ message: 'Token não fornecido.' });
     }
 
-    console.log("Payload decodificado do token:", decoded); // deve mostrar { userId: "...", iat: ..., exp: ... }
-
-    req.user = {
-        id_user: decoded.userId
-    };
-
-    next();
-});
-
-};
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // Aqui está a correção:
+        req.user = {
+            id_user: decoded.userId || decoded.id_user // cobre ambos os casos
+        };
+        next();
+    } catch (error) {
+        return res.status(403).json({ message: 'Token inválido.' });
+    }
+}

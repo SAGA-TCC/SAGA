@@ -9,14 +9,16 @@ Content-Type: application/json
 }
 
 ### Obter informações do curso do aluno autenticado
-
 GET http://localhost:8081/aluno/listMateria
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDczNTU3NjIsImV4cCI6MTc0NzM1OTM2Mn0.fYq5c8UihZDMyQre-RMg_H214ZnVT--5izkAM_wbZv4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYzg5NzE0Mi1jOGY2LTRiZGYtYTI4MS0zYzdhN2VjZDQwZTAiLCJpYXQiOjE3NDc3ODM2MTYsImV4cCI6MTc0NzgxOTYxNn0.Z1_r56EnTQhoF_TN8On1ra0JMgD4Be02TEXe_YABXHQ
 Content-Type: application/json
 
 ### Obter informações de um módulo específico
-
 GET http://localhost:8081/aluno/modulo/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDczNTU3NjIsImV4cCI6MTc0NzM1OTM2Mn0.fYq5c8UihZDMyQre-RMg_H214ZnVT--5izkAM_wbZv4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYzg5NzE0Mi1jOGY2LTRiZGYtYTI4MS0zYzdhN2VjZDQwZTAiLCJpYXQiOjE3NDc3ODM2MTYsImV4cCI6MTc0NzgxOTYxNn0.Z1_r56EnTQhoF_TN8On1ra0JMgD4Be02TEXe_YABXHQ
 Content-Type: application/json
 
+### Obter Frequência do Aluno em uma Data Específica
+GET http://localhost:8081/aluno/frequencia?data=2024-05-08
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYzg5NzE0Mi1jOGY2LTRiZGYtYTI4MS0zYzdhN2VjZDQwZTAiLCJpYXQiOjE3NDc3ODM2MTYsImV4cCI6MTc0NzgxOTYxNn0.Z1_r56EnTQhoF_TN8On1ra0JMgD4Be02TEXe_YABXHQ
+Content-Type: application/json

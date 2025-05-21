@@ -19,20 +19,15 @@ export class LoginController {
             return res.status(401).json({ error: "Senha incorreta!" });
         }
 
-        console.log("userExists.id:", userExists.id);  // veja o valor aqui!
-
-        const id_user = userExists.id_user; // <-- Corrigido
-
-        const token = jwt.sign(
-            { userId: id_user }, // <-- Corrigido
-            JWT_SECRET,
-            { expiresIn: '1h' }
-        );
-
-
+        const id_user = userExists.id_user;
+        const token = jwt.sign({ userId: id_user }, JWT_SECRET, { expiresIn: '10h' });
         const tipo = userExists.tipo;
-
+        const nome = userExists.nome;
+        const emailDoBanco = userExists.email;
+        const ft_perfil = userExists.ft_perfil || '';
+        
         console.log("Logado com sucesso!");
-        return res.json({ token, tipo, id_user });
+        return res.json({ token, tipo, id_user, nome, emailDoBanco, ft_perfil });
+
     }
 }
