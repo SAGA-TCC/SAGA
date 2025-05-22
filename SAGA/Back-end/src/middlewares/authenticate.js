@@ -32,7 +32,6 @@ export const tokenAuthenticate = async (req, res, next) => {
             // Verifica o token
             const decoded = jwt.verify(token, JWT_SECRET);
             console.log("Token válido para o usuário ID:", decoded.userId);
-            
             // Adiciona o ID do usuário ao objeto request
             req.userId = decoded.userId;
             
