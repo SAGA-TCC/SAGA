@@ -93,6 +93,7 @@ model Materia {
 
 model Turma {
   id_turma  String   @id @default(uuid())
+  codigo    Int      @unique @default(autoincrement())
   nome      String
   dt_inicio DateTime
   semestres String

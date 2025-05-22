@@ -4,61 +4,29 @@ import prisma from '../util/prisma.js'
 export class commonController {
     async info(req, res) {
         const id_user = req.params.id_user;
-        console.log(`Buscando informações para o usuário ID: ${id_user}`);
-
         try {
-            // Verificar se o ID é válido
-            if (!id_user || typeof id_user !== 'string') {
-                console.error(`ID de usuário inválido: ${id_user}`);
-                return res.status(400).json({ message: 'ID de usuário inválido' });
-            }
-
-            // Buscar o usuário no banco
-            console.log(`Consultando usuário no banco de dados: ${id_user}`);
-            const info = await prisma.user.findUnique({
-                where: { id_user: id_user },
-                select: {
-                    id_user: true,
-                    matricula: true,
-                    nome: true,
-                    email: true,
-                    dt_nasc: true,
-                    telefone: true,
-                    cpf: true,
-                    ft_perfil: true,
-                    tipo: true,
-                }
+            // Verificar se o usuário existe
+            const user = await prisma.user.findUnique({
+                where: { id_user }
             });
 
-            console.log(`Resultado da consulta:`, info);
-
-            if (!info) {
-                console.log(`Usuário não encontrado: ${id_user}`);
+            if (!user) {
                 return res.status(404).json({ message: 'Usuário não encontrado' });
             }
 
-            // Realizar sanitização dos dados para evitar problemas no front
-            const sanitizedInfo = {
-                id_user: info.id_user || null,
-                matricula: info.matricula || null,
-                nome: info.nome || '',
-                email: info.email || '',
-                dt_nasc: info.dt_nasc ? info.dt_nasc.toISOString() : null,
-                telefone: info.telefone || '',
-                cpf: info.cpf || '',
-                ft_perfil: info.ft_perfil || '',
-                tipo: info.tipo || 0
-            };
-
-            console.log(`Enviando resposta sanitizada:`, sanitizedInfo);
-            return res.status(200).json(sanitizedInfo);
-        } catch (error) {
-            console.error(`Erro ao buscar informações: ${error.message}`, error);
-            return res.status(500).json({ 
-                message: 'Erro ao buscar informações', 
-                error: error.message,
-                stack: process.env.NODE_ENV !== 'production' ? error.stack : undefined
+            // Retorna os dados do usuário
+            return res.status(200).json({
+                id_user: user.id_user,
+                nome: user.nome,
+                email: user.email,
+                dt_nasc: user.dt_nasc,
+                telefone: user.telefone,
+                turma: user.turma
             });
+
+        } catch (error) {
+            console.error('Erro ao buscar informações do usuário:', error);
+            return res.status(500).json({ message: 'Erro ao buscar informações do usuário', error: error.message });
         }
     }
 
