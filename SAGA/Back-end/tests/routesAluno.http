@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ### Obter informações de um módulo específico
 GET http://localhost:8081/aluno/modulo/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYzg5NzE0Mi1jOGY2LTRiZGYtYTI4MS0zYzdhN2VjZDQwZTAiLCJpYXQiOjE3NDc3ODM2MTYsImV4cCI6MTc0NzgxOTYxNn0.Z1_r56EnTQhoF_TN8On1ra0JMgD4Be02TEXe_YABXHQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYzg5NzE0Mi1jOGY2LTRiZGYtYTI4MS0zYzdhN2VjZDQwZTAiLCJpYXQiOjE3NDc5NDE3ODAsImV4cCI6MTc0Nzk3Nzc4MH0.2hs5YgfElh4NUw8fMMg9b_fz1MCfyRm7BhTISqroqUk
 Content-Type: application/json
 
 ### Obter Frequência do Aluno em uma Data Específica
