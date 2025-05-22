@@ -14,13 +14,13 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.80) 0%, rgba(0, 0, 0, 0.80) 100%),
                 url('../Img/bg.jpg') fixed;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    width: 100%;
 }
 
 header {
@@ -66,8 +66,8 @@ header {
     justify-content: center;
     gap: 30px;
     padding: 40px 20px;
-    min-height: calc(93vh - 140px);
-    align-items: center;
+    min-height: fit-content;
+    align-items: flex-start;
 }
 
 .card {
@@ -117,6 +117,19 @@ button {
 
 button:hover {
     background-color: #ddd;
+}
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 footer {

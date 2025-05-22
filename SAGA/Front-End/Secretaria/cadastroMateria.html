@@ -7,38 +7,39 @@
   <link rel="stylesheet" href="../Css Base/base.css" />
   <link rel="stylesheet" href="css/info.css" />
   <link rel="stylesheet" href="css/cadastroCurso.css" />
+<script src="Js/cadastroMateria.js"></script>
 </head>
 
 <body>
   <header class="navbar">
     <img src="../Img/logo.svg" alt="SAGA Logo" />
     <nav class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Usuários</a>
-      <a href="#">Cadastro</a>
-      <a href="#">Informações</a>
+      <a href="HomeSecretaria.html">Home</a>
+      <a href="ListarUsuarios.html">Usuários</a>
+      <a href="Cadastro.html">Cadastro</a>
+      <a href="info.html">Informações</a>
     </nav>
     <div class="profile-icon"></div>
   </header>
 
   <main class="container">
     <div class="content-box">
-      <h1>Cadastrar Disciplina</h1>
+      <h1>Cadastrar de Matéria</h1>
 
       <form class="form-grid" id="disciplinaForm">
         <div class="input-group half-width">
           <label for="nomeDisciplina">Nome:</label>
           <input type="text" id="nomeDisciplina" required />
-        </div>
-
-        <div class="input-group half-width">
+        </div>        <div class="input-group half-width">
           <label for="cargaHorariaDisc">Carga Horária Total</label>
           <input type="text" id="cargaHorariaDisc" required />
         </div>
 
         <div class="input-group half-width">
-          <label for="codigoDisciplina">Código:</label>
-          <input type="text" id="codigoDisciplina" required />
+          <label for="cursoDisciplina">Curso:</label>
+          <select id="cursoDisciplina" required>
+            <option value="">Selecione um curso...</option>
+          </select>
         </div>
 
         <div class="input-group half-width">
@@ -67,11 +68,6 @@
     Copyright © 2024 - All Rights Reserved - SAGA
   </footer>
 
-  <script>
-    document.getElementById("disciplinaForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      alert("Disciplina cadastrada com sucesso!");
-    });
-  </script>
+  
 </body>
 </html>

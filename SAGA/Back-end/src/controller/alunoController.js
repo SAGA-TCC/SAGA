@@ -1,5 +1,5 @@
 import prisma from "../util/prisma.js";
-import { startOfDay, endOfDay } from 'date-fns';
+
 
 export class AlunoController {
     async listInfoCurso(req, res) {
