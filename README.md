@@ -1,6 +1,6 @@
-# 🏫 Sistema de Gestão Escolar - SAGA
-
-![Banner do Projeto](https://via.placeholder.com/1200x400.png?text=Sistema+de+Gestão+Escolar)
+  # 🏫 Sistema de Gestão Escolar - SAGA
+  <img src="SAGA/Front-End/Img/login_img.PNG" alt="Lista de Alunos" />
+  
 
 Sistema completo para gerenciamento de escolas, com funcionalidades robustas de administração de alunos, turmas, professores e matrículas. Ideal para escolas de pequeno e médio porte que desejam informatizar seus processos com uma solução web moderna e escalável.
 
