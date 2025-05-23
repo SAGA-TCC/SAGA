@@ -1,36 +1,97 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const tableBody = document.querySelector(".tabela-chamada tbody");
+document.addEventListener("DOMContentLoaded", async function () {
+    const tableBody = document.getElementById("Chamada2TableBody");
+    const btnLancar = document.querySelector(".botao-lancar");
 
-    const alunos = [
-        { numero: 1, nome: "Gabriel da Silva Oliveira", status: "P" },
-        { numero: 2, nome: "Ana Clara Santos Ferreira", status: "P" },
-        { numero: 3, nome: "Lucas Almeida Pereira", status: "F" },
-        { numero: 4, nome: "Mariana Costa Rodrigues", status: "P" },
-        { numero: 5, nome: "João Pedro Moreira Souza", status: "T" },
-        { numero: 6, nome: "Laura Fernandes Lima", status: "P" },
-        { numero: 7, nome: "Carlos Eduardo Santos", status: "F" },
-        { numero: 8, nome: "Isabela Gomes Rocha", status: "T" },
-        { numero: 9, nome: "Rafael Costa Mendes", status: "P" },
-        { numero: 10, nome: "Beatriz Souza Azevedo", status: "P" }
-    ];
+    const token = localStorage.getItem("token");
+    const id_professor = localStorage.getItem("userId");
+    const id_turma = localStorage.getItem("id_turma_selecionada");
+    const id_materia = localStorage.getItem("id_materia_selecionada");
 
-    alunos.forEach(aluno => {
+    if (!token || !id_professor || !id_turma || !id_materia) {
+        alert("Dados de chamada não encontrados!");
+        window.location.href = "Chamada.html";
+        return;
+    }
+
+    // Busca alunos da turma
+    let alunos = [];
+    try {
+        const resp = await fetch(`http://localhost:8081/prof/alunos/${id_turma}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        alunos = await resp.json();
+    } catch (e) {
+        alert("Erro ao buscar alunos da turma.");
+        return;
+    }
+
+    // Monta a tabela
+    alunos.forEach((aluno, idx) => {
         const row = document.createElement("tr");
-
-        let statusClass = "";
-        if (aluno.status === "P") {
-            statusClass = "verde";
-        } else if (aluno.status === "F") {
-            statusClass = "vermelho";
-        } else if (aluno.status === "T") {
-            statusClass = "amarelo";
-        }
-
         row.innerHTML = `
-            <td>${aluno.numero}</td>
+            <td>${idx + 1}</td>
             <td>${aluno.nome}</td>
-            <td><span class="status ${statusClass}">${aluno.status}</span></td>
+            <td>
+                <button class="status-btn verde" data-status="P">P</button>
+            </td>
         `;
         tableBody.appendChild(row);
+    });
+
+    // Alterna status ao clicar
+    tableBody.querySelectorAll(".status-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            if (btn.dataset.status === "P") {
+                btn.dataset.status = "F";
+                btn.textContent = "F";
+                btn.classList.remove("verde");
+                btn.classList.add("vermelho");
+            } else {
+                btn.dataset.status = "P";
+                btn.textContent = "P";
+                btn.classList.remove("vermelho");
+                btn.classList.add("verde");
+            }
+        });
+    });
+
+    // Lançar presença
+    btnLancar.addEventListener("click", async function () {
+        // Monta array de presenças
+        const presencas = [];
+        tableBody.querySelectorAll("tr").forEach((row, idx) => {
+            const btn = row.querySelector(".status-btn");
+            presencas.push({
+                id_aluno: alunos[idx].id_aluno,
+                presente: btn.dataset.status === "P"
+            });
+        });
+
+        // Envia chamada para o backend
+        try {
+            const resp = await fetch("http://localhost:8081/prof/chamada", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    id_professor,
+                    id_turma,
+                    id_materia,
+                    data: new Date().toISOString(),
+                    presencas
+                })
+            });
+            const result = await resp.json();
+            if (resp.ok) {
+                alert("Chamada lançada com sucesso!");
+                window.location.href = "Chamada.html";
+            } else {
+                alert(result.erro || "Erro ao lançar chamada.");
+            }
+        } catch (e) {
+            alert("Erro ao lançar chamada.");
+        }
     });
 });
