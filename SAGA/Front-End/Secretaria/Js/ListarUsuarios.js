@@ -64,13 +64,13 @@ function excluir(id_user) {
         window.location.href = "../../Front-End/Login/Login.html";
         return;
     }
-    
+
     if (!confirm('Tem certeza que deseja excluir este usuário?')) {
         return;
     }
 
     console.log(`Tentando excluir usuário com ID: ${id_user}`);
-    
+
     fetch(`http://localhost:8081/sec/excluirUsuario/${id_user}`, {
         method: "DELETE",
         headers: {
@@ -78,38 +78,58 @@ function excluir(id_user) {
             'Authorization': `Bearer ${token}`
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            console.error(`Erro na resposta: ${response.status} - ${response.statusText}`);
-            
-            // Tentar obter mais informações do corpo da resposta
-            return response.text().then(text => {
-                try {
-                    // Tenta converter para JSON se possível
-                    const errorData = JSON.parse(text);
-                    throw new Error(`Erro ${response.status}: ${errorData.message || text}`);
-                } catch (e) {
-                    // Se não for JSON válido, usa o texto como está
-                    throw new Error(`Erro ${response.status}: ${text || 'Sem detalhes do servidor'}`);
-                }
-            });
+        .then(response => {
+            if (!response.ok) {
+                console.error(`Erro na resposta: ${response.status} - ${response.statusText}`);
+
+                // Tentar obter mais informações do corpo da resposta
+                return response.text().then(text => {
+                    try {
+                        // Tenta converter para JSON se possível
+                        const errorData = JSON.parse(text);
+                        throw new Error(`Erro ${response.status}: ${errorData.message || text}`);
+                    } catch (e) {
+                        // Se não for JSON válido, usa o texto como está
+                        throw new Error(`Erro ${response.status}: ${text || 'Sem detalhes do servidor'}`);
+                    }
+                });
+            }
+
+            // Verifica se há conteúdo na resposta
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                return response.json();
+            } else {
+                return null; // Retorna null quando não há JSON na resposta
+            }
+        })
+        .then(data => {
+            alert("Usuário excluído com sucesso!");
+            // Recarrega a página para atualizar a lista
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error("Erro ao excluir usuário:", error);
+            alert(`Erro ao excluir usuário: ${error.message}`);
+        });
+}
+
+// Função de pesquisa
+function searchFunction() {
+    var input = document.getElementById("listInput");
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("listTable");
+    var trs = table.tBodies[0].getElementsByTagName("tr");
+
+    for (var i = 0; i < trs.length; i++) {
+        var tds = trs[i].getElementsByTagName("td");
+        trs[i].style.display = "none";
+
+        for (var j = 0; j < 4; j++) { // quais colunas vão ser lidas
+            if (tds[j] && tds[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                trs[i].style.display = "";
+                break;
+            }
         }
-        
-        // Verifica se há conteúdo na resposta
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-            return response.json();
-        } else {
-            return null; // Retorna null quando não há JSON na resposta
-        }
-    })
-    .then(data => {
-        alert("Usuário excluído com sucesso!");
-        // Recarrega a página para atualizar a lista
-        window.location.reload();
-    })
-    .catch(error => {
-        console.error("Erro ao excluir usuário:", error);
-        alert(`Erro ao excluir usuário: ${error.message}`);
-    });
+    }
 }

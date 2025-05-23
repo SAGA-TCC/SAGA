@@ -13,7 +13,7 @@ body {
 
     background:
         linear-gradient(0deg, rgba(0, 0, 0, 0.80) 0%, rgba(0, 0, 0, 0.80) 100%),
-        url('../Img/bg.jpg');
+        url('../../Img/bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

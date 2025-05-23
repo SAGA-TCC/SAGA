@@ -4,17 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Curso</title>
+    <title>SAGA - Usuários</title>
     <link rel="stylesheet" href="../Css Base/base.css">
     <link rel="stylesheet" href="../Css Base/tabela.css">
     <link rel="stylesheet" href="../Css Base/barraPesquisa.css">
     <script src="../Js/menu.js"></script>
     <script src="../Js/verificaToken.js"></script>
+    <script src="Js/ListarUsuarios.js" defer></script>
 </head>
 
 <body>
     <header>
-        <img src="../Img/logo.svg" alt="Logo SAGA" class="logo">            <div class="perfil">
+        <img src="../Img/logo.svg" alt="Logo SAGA" class="logo">
+        <div class="perfil">
             Olá, <b>Carregando...</b>
             <div class="circulo"></div>
             <div class="menu-suspenso" id="menuSuspenso">
@@ -28,14 +30,15 @@
     <main class="container">
         <div class="content-box">
             <h1>Listar Usuários</h1>
+
             <div class="search-box">
-                <input type="text" placeholder="Pesquisar...">
+                <input type="text" id="listInput" onkeyup="searchFunction()" placeholder="Pesquisar...">
                 <button>
                     <img src="../Img/Search.svg">
                 </button>
             </div>
 
-            <table>
+            <table id="listTable">
                 <thead>
                     <tr>
                         <th>Matrícula</th>
@@ -47,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody id="ListaUsuariosTableBody">
-                    <!-- Dados serão inseridos pelo JS -->
+
                 </tbody>
             </table>
         </div>
@@ -56,7 +59,7 @@
     <footer>
         Copyright &copy; 2024 - All Rights Reserved - SAGA
     </footer>
-    <script src="Js/ListarUsuarios.js"></script>
+
 </body>
 
 </html>

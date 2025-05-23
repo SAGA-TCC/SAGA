@@ -4,65 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Curso</title>
+    <title>SAGA - Turmas</title>
     <link rel="stylesheet" href="../Css Base/base.css">
     <link rel="stylesheet" href="../Css Base/tabela.css">
     <link rel="stylesheet" href="../Css Base/barraPesquisa.css">
-    <link rel="stylesheet" href="css/VisualizarTurma.css">
+    <link rel="stylesheet" href="../Css Base/botoesTabela.css">
     <script src="../Js/menu.js"></script>
     <script src="../Js/verificaToken.js"></script>
     <script src="Js/ListarTurmas.js"></script>
 </head>
 
 <body>
-    <header>
-        <img src="../Img/logo.svg" alt="Logo SAGA" class="logo">
-        <div class="perfil">
-            Olá, <b>Carregando...</b>
-            <div class="circulo"></div>
-            <div class="menu-suspenso" id="menuSuspenso">
-                <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
-                <p>Carregando...<br><small>Carregando...</small></p>
-                <button class="sair">Sair</button>
-            </div>
-        </div>
+    <header class="navbar">
+        <img src="../Img/logo.svg" alt="SAGA Logo">
+        <nav class="nav-links">
+            <a href="HomeSecretaria.html">Home</a>
+            <a href="ListarUsuarios.html">Usuários</a>
+            <a href="Cadastro.html">Cadastro</a>
+            <a href="info.html">Informações</a>
+        </nav>
+        <div class="profile-icon"></div>
     </header>
 
     <main class="container">
         <div class="content-box">
-            <h1>Listar Usuários</h1>
+            <h1>Turmas</h1>
 
             <div class="search-box">
-                <input type="text" id="listInput" placeholder="Pesquisar..." onkeyup="searchFunction()">
+                <input type="text" placeholder="Pesquisar...">
                 <button>
-                    <img src="../Img/Search.svg">
+                    <img src="../Img/Search.svg" alt="Pesquisar">
                 </button>
             </div>
 
-            <div class="table-wrapper">
-                <table id="listTable">
-                    <thead>
-                        <tr>
-                            <th>Matrícula</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Data de cadastro</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="ListaUsuariosTableBody">
-                        
-                    </tbody>
-                </table>
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome da turma</th>
+                        <th>Professor Responsável</th>
+                        <th>Curso</th>
+                        <th>Semestre</th>
+                        <th>Alunos</th>
+                        <th> </th>
+                        <th> </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody id="ListaTurmasTableBody">
+                </tbody>
+            </table>
         </div>
     </main>
 
     <footer>
-        Copyright &copy; 2024 - All Rights Reserved - SAGA
+        Copyright © 2024 - All Rights Reserved - SAGA
     </footer>
 
-    <script src="Js/VisualizarTurma.js"></script>
+    <script src="Js/ListarTurmas.js"></script>
 </body>
+
 </html>

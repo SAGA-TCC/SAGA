@@ -109,7 +109,6 @@ function searchFunction() {
     var table = document.getElementById("listTable");
     var trs = table.tBodies[0].getElementsByTagName("tr");
 
-    // Loop through rows
     for (var i = 0; i < trs.length; i++) {
         var tds = trs[i].getElementsByTagName("td");
         trs[i].style.display = "none";
