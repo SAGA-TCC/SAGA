@@ -73,44 +73,43 @@ export class ProfController {
 
     // Realiza a chamada dos alunos de uma turma associada ao professor
     async realizarChamada(req, res) {
-        const { id_professor, id_turma, data, presencas } = req.body;
-
-        if (!Array.isArray(presencas)) {
-            return res.status(400).json({ erro: "O campo 'presencas' deve ser um array." });
-        }
-
+        const { id_professor, id_turma, id_materia, data, presencas } = req.body;
         try {
-            // Verifica se a turma existe e se o professor está associado a ela
-            const turma = await prisma.professorTurma.findFirst({
+            // Verifica se o professor está associado à turma
+            const professorTurma = await prisma.professorTurma.findFirst({
                 where: {
                     id_professor,
                     id_turma
                 }
             });
-
-            if (!turma) {
+            if (!professorTurma) {
                 return res.status(404).json({ erro: "Turma não encontrada ou professor não associado a esta turma." });
             }
 
-            // Realiza a chamada
+            // Cria a chamada
             const chamada = await prisma.chamada.create({
                 data: {
                     id_professor,
                     id_turma,
-                    data,
-                    presencas: {
-                        create: presencas.map(p => ({
-                            id_aluno: p.id_aluno,
-                            presente: p.presente
-                        }))
-                    }
-                },
-                include: { presencas: true }
+                    id_materia,
+                    data: new Date(data)
+                }
             });
 
-            return res.status(200).json({ sucesso: "Chamada realizada com sucesso!" });
+            // Cria as presenças
+            for (const presenca of presencas) {
+                await prisma.presenca.create({
+                    data: {
+                        id_chamada: chamada.id_chamada,
+                        id_aluno: presenca.id_aluno,
+                        presente: presenca.presente
+                    }
+                });
+            }
+
+            res.json({ mensagem: "Chamada lançada com sucesso!" });
         } catch (error) {
-            return res.status(500).json({ erro: "Erro ao realizar chamada", detalhes: error.message });
+            res.status(500).json({ erro: "Erro ao lançar chamada." });
         }
     }
 
@@ -180,6 +179,20 @@ export class ProfController {
         }
     }
 
+    async buscarProfessorPorUser(req, res) {
+        const { id_user } = req.params;
+        try {
+            const professor = await prisma.professor.findUnique({
+                where: { id_user }
+            });
+            if (!professor) {
+                return res.status(404).json({ error: "Professor não encontrado" });
+            }
+            res.json(professor);
+        } catch (error) {
+            res.status(500).json({ error: "Erro ao buscar professor" });
+        }
+    }
 
     // async lancarNotas(req, res) {
     //     const { id_professor, id_materia, id_turma, bimestre, notas } = req.body;

@@ -16,11 +16,12 @@ routerProf.get("/prof/materias/:id_professor", tokenAuthenticate, (req, res) => 
 
 // Rota para buscar todos os alunos de uma turma associada ao professor
 routerProf.get("/prof/alunos/:id_turma", tokenAuthenticate, (req, res) => profController.listarAlunosTurma(req, res));
-//Rota para realizar a chamada
-
+// Rota para lançar chamada
 routerProf.post("/prof/chamada", tokenAuthenticate, (req, res) => profController.realizarChamada(req, res));
 
 routerProf.get("/prof/chamada/:id_turma", tokenAuthenticate, (req, res) => profController.listarChamada(req, res));
 
 routerProf.post("/prof/lancarNotas", tokenAuthenticate, (req, res) => profController.lancarNotas(req, res));
+
+routerProf.get("/professor/user/:id_user", tokenAuthenticate, (req, res) => profController.buscarProfessorPorUser(req, res));
 
