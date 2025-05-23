@@ -47,3 +47,6 @@ routerSec.post('/sec/Turma/cadastrar', tokenAuthenticate, secController.cadTurma
 routerSec.delete('/sec/Turma/deletar/:id', tokenAuthenticate, secController.delTurma)
 routerSec.get('/sec/Turma/listar', tokenAuthenticate, secController.listarTurmas)
 routerSec.put('/sec/Turma/editar/:id', tokenAuthenticate, secController.editarTurma)
+routerSec.get('/sec/Turma/consultar/:id_turma', tokenAuthenticate, secController.consultarTurma)
+routerSec.delete('/sec/Turma/removerAluno/:id_aluno', tokenAuthenticate, secController.removerAlunoTurma)
+routerSec.delete('/sec/Turma/removerProfessor/:id_professor/:id_turma', tokenAuthenticate, secController.removerProfessorTurma)

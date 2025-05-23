@@ -1,10 +1,21 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const tableBody = document.getElementById("turmaTableBody");
     
-    // Recuperar token do localStorage (assumindo que foi armazenado após login)
+    // Recuperar token e ID do professor do localStorage
     const token = localStorage.getItem('token');
     const professorId = localStorage.getItem('userId');
 
+    if (!token) {
+        alert('Usuário não autenticado. Por favor, faça login novamente.');
+        window.location.href = '../../Login/Login.html';
+        return;
+    }
+
+    if (!professorId) {
+        alert('ID do professor não encontrado. Por favor, faça login novamente.');
+        window.location.href = '../../Login/Login.html';
+        return;
+    }
     
     try {
         // Mostrar um indicador de carregamento
@@ -24,6 +35,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
         
         const turmas = await response.json();
+        console.log('Turmas recebidas:', turmas);
         
         // Limpar o conteúdo da tabela antes de adicionar novas linhas
         tableBody.innerHTML = '';
@@ -37,20 +49,27 @@ document.addEventListener("DOMContentLoaded", async function () {
         turmas.forEach(turma => {
             const row = document.createElement("tr");
             
-            // Baseado na resposta da API e no formato da tabela
-            row.innerHTML = `
-                <td>${turma.curso?.nome || 'N/A'}</td>
-                <td>${turma.nome || 'N/A'}</td>
-                <td>${turma.aulas_semanais || 'N/A'}</td>
-                <td>${turma.curso?.carga_horaria || 'N/A'} Horas</td>
-            `;
+            // Extrair informações da turma
+            const nomeCurso = turma.curso?.nome || 'N/A';
+            const nomeTurma = turma.nome || 'N/A';
+            const semestres = turma.semestres || 'N/A';
+            const cargaHoraria = turma.curso?.ch_total || 'N/A';
             
-            // Adicionar evento de clique para navegação ou ações adicionais
+            row.innerHTML = `
+                <td>${nomeCurso}</td>
+                <td>${nomeTurma}</td>
+                <td>${semestres}</td>
+                <td>${cargaHoraria} Horas</td>
+            `;
+              // Adicionar evento de clique para navegação ou ações adicionais
             row.addEventListener('click', () => {
-                // Aqui você pode implementar a navegação para a página de detalhes da turma
-                // ou qualquer outra ação que desejar quando o usuário clicar em uma turma
-                localStorage.setItem('selectedTurmaId', turma.id);
-                // window.location.href = "../Page/DetalhesTurma.html";
+                // Armazenar o ID da turma selecionada para uso em outras páginas
+                localStorage.setItem('selectedTurmaId', turma.id_turma);
+                // Armazenar informações adicionais para uso na página de detalhes
+                localStorage.setItem('selectedTurmaNome', nomeTurma);
+                localStorage.setItem('selectedCursoNome', nomeCurso);
+                // Redirecionar para a página de chamada da turma
+                window.location.href = "Chamada.html";
             });
             
             tableBody.appendChild(row);

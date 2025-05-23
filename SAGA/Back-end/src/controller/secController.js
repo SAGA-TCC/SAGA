@@ -917,4 +917,211 @@ export class SecController {
         }
     }
 
+    // Consultar turma e seus dados, incluindo alunos e professores
+    async consultarTurma(req, res) {
+        const { id_turma } = req.params;
+        
+        if (!id_turma) {
+            return res.status(400).json({
+                erro: "ID da turma não informado",
+                detalhes: "É necessário informar o ID da turma para realizar a consulta"
+            });
+        }
+        
+        try {
+            // Busca a turma com todos os relacionamentos
+            const turma = await prisma.turma.findUnique({
+                where: { id_turma },
+                include: {
+                    curso: true,  // Inclui detalhes do curso
+                    professoresRelation: {
+                        include: {
+                            professor: {
+                                include: {
+                                    user: {
+                                        select: {
+                                            id_user: true,
+                                            nome: true,
+                                            email: true,
+                                            telefone: true,
+                                            ft_perfil: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    alunos: {
+                        include: {
+                            user: {
+                                select: {
+                                    id_user: true,
+                                    matricula: true,
+                                    nome: true,
+                                    email: true,
+                                    telefone: true,
+                                    dt_nasc: true,
+                                    ft_perfil: true
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            if (!turma) {
+                return res.status(404).json({ erro: "Turma não encontrada" });
+            }
+            
+            // Reorganizando os dados para facilitar o uso pelo frontend
+            const professores = turma.professoresRelation.map(rel => ({
+                id_professor: rel.professor.id_professor,
+                id_user: rel.professor.user.id_user,
+                nome: rel.professor.user.nome,
+                email: rel.professor.user.email,
+                telefone: rel.professor.user.telefone,
+                foto: rel.professor.user.ft_perfil
+            }));
+            
+            const alunos = turma.alunos.map(aluno => ({
+                id_aluno: aluno.id_aluno,
+                id_user: aluno.user.id_user,
+                matricula: aluno.user.matricula,
+                nome: aluno.user.nome,
+                email: aluno.user.email,
+                telefone: aluno.user.telefone,
+                data_nascimento: aluno.user.dt_nasc,
+                foto: aluno.user.ft_perfil
+            }));
+            
+            // Construindo objeto de resposta
+            const turmaDetalhada = {
+                id_turma: turma.id_turma,
+                codigo: turma.codigo,
+                nome: turma.nome,
+                dt_inicio: turma.dt_inicio,
+                semestres: turma.semestres,
+                curso: {
+                    id_curso: turma.curso.id_curso,
+                    nome: turma.curso.nome,
+                    codigo: turma.curso.codigo,
+                    periodo: turma.curso.periodo,
+                    descricao: turma.curso.descricao,
+                    ch_total: turma.curso.ch_total,
+                    freq_min: turma.curso.freq_min
+                },
+                professores,
+                alunos,
+                total_alunos: alunos.length,
+                total_professores: professores.length
+            };
+            
+            return res.status(200).json(turmaDetalhada);
+            
+        } catch (error) {
+            console.error("Erro ao consultar turma:", error);
+            return res.status(500).json({
+                erro: "Erro ao consultar turma",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Remover aluno de uma turma
+    async removerAlunoTurma(req, res) {
+        const { id_aluno } = req.params;
+        
+        if (!id_aluno) {
+            return res.status(400).json({
+                erro: "ID do aluno não informado",
+                detalhes: "É necessário informar o ID do aluno para removê-lo da turma"
+            });
+        }
+        
+        try {
+            // Verificar se o aluno existe e obter dados do usuário 
+            const aluno = await prisma.aluno.findUnique({
+                where: { id_aluno },
+                include: {
+                    user: true
+                }
+            });
+            
+            if (!aluno) {
+                return res.status(404).json({ erro: "Aluno não encontrado" });
+            }
+            
+            // Obter a turma atual do aluno para o registro
+            const turmaAtual = await prisma.turma.findUnique({
+                where: { id_turma: aluno.id_turma }
+            });
+            
+            // Em vez de tentar modificar o aluno (que falaria por causa da restrição de chave estrangeira),
+            // vamos excluir o registro do aluno e recriar em outra turma depois, se necessário
+            await prisma.aluno.delete({
+                where: { id_aluno }
+            });
+            
+            return res.status(200).json({
+                mensagem: `Aluno ${aluno.user.nome} removido da turma ${turmaAtual?.nome || 'desconhecida'} com sucesso`,
+                id_user: aluno.id_user,
+                nome: aluno.user.nome
+            });
+            
+        } catch (error) {
+            console.error("Erro ao remover aluno da turma:", error);
+            return res.status(500).json({
+                erro: "Erro ao remover aluno da turma",
+                detalhes: error.message
+            });
+        }
+    }
+    
+    // Remover professor de uma turma
+    async removerProfessorTurma(req, res) {
+        const { id_professor, id_turma } = req.params;
+        
+        if (!id_professor || !id_turma) {
+            return res.status(400).json({
+                erro: "IDs não informados",
+                detalhes: "É necessário informar o ID do professor e da turma"
+            });
+        }
+        
+        try {
+            // Verificar se o relacionamento existe
+            const relacao = await prisma.professorTurma.findFirst({
+                where: {
+                    id_professor,
+                    id_turma
+                }
+            });
+            
+            if (!relacao) {
+                return res.status(404).json({ erro: "Relação professor-turma não encontrada" });
+            }
+            
+            // Deletar o relacionamento entre professor e turma
+            await prisma.professorTurma.deleteMany({
+                where: {
+                    id_professor,
+                    id_turma
+                }
+            });
+            
+            return res.status(200).json({
+                mensagem: "Professor removido da turma com sucesso",
+                id_professor,
+                id_turma
+            });
+            
+        } catch (error) {
+            console.error("Erro ao remover professor da turma:", error);
+            return res.status(500).json({
+                erro: "Erro ao remover professor da turma",
+                detalhes: error.message
+            });
+        }
+    }
 }
+

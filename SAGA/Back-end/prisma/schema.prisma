@@ -39,12 +39,12 @@ model Professor {
 }
 
 model Aluno {
-  id_aluno String @id @default(uuid())
-  id_user  String @unique
-  id_turma String
+  id_aluno String  @id @default(uuid())
+  id_user  String  @unique
+  id_turma String?
 
-  user  User  @relation(fields: [id_user], references: [id_user])
-  turma Turma @relation(fields: [id_turma], references: [id_turma])
+  user  User   @relation(fields: [id_user], references: [id_user])
+  turma Turma? @relation(fields: [id_turma], references: [id_turma])
   notas NotaAluno[]
   presencas Presenca[]
   

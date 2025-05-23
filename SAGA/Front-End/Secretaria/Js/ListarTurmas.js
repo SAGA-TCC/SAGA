@@ -75,8 +75,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td>${turma.nome}</td>
                 <td>${turma.curso?.nome || 'N/A'}</td>
                 <td>${formatarData(turma.dt_inicio)}</td>
-                <td>${turma.semestres}</td>
-                <td>${turma.alunos?.length || 0}</td>
+                <td>${turma.semestres}</td>                <td>${turma.alunos?.length || 0}</td>
+                <td>
+                    <a href="consultarTurma.html?id=${turma.id_turma}">
+                        <button class="visualizar">Visualizar</button>
+                    </a>
+                </td>
                 <td>
                     <a href="editarTurma.html?id=${turma.id_turma}">
                         <button class="editar">Editar</button>

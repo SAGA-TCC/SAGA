@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGA - Detalhes da Turma</title>
+    <link rel="stylesheet" href="../Css Base/base.css">
+    <link rel="stylesheet" href="../Css Base/tabela.css">
+    <link rel="stylesheet" href="../Css Base/barraPesquisa.css">
+    <link rel="stylesheet" href="../Css Base/botoesTabela.css">
+    <script src="../Js/menu.js"></script>
+    <script src="../Js/verificaToken.js"></script>
+    <style>
+        .detalhes-turma {
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .info-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h3 {
+            margin-top: 0;
+            color: #3a4452;
+            border-bottom: 2px solid #c0cdd9;
+            padding-bottom: 8px;
+        }
+
+        .info-lista {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .info-lista li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e5eb;
+        }
+
+        .info-lista li:last-child {
+            border-bottom: none;
+        }
+
+        .info-lista strong {
+            color: #546e7a;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            border-bottom: 3px solid #4a89dc;
+            color: #4a89dc;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .voltar-btn {
+            padding: 8px 15px;
+            background-color: #546e7a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .voltar-btn:hover {
+            background-color: #455a64;
+        }
+
+        .search-box {
+            margin-bottom: 15px;
+        }
+
+        .aluno-grid, .professor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-foto {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e0e5eb;
+            margin-right: 15px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-nome {
+            font-weight: bold;
+            color: #3a4452;
+            margin: 0;
+        }
+
+        .card-info {
+            font-size: 14px;
+            color: #546e7a;
+            margin: 5px 0;
+        }        .card-email {
+            color: #4a89dc;
+        }
+
+        .remover-btn {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .remover-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .estatisticas {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .estatistica-item {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            min-width: 150px;
+        }
+
+        .estatistica-numero {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a89dc;
+        }
+
+        .estatistica-label {
+            font-size: 14px;
+            color: #546e7a;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #546e7a;
+        }
+
+        @media (max-width: 768px) {
+            .detalhes-turma {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <img src="../Img/logo.svg" alt="SAGA Logo">
+        <nav class="nav-links">
+            <a href="HomeSecretaria.html">Home</a>
+            <a href="ListarUsuarios.html">Usuários</a>
+            <a href="Cadastro.html">Cadastro</a>
+            <a href="info.html">Informações</a>
+        </nav>
+        <div class="profile-icon"></div>
+    </header>
+
+    <main class="container">
+        <div class="content-box">
+            <button class="voltar-btn" onclick="window.location.href='ListarTurmas.html'">
+                &#8592; Voltar para Lista de Turmas
+            </button>
+            
+            <h1 id="turma-titulo">Detalhes da Turma</h1>
+            
+            <div id="loading-indicator" class="loading">Carregando informações da turma...</div>
+            
+            <div id="turma-detalhes" style="display: none;">
+                <div class="estatisticas">
+                    <div class="estatistica-item">
+                        <div class="estatistica-numero" id="total-alunos">0</div>
+                        <div class="estatistica-label">Alunos</div>
+                    </div>
+                    <div class="estatistica-item">
+                        <div class="estatistica-numero" id="total-professores">0</div>
+                        <div class="estatistica-label">Professores</div>
+                    </div>
+                </div>
+                
+                <div class="detalhes-turma">
+                    <div class="info-card">
+                        <h3>Informações da Turma</h3>
+                        <ul class="info-lista" id="info-turma">
+                            <li><strong>Código:</strong> <span id="turma-codigo"></span></li>
+                            <li><strong>Nome:</strong> <span id="turma-nome"></span></li>
+                            <li><strong>Data de Início:</strong> <span id="turma-data-inicio"></span></li>
+                            <li><strong>Semestres:</strong> <span id="turma-semestres"></span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Informações do Curso</h3>
+                        <ul class="info-lista" id="info-curso">
+                            <li><strong>Nome:</strong> <span id="curso-nome"></span></li>
+                            <li><strong>Código:</strong> <span id="curso-codigo"></span></li>
+                            <li><strong>Período:</strong> <span id="curso-periodo"></span></li>
+                            <li><strong>Carga Horária:</strong> <span id="curso-ch-total"></span></li>
+                            <li><strong>Frequência Mínima:</strong> <span id="curso-freq-min"></span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="alunos">Alunos</button>
+                    <button class="tab-button" data-tab="professores">Professores</button>
+                </div>
+                
+                <div class="tab-content active" id="alunos-tab">
+                    <div class="search-box">
+                        <input type="text" id="busca-alunos" placeholder="Buscar alunos...">
+                        <button>
+                            <img src="../Img/Search.svg" alt="Pesquisar">
+                        </button>
+                    </div>
+                    
+                    <div class="aluno-grid" id="alunos-lista">
+                        <!-- Alunos serão inseridos aqui pelo JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="professores-tab">
+                    <div class="search-box">
+                        <input type="text" id="busca-professores" placeholder="Buscar professores...">
+                        <button>
+                            <img src="../Img/Search.svg" alt="Pesquisar">
+                        </button>
+                    </div>
+                    
+                    <div class="professor-grid" id="professores-lista">
+                        <!-- Professores serão inseridos aqui pelo JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        Copyright © 2024 - All Rights Reserved - SAGA
+    </footer>
+
+    <script src="Js/ConsultarTurma.js"></script>
+</body>
+
+</html>
