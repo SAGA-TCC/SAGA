@@ -117,9 +117,11 @@ document.addEventListener("DOMContentLoaded", function() {
             divTurma.className = "input-group half-width turma-field";
             divTurma.innerHTML = `
                 <label for="id_turma">Turma:</label>
+                <div class="seletor-modulo">
                 <select id="id_turma">
                     <option value="">Selecione uma turma</option>
                 </select>
+                </div>
             `;
             
             // Inserir antes do botão

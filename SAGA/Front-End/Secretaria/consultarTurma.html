@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>n
 <html lang="pt-br">
 
 <head>
@@ -12,6 +12,14 @@
     <script src="../Js/menu.js"></script>
     <script src="../Js/verificaToken.js"></script>
     <style>
+        span {
+            color: black;
+        }
+
+        li {
+            text-align: justify;
+        }
+
         .detalhes-turma {
             margin-bottom: 20px;
             display: grid;
@@ -49,7 +57,7 @@
         }
 
         .info-lista strong {
-            color: #546e7a;
+            color: #000;
         }
 
         .tabs {
@@ -65,6 +73,7 @@
             border: none;
             font-size: 16px;
             transition: all 0.3s;
+            color: white;
         }
 
         .tab-button.active {
@@ -83,8 +92,8 @@
 
         .voltar-btn {
             padding: 8px 15px;
-            background-color: #546e7a;
-            color: white;
+            background-color: white;
+            color: black;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -95,14 +104,16 @@
         }
 
         .voltar-btn:hover {
-            background-color: #455a64;
+            background-color: lightgray;
+            color: #202224;
         }
 
         .search-box {
             margin-bottom: 15px;
         }
 
-        .aluno-grid, .professor-grid {
+        .aluno-grid,
+        .professor-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 15px;
@@ -148,7 +159,9 @@
             font-size: 14px;
             color: #546e7a;
             margin: 5px 0;
-        }        .card-email {
+        }
+
+        .card-email {
             color: #4a89dc;
         }
 
@@ -193,7 +206,7 @@
 
         .estatistica-label {
             font-size: 14px;
-            color: #546e7a;
+            color: #000;
         }
 
         .loading {
@@ -201,6 +214,10 @@
             padding: 20px;
             font-style: italic;
             color: #546e7a;
+        }
+
+        #turma-titulo{
+            padding-top: 10px;
         }
 
         @media (max-width: 768px) {
@@ -225,14 +242,14 @@
 
     <main class="container">
         <div class="content-box">
+            <h1 id="turma-titulo">Detalhes da Turma</h1>
+
             <button class="voltar-btn" onclick="window.location.href='ListarTurmas.html'">
                 &#8592; Voltar para Lista de Turmas
             </button>
-            
-            <h1 id="turma-titulo">Detalhes da Turma</h1>
-            
+
             <div id="loading-indicator" class="loading">Carregando informações da turma...</div>
-            
+
             <div id="turma-detalhes" style="display: none;">
                 <div class="estatisticas">
                     <div class="estatistica-item">
@@ -244,7 +261,7 @@
                         <div class="estatistica-label">Professores</div>
                     </div>
                 </div>
-                
+
                 <div class="detalhes-turma">
                     <div class="info-card">
                         <h3>Informações da Turma</h3>
@@ -255,7 +272,7 @@
                             <li><strong>Semestres:</strong> <span id="turma-semestres"></span></li>
                         </ul>
                     </div>
-                    
+
                     <div class="info-card">
                         <h3>Informações do Curso</h3>
                         <ul class="info-lista" id="info-curso">
@@ -267,12 +284,12 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="tabs">
                     <button class="tab-button active" data-tab="alunos">Alunos</button>
                     <button class="tab-button" data-tab="professores">Professores</button>
                 </div>
-                
+
                 <div class="tab-content active" id="alunos-tab">
                     <div class="search-box">
                         <input type="text" id="busca-alunos" placeholder="Buscar alunos...">
@@ -280,12 +297,12 @@
                             <img src="../Img/Search.svg" alt="Pesquisar">
                         </button>
                     </div>
-                    
+
                     <div class="aluno-grid" id="alunos-lista">
                         <!-- Alunos serão inseridos aqui pelo JavaScript -->
                     </div>
                 </div>
-                
+
                 <div class="tab-content" id="professores-tab">
                     <div class="search-box">
                         <input type="text" id="busca-professores" placeholder="Buscar professores...">
@@ -293,7 +310,7 @@
                             <img src="../Img/Search.svg" alt="Pesquisar">
                         </button>
                     </div>
-                    
+
                     <div class="professor-grid" id="professores-lista">
                         <!-- Professores serão inseridos aqui pelo JavaScript -->
                     </div>

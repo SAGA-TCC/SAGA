@@ -7,38 +7,13 @@ button {
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s ease;
+    background-color: white;
+    color: black;
 }
 
 button:hover {
     transform: translateY(-2px);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-button.visualizar {
-    background-color: #3498db;
-    color: white;
-}
-
-button.visualizar:hover {
-    background-color: #2980b9;
-}
-
-button.editar {
-    background-color: #f39c12;
-    color: white;
-}
-
-button.editar:hover {
-    background-color: #e67e22;
-}
-
-button.excluir {
-    background-color: #e74c3c;
-    color: white;
-}
-
-button.excluir:hover {
-    background-color: #c0392b;
 }
 
 /* Estilos para garantir que os botões caibam na tabela */

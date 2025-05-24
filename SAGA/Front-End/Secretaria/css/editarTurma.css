@@ -1,0 +1,12 @@
+.seletor-modulo {
+    text-align: center;
+}
+
+.seletor-modulo select {
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
