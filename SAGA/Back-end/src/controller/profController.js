@@ -133,10 +133,10 @@ export class ProfController {
 
     // Lança notas para uma avaliação (Nota) de uma turma, matéria e professor
     async lancarNotas(req, res) {
-        const { id_professor, id_turma, id_materia, tipo_avaliacao, notas } = req.body;
+        const { id_professor, id_turma, id_materia, tipo_avaliacao, bimestre, notas } = req.body;
 
-        if (!Array.isArray(notas)) {
-            return res.status(400).json({ erro: "O campo 'notas' deve ser um array com id_aluno e valor." });
+        if (!Array.isArray(notas) || !id_professor || !id_turma || !id_materia || !bimestre) {
+            return res.status(400).json({ erro: "Dados obrigatórios faltando ou inválidos." });
         }
 
         try {
@@ -149,24 +149,68 @@ export class ProfController {
                 return res.status(404).json({ erro: "Professor não associado a essa turma." });
             }
 
-            // Cria o registro da avaliação
-            const nota = await prisma.nota.create({
-                data: {
-                    id_professor,
-                    id_turma,
-                    id_materia,
-                    tipo_avaliacao,
-                    notasAlunos: {
-                        create: notas.map(n => ({
-                            id_aluno: n.id_aluno,
-                            valor: n.valor
-                        }))
-                    }
-                },
-                include: { notasAlunos: true }
-            });
+            const resultados = [];
 
-            return res.status(200).json({ sucesso: "Notas lançadas com sucesso!", nota });
+            for (const n of notas) {
+                const { id_aluno, valor } = n;
+                // Procura se já existe nota para esse aluno/matéria/turma/bimestre
+                let notaExistente = await prisma.nota.findFirst({
+                    where: {
+                        id_professor,
+                        id_turma,
+                        id_materia,
+                        tipo_avaliacao: bimestre
+                    }
+                });
+
+                let notaAluno;
+                if (!notaExistente) {
+                    // Cria a nota e o registro do aluno
+                    notaExistente = await prisma.nota.create({
+                        data: {
+                            id_professor,
+                            id_turma,
+                            id_materia,
+                            tipo_avaliacao: bimestre,
+                            notasAlunos: {
+                                create: {
+                                    id_aluno,
+                                    valor
+                                }
+                            }
+                        },
+                        include: { notasAlunos: true }
+                    });
+                    notaAluno = notaExistente.notasAlunos[0];
+                } else {
+                    // Verifica se já existe nota para o aluno
+                    const notaAlunoExistente = await prisma.notaAluno.findFirst({
+                        where: {
+                            id_nota: notaExistente.id_nota,
+                            id_aluno
+                        }
+                    });
+                    if (notaAlunoExistente) {
+                        // Atualiza a nota do aluno
+                        notaAluno = await prisma.notaAluno.update({
+                            where: { id_nota_aluno: notaAlunoExistente.id_nota_aluno },
+                            data: { valor }
+                        });
+                    } else {
+                        // Cria nota para o aluno
+                        notaAluno = await prisma.notaAluno.create({
+                            data: {
+                                id_nota: notaExistente.id_nota,
+                                id_aluno,
+                                valor
+                            }
+                        });
+                    }
+                }
+                resultados.push({ id_aluno, valor: notaAluno.valor });
+            }
+
+            return res.status(200).json({ sucesso: "Notas lançadas/atualizadas com sucesso!", resultados });
         } catch (error) {
             return res.status(500).json({ erro: "Erro ao lançar notas", detalhes: error.message });
         }
