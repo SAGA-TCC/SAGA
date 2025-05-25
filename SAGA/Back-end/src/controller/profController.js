@@ -73,43 +73,36 @@ export class ProfController {
 
     // Realiza a chamada dos alunos de uma turma associada ao professor
     async realizarChamada(req, res) {
-        const { id_professor, id_turma, id_materia, data, presencas } = req.body;
         try {
-            // Verifica se o professor está associado à turma
-            const professorTurma = await prisma.professorTurma.findFirst({
-                where: {
-                    id_professor,
-                    id_turma
-                }
-            });
-            if (!professorTurma) {
-                return res.status(404).json({ erro: "Turma não encontrada ou professor não associado a esta turma." });
+            console.log("REQ BODY:", req.body); // <-- Adicione isso
+            const { id_professor, id_turma, data, presencas } = req.body;
+
+            if (!id_professor || !id_turma || !data || !Array.isArray(presencas)) {
+                return res.status(400).json({ erro: "Dados obrigatórios faltando ou inválidos." });
             }
 
-            // Cria a chamada
+            // Cria a chamada e as presenças associadas
             const chamada = await prisma.chamada.create({
                 data: {
                     id_professor,
                     id_turma,
-                    id_materia,
-                    data: new Date(data)
+                    data: new Date(data),
+                    presencas: {
+                        create: presencas.map(p => ({
+                            id_aluno: p.id_aluno,
+                            presente: p.presente
+                        }))
+                    }
+                },
+                include: {
+                    presencas: true
                 }
             });
 
-            // Cria as presenças
-            for (const presenca of presencas) {
-                await prisma.presenca.create({
-                    data: {
-                        id_chamada: chamada.id_chamada,
-                        id_aluno: presenca.id_aluno,
-                        presente: presenca.presente
-                    }
-                });
-            }
-
-            res.json({ mensagem: "Chamada lançada com sucesso!" });
+            return res.status(201).json({ mensagem: "Chamada lançada com sucesso!", chamada });
         } catch (error) {
-            res.status(500).json({ erro: "Erro ao lançar chamada." });
+            console.error("Erro ao lançar chamada:", error);
+            return res.status(500).json({ erro: "Erro ao lançar chamada", detalhes: error.message });
         }
     }
 

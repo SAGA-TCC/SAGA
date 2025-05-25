@@ -3,13 +3,27 @@ document.addEventListener("DOMContentLoaded", async function () {
     const btnLancar = document.querySelector(".botao-lancar");
 
     const token = localStorage.getItem("token");
-    const id_professor = localStorage.getItem("userId");
+    const id_user = localStorage.getItem("userId");
     const id_turma = localStorage.getItem("id_turma_selecionada");
     const id_materia = localStorage.getItem("id_materia_selecionada");
 
-    if (!token || !id_professor || !id_turma || !id_materia) {
+    if (!token || !id_user || !id_turma || !id_materia) {
         alert("Dados de chamada não encontrados!");
         window.location.href = "Chamada.html";
+        return;
+    }
+
+    // Busca o id_professor pelo id_user
+    let id_professor = null;
+    try {
+        const resp = await fetch(`http://localhost:8081/professor/user/${id_user}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!resp.ok) throw new Error();
+        const prof = await resp.json();
+        id_professor = prof.id_professor;
+    } catch (e) {
+        alert("Erro ao buscar professor.");
         return;
     }
 
@@ -78,7 +92,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 body: JSON.stringify({
                     id_professor,
                     id_turma,
-                    id_materia,
                     data: new Date().toISOString(),
                     presencas
                 })
