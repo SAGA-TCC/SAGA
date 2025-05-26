@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnSair.addEventListener('click', () => {
       localStorage.clear();
       // Redirecionar para a página de login
-      window.location.href = '../Login/Login.html';
+      window.location.href = '../../Login/Login.html';
     });
   }
   

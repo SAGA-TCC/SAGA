@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<head>    <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Cadastrar Turma</title>
-    <link rel="stylesheet" href="../Css Base/base.css">
-    <link rel="stylesheet" href="css/info.css">
-    <script src="../Js/menu.js"></script>
-    <script src="../Js/verificaToken.js"></script>
-    <script src="Js/cadastrarTurma.js"></script>
+    <title>SAGA - Editar Turma</title>
+    <link rel="stylesheet" href="../../Css Base/base.css">
+    <link rel="stylesheet" href="../css/info.css">
+    <link rel="stylesheet" href="../css/editarTurma.css">
+    <script src="../../Js/menu.js"></script>
+    <script src="../../Js/verificaToken.js"></script>
+    <script src="../Js/editarTurma.js"></script>
 </head>
 
 <body>
     <header>
-        <img src="../Img/logo.svg" alt="Logo SAGA" class="logo">
+        <img src="../../Img/logo.svg" alt="Logo SAGA" class="logo">
         <div class="perfil">
             Olá, <b>Carregando...</b>
             <div class="circulo"></div>
@@ -26,9 +28,10 @@
     </header>
 
     <main class="container">
-        <div class="content-box">            <h1>Cadastrar Turma</h1>
+        <div class="content-box">
+            <h1>Editar Turma</h1>
 
-            <form id="cadastrarTurmaForm" class="form-grid">
+            <form id="editarTurmaForm" class="form-grid">
                 <div class="input-group half-width">
                     <label for="nomeTurma">Nome da Turma:</label>
                     <input type="text" id="nomeTurma" required>
@@ -46,12 +49,15 @@
 
                 <div class="input-group half-width">
                     <label for="cursosSelect">Curso:</label>
-                    <select id="cursosSelect" required>
-                        <option value="">Selecione um curso...</option>
-                    </select>                </div>
+                    <div class="seletor-modulo">
+                        <select id="cursosSelect" required>
+                            <option value="">Selecione um curso...</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="input-group full-width">
-                    <button type="submit">Cadastrar Turma</button>
+                    <button type="submit">Salvar Alterações</button>
                 </div>
             </form>
         </div>

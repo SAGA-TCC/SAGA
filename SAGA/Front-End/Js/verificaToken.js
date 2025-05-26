@@ -6,7 +6,7 @@ function verificaToken() {
     if (!token) {
         console.error("Token não encontrado no localStorage");
         alert("Token não encontrado. Faça login novamente.");
-        window.location.href = "../../Front-End/Login/Login.html";
+        window.location.href = "../../Login/Login.html";
         return;
     }
     
@@ -39,7 +39,7 @@ function verificaToken() {
                 localStorage.removeItem('token');
                 
                 alert("Sua sessão expirou. Por favor, faça login novamente.");
-                window.location.href = "../../Front-End/Login/Login.html";
+                window.location.href = "../../Login/Login.html";
             } else {
                 console.error(`Erro na verificação do token: ${response.status} - ${response.statusText}`);
                 throw new Error(`Falha na verificação do token: ${response.status}`);

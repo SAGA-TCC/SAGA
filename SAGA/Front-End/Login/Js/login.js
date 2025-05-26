@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             break;
                         case 'secretaria':
                         case 1: // Assumindo que 1 é o código para secretaria
-                            window.location.href = '../Secretaria/HomeSecretaria.html';
+                            window.location.href = '../Secretaria/Page/HomeSecretaria.html';
                             break;
                         case 'aluno':
                         case 3: // Assumindo que 3 é o código para aluno

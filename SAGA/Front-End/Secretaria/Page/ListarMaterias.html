@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGA - Matérias</title>
+    <link rel="stylesheet" href="../../Css Base/base.css">
+    <link rel="stylesheet" href="../../Css Base/tabela.css">
+    <link rel="stylesheet" href="../../Css Base/barraPesquisa.css">
+    <script src="../../Js/menu.js"></script>
+    <script src="../../Js/verificaToken.js"></script>
+    <script src="../Js/ListarMaterias.js"></script>
+
+    <style>
+        .seletor-modulo {
+            text-align: center;
+            margin: 5px;
+        }
+
+        .seletor-modulo select {
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .filter-box{
+            margin-bottom: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <img src="../../Img/logo.svg" alt="Logo SAGA" class="logo">
+        <div class="perfil">
+            Olá, <b>Carregando...</b>
+            <div class="circulo"></div>
+            <div class="menu-suspenso" id="menuSuspenso">
+                <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
+                <p>Carregando...<br><small>Carregando...</small></p>
+                <button class="sair">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content-box">
+            <h1>Listar Matérias</h1>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Pesquisar...">
+                <button>
+                    <img src="../../Img/Search.svg">
+                </button>
+            </div>
+
+            <div class="filter-box">
+                <label for="cursosSelect">Filtrar por Curso:</label>
+                <div class="seletor-modulo">
+                    <select id="cursosSelect">
+                        <option value="">Todos os Cursos</option>
+                    </select>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Carga Horária</th>
+                        <th>Curso</th>
+                        <th> </th>
+                        <th> </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody id="ListaDisciplinaTableBody">
+                    <!-- Dados serão inseridos pelo JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer>
+        Copyright &copy; 2024 - All Rights Reserved - SAGA
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>n
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGA - Detalhes da Turma</title>
+    <link rel="stylesheet" href="../../Css Base/base.css">
+    <link rel="stylesheet" href="../../Css Base/tabela.css">
+    <link rel="stylesheet" href="../../Css Base/barraPesquisa.css">
+    <link rel="stylesheet" href="../../Css Base/botoesTabela.css">
+    <link rel="stylesheet" href="../css/consultarTurma.css">
+    <script src="../../Js/menu.js"></script>
+    <script src="../../Js/verificaToken.js"></script>
+</head>
+
+<body>
+    <header class="navbar">
+        <img src="../../Img/logo.svg" alt="Logo SAGA" class="logo">
+        <div class="perfil">
+            Olá, <b>Carregando...</b>
+            <div class="circulo"></div>
+            <div class="menu-suspenso" id="menuSuspenso">
+                <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
+                <p>Carregando...<br><small>Carregando...</small></p>
+                <button class="sair">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content-box">
+            <h1 id="turma-titulo">Detalhes da Turma</h1>
+
+            <button class="voltar-btn" onclick="window.location.href='ListarTurmas.html'">
+                &#8592; Voltar para Lista de Turmas
+            </button>
+
+            <div id="loading-indicator" class="loading">Carregando informações da turma...</div>
+
+            <div id="turma-detalhes" style="display: none;">
+                <div class="estatisticas">
+                    <div class="estatistica-item">
+                        <div class="estatistica-numero" id="total-alunos">0</div>
+                        <div class="estatistica-label">Alunos</div>
+                    </div>
+                    <div class="estatistica-item">
+                        <div class="estatistica-numero" id="total-professores">0</div>
+                        <div class="estatistica-label">Professores</div>
+                    </div>
+                </div>
+
+                <div class="detalhes-turma">
+                    <div class="info-card">
+                        <h3>Informações da Turma</h3>
+                        <ul class="info-lista" id="info-turma">
+                            <li><strong>Código:</strong> <span id="turma-codigo"></span></li>
+                            <li><strong>Nome:</strong> <span id="turma-nome"></span></li>
+                            <li><strong>Data de Início:</strong> <span id="turma-data-inicio"></span></li>
+                            <li><strong>Semestres:</strong> <span id="turma-semestres"></span></li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Informações do Curso</h3>
+                        <ul class="info-lista" id="info-curso">
+                            <li><strong>Nome:</strong> <span id="curso-nome"></span></li>
+                            <li><strong>Código:</strong> <span id="curso-codigo"></span></li>
+                            <li><strong>Período:</strong> <span id="curso-periodo"></span></li>
+                            <li><strong>Carga Horária:</strong> <span id="curso-ch-total"></span></li>
+                            <li><strong>Frequência Mínima:</strong> <span id="curso-freq-min"></span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="alunos">Alunos</button>
+                    <button class="tab-button" data-tab="professores">Professores</button>
+                </div>
+
+                <div class="tab-content active" id="alunos-tab">
+                    <div class="search-box">
+                        <input type="text" id="busca-alunos" placeholder="Buscar alunos...">
+                        <button>
+                            <img src="../../Img/Search.svg" alt="Pesquisar">
+                        </button>
+                    </div>
+
+                    <div class="aluno-grid" id="alunos-lista">
+                        <!-- Alunos serão inseridos aqui pelo JavaScript -->
+                    </div>
+                </div>
+
+                <div class="tab-content" id="professores-tab">
+                    <div class="search-box">
+                        <input type="text" id="busca-professores" placeholder="Buscar professores...">
+                        <button>
+                            <img src="../../Img/Search.svg" alt="Pesquisar">
+                        </button>
+                    </div>
+
+                    <div class="professor-grid" id="professores-lista">
+                        <!-- Professores serão inseridos aqui pelo JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        Copyright © 2024 - All Rights Reserved - SAGA
+    </footer>
+
+    <script src="../Js/ConsultarTurma.js"></script>
+</body>
+
+</html>
