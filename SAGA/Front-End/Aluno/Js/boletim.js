@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function carregarModulo(modulo) {
         tableBody.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
         try {
-            const token = localStorage.getItem("token"); // Ajuste se o token estiver em outro local
+            const token = localStorage.getItem("token");
             const response = await fetch(`http://localhost:8081/aluno/modulo/${modulo}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -26,19 +26,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             const data = await response.json();
 
-            // data.materias deve ser um array de matérias
             tableBody.innerHTML = "";
             if (data.materias && data.materias.length > 0) {
                 data.materias.forEach(item => {
-                    // Simulação dos bimestres (ajuste conforme sua API retornar notas futuramente)
-                    const bimestre1 = "-";
-                    const bimestre2 = "-";
                     tableBody.innerHTML += `
                         <tr>
                             <td>${item.nome}</td>
-                            <td>${bimestre1}</td>
-                            <td>${bimestre2}</td>
-                            <td>${data.frequencia || "-"}</td>
+                            <td>${item.notaB1 !== undefined && item.notaB1 !== null && item.notaB1 !== "-" ? item.notaB1 : "Sem nota"}</td>
+                            <td>${item.notaB2 !== undefined && item.notaB2 !== null && item.notaB2 !== "-" ? item.notaB2 : "Sem nota"}</td>
+                            <td>${item.frequencia ?? "-"}</td>
                         </tr>
                     `;
                 });

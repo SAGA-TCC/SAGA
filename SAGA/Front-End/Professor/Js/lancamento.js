@@ -1,28 +1,72 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const tabela = document.getElementById("tabelaLancamento");
     const btnLancar = document.querySelector(".btn-lancar");
-    const selectModulo = document.querySelectorAll(".select-group select")[0];
-    const selectMateria = document.querySelectorAll(".select-group select")[1];
+    const selectModulo = document.getElementById("selectModulo");
+    const selectMateria = document.getElementById("selectMateria");
 
     let alunos = [];
-    let id_turma = ""; // Defina conforme o contexto do professor logado
-    let id_professor = ""; // Defina conforme o contexto do professor logado
-    let id_materia = ""; // Defina conforme a matéria selecionada
+    let id_turma = "";
+    let id_professor = "";
+    let id_materia = "";
 
-    // Exemplo: buscar id_professor e id_turma do localStorage/session ou API
+    const token = localStorage.getItem("token");
+    const id_user = localStorage.getItem("userId");
 
-    // Função para buscar alunos da turma
+    // Busca o id_professor pelo id_user
+    async function buscarIdProfessor() {
+        if (!id_user) return "";
+        const resp = await fetch(`http://localhost:8081/professor/user/${id_user}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (resp.ok) {
+            const prof = await resp.json();
+            return prof.id_professor;
+        }
+        return "";
+    }
+
+    // Popula o select de módulos (turmas)
+    async function popularModulos() {
+        const resp = await fetch(`http://localhost:8081/prof/turmas/${id_professor}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (resp.ok) {
+            const turmas = await resp.json();
+            selectModulo.innerHTML = `<option value="">Selecione o Módulo</option>`;
+            turmas.forEach(turma => {
+                selectModulo.innerHTML += `<option value="${turma.id_turma}">${turma.nome}</option>`;
+            });
+        }
+    }
+
+    // Popula o select de matérias conforme o professor
+    async function popularMaterias() {
+        const resp = await fetch(`http://localhost:8081/prof/materias/${id_professor}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (resp.ok) {
+            const materias = await resp.json();
+            selectMateria.innerHTML = `<option value="">Selecione a Matéria</option>`;
+            materias.forEach(materia => {
+                selectMateria.innerHTML += `<option value="${materia.id_materia}">${materia.nome}</option>`;
+            });
+        }
+    }
+
+    // Busca alunos da turma selecionada
     async function buscarAlunos() {
-        if (!id_turma) return;
-        const token = localStorage.getItem("token");
+        if (!id_turma || !id_materia) {
+            tabela.innerHTML = "";
+            return;
+        }
         const resp = await fetch(`http://localhost:8081/prof/alunos-turma/${id_turma}`, {
             headers: { Authorization: `Bearer ${token}` }
         });
-        alunos = await resp.json();
+        alunos = resp.ok ? await resp.json() : [];
         renderTabela();
     }
 
-    // Função para renderizar tabela com inputs
+    // Renderiza a tabela de alunos com inputs de notas
     function renderTabela() {
         tabela.innerHTML = "";
         alunos.forEach((aluno, idx) => {
@@ -37,21 +81,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Ao mudar módulo ou matéria, buscar alunos
+    // Eventos de mudança nos selects
     selectModulo.addEventListener("change", () => {
-        // Atualize id_turma conforme seleção
-        // id_turma = ...;
+        id_turma = selectModulo.value;
         buscarAlunos();
     });
     selectMateria.addEventListener("change", () => {
-        // Atualize id_materia conforme seleção
-        // id_materia = ...;
+        id_materia = selectMateria.value;
         buscarAlunos();
     });
 
     // Lançar notas
     btnLancar.addEventListener("click", async () => {
-        const token = localStorage.getItem("token");
+        if (!id_professor || !id_turma || !id_materia) {
+            alert("Selecione módulo e matéria!");
+            return;
+        }
         // 1º Bimestre
         const notas1 = Array.from(document.querySelectorAll(".nota1")).map(input => ({
             id_aluno: input.dataset.id,
@@ -63,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
             valor: parseFloat(input.value)
         })).filter(n => !isNaN(n.valor));
 
-        // Envia para o back-end (um request para cada bimestre)
         if (notas1.length > 0) {
             await fetch("http://localhost:8081/prof/lancarNotas", {
                 method: "POST",
@@ -101,7 +145,12 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Notas lançadas com sucesso!");
     });
 
-    // Inicialização
-    // Defina id_turma, id_professor, id_materia conforme contexto do professor logado
-    // buscarAlunos();
+    // Inicialização: buscar id_professor antes de popular selects
+    id_professor = await buscarIdProfessor();
+    if (!id_professor) {
+        alert("Usuário não é professor ou não está cadastrado corretamente!");
+        return;
+    }
+    await popularModulos();
+    await popularMaterias();
 });

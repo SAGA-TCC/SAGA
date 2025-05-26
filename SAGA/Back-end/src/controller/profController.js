@@ -223,11 +223,11 @@ export class ProfController {
                 where: { id_user }
             });
             if (!professor) {
-                return res.status(404).json({ error: "Professor não encontrado" });
+                return res.status(404).json({ error: "Professor não encontrado para este usuário" });
             }
             res.json(professor);
         } catch (error) {
-            res.status(500).json({ error: "Erro ao buscar professor" });
+            res.status(500).json({ error: "Erro ao buscar professor", detalhes: error.message });
         }
     }
 
