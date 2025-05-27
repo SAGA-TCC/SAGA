@@ -14,18 +14,46 @@
 </head>
 
 <body>
-  <header>
-    <img src="../../Img/logo.svg" alt="Logo SAGA" class="logo">
-    <div class="perfil">
-      Olá, <b>Carregando...</b>
-      <div class="circulo"></div>
-      <div class="menu-suspenso" id="menuSuspenso">
-        <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
-        <p>Carregando...<br><small>Carregando...</small></p>
-        <button class="sair">Sair</button>
-      </div>
-    </div>
-  </header>
+<header class="navbar">
+        <img src="../../Img/logo.svg" alt="SAGA Logo">
+
+        <nav class="nav-links">
+            <a href="HomeSecretaria.html">Home</a>
+
+            <div class="dropdown">
+                <button class="dropbtn">Cadastro</button>
+                <div class="dropdown-content">
+                    <a href="Cadastro.html">Usuários</a>
+                    <a href="cadastroCurso.html">Curso</a>
+                    <a href="cadastroMateria.html">Matérias</a>
+                    <a href="CadastrarTurma.html">Turmas</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Listar</button>
+                <div class="dropdown-content">
+                    <a href="listarUsuarios.html">Usuários</a>
+                    <a href="listarCursos.html">Curso</a>
+                    <a href="listarMaterias.html">Matérias</a>
+                    <a href="listarTurmas.html">Turmas</a>
+                </div>
+            </div>
+
+            <a href="info.html">Info</a>
+            <a href="Ajuda.html">Ajuda</a>
+        </nav>
+        
+        <div class="perfil">
+            Olá, <b>Carregando...</b>
+            <div class="circulo"></div>
+            <div class="menu-suspenso" id="menuSuspenso">
+                <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
+                <p>Carregando...<br><small>Carregando...</small></p>
+                <button class="sair">Sair</button>
+            </div>
+        </div>
+    </header>
 
   <main class="container">
     <div class="content-box">

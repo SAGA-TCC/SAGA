@@ -1,0 +1,130 @@
+.navbar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #1a1a4b;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    height: 56px; 
+    gap: 20px;
+    flex-grow: 1;
+    margin-left: 0px;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 56px;
+}
+
+.dropbtn {
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1a1a4b;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 10;
+    border-radius: 8px;
+    top: 100%;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: normal;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropbtn:hover {
+    text-decoration: none;
+}
+
+.dropbtn,
+.dropbtn:hover,
+.dropbtn:focus,
+.nav-links a,
+.nav-links a:hover,
+.nav-links a:focus {
+    text-decoration: none !important;
+    margin: 0px !important;
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-suspenso {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    color: #1a1a40;
+    border-radius: 10px;
+    padding: 15px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 100;
+    margin-top: 5px;
+}
+
+.menu-suspenso.ativo {
+    display: block;
+}
+
+.circulo {
+    width: 56px;
+    height: 56px;
+    background: white;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
