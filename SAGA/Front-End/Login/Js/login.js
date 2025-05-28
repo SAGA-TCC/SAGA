@@ -147,4 +147,65 @@ document.addEventListener('DOMContentLoaded', function() {
         loginButton.disabled = false;
         loginButton.textContent = 'Entrar';
     }
+    
+    // --- INÍCIO: Login com Google ---
+    window.handleGoogleCredentialResponse = async function(response) {
+        // O id_token do Google
+        const id_token = response.credential;
+        try {
+            const res = await fetch('http://localhost:8081/login/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ id_token })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                // Salva dados no localStorage igual ao login normal
+                localStorage.setItem('token', data.token);
+                if (data.tipo) localStorage.setItem('tipo', data.tipo);
+                if (data.id_user) localStorage.setItem('userId', data.id_user);
+                if (data.nome) localStorage.setItem('nomeUsuario', data.nome);
+                if (data.emailDoBanco) localStorage.setItem('emailUsuario', data.emailDoBanco);
+                if (data.ft_perfil) localStorage.setItem('fotoPerfil', data.ft_perfil);
+
+                // Redireciona conforme o tipo
+                switch(data.tipo) {
+                    case 'professor':
+                    case 2:
+                        window.location.href = '../Professor/Page/HomeProfessor.html';
+                        break;
+                    case 'secretaria':
+                    case 1:
+                        window.location.href = '../Secretaria/Page/HomeSecretaria.html';
+                        break;
+                    case 'aluno':
+                    case 3:
+                        window.location.href = '../Aluno/Page/HomeAluno.html';
+                        break;
+                    default:
+                        window.location.href = '../index.html';
+                }
+            } else {
+                showErrorMessage('Erro no login com Google: ' + (data.error || 'Tente novamente.'));
+            }
+        } catch (error) {
+            showErrorMessage('Erro ao conectar com o servidor: ' + error.message);
+        }
+    };
+
+    // Renderiza o botão do Google
+    window.onload = function () {
+        google.accounts.id.initialize({
+            client_id: '893107006356-bsmaaq8od6hoi8b9vn92mof6i84gdf2k.apps.googleusercontent.com',
+            callback: handleGoogleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+            document.getElementById("googleSignInBtn"),
+            { theme: "outline", size: "large", width: "100%" }
+        );
+    };
+    // --- FIM: Login com Google ---
 });

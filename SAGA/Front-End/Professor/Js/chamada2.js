@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const token = localStorage.getItem("token");
     const id_user = localStorage.getItem("userId");
+    console.log("id_user:", id_user); // Adicione esta linha para depuração
     const id_turma = localStorage.getItem("id_turma_selecionada");
     const id_materia = localStorage.getItem("id_materia_selecionada");
 
@@ -107,4 +108,72 @@ document.addEventListener("DOMContentLoaded", async function () {
             alert("Erro ao lançar chamada.");
         }
     });
+
+    // Função para lançar chamada (pode ser chamada no clique do botão)
+    async function lancarChamada() {
+        const token = localStorage.getItem("token");
+        const id_user = localStorage.getItem("userId");
+        const id_turma = localStorage.getItem("id_turma_selecionada");
+
+        // Buscar id_professor pelo id_user
+        let id_professor = null;
+        try {
+            const resp = await fetch(`http://localhost:8081/professor/user/${id_user}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (!resp.ok) throw new Error();
+            const prof = await resp.json();
+            id_professor = prof.id_professor;
+        } catch (e) {
+            alert("Erro ao buscar professor.");
+            return;
+        }
+
+        // Buscar alunos da turma
+        let alunos = [];
+        try {
+            const resp = await fetch(`http://localhost:8081/prof/alunos/${id_turma}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            alunos = await resp.json();
+        } catch (e) {
+            alert("Erro ao buscar alunos da turma.");
+            return;
+        }
+
+        // Montar array de presenças (exemplo: todos presentes)
+        const presencas = alunos.map(aluno => ({
+            id_aluno: aluno.id_aluno,
+            presente: true // ou false, conforme status do botão
+        }));
+
+        // Enviar chamada para o backend
+        try {
+            const resp = await fetch("http://localhost:8081/prof/chamada", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    id_professor,
+                    id_turma,
+                    data: new Date().toISOString(),
+                    presencas
+                })
+            });
+            const result = await resp.json();
+            if (resp.ok) {
+                alert("Chamada lançada com sucesso!");
+                window.location.href = "Chamada.html";
+            } else {
+                alert(result.erro || "Erro ao lançar chamada.");
+            }
+        } catch (e) {
+            alert("Erro ao lançar chamada.");
+        }
+    }
+
+    // Exemplo de uso: botão
+    document.querySelector(".botao-lancar").addEventListener("click", lancarChamada);
 });

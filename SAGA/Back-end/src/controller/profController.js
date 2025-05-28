@@ -36,7 +36,11 @@ export class ProfController {
                     user: true
                 }
             });
-            return res.status(200).json(alunos.map(v => v.user));
+            // Retorna id_aluno + dados do usuário
+            return res.status(200).json(alunos.map(v => ({
+                id_aluno: v.id_aluno,
+                ...v.user
+            })));
         } catch (error) {
             return res.status(500).json({ erro: "Erro ao buscar alunos da turma", detalhes: error.message });
         }
@@ -74,11 +78,14 @@ export class ProfController {
     // Realiza a chamada dos alunos de uma turma associada ao professor
     async realizarChamada(req, res) {
         try {
-            console.log("REQ BODY:", req.body); // <-- Adicione isso
             const { id_professor, id_turma, data, presencas } = req.body;
 
             if (!id_professor || !id_turma || !data || !Array.isArray(presencas)) {
                 return res.status(400).json({ erro: "Dados obrigatórios faltando ou inválidos." });
+            }
+
+            if (presencas.length === 0) {
+                return res.status(400).json({ erro: "Nenhuma presença informada." });
             }
 
             // Cria a chamada e as presenças associadas
