@@ -47,8 +47,8 @@ A estrutura do sistema é modular e escalável, permitindo expansões futuras co
 
 ### 1️⃣ Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/sistema-gestao-escolar.git
-cd sistema-gestao-escolar
+git clone https://github.com/SAGA-TCC/SAGA.git
+cd SAGA
 ```
 
 ### 2️⃣ Instale as dependências
@@ -60,7 +60,7 @@ npm install
 Crie um arquivo `.env` na raiz com as seguintes variáveis:
 
 ```env
-DATABASE_URL="sua-url-do-supabase"
+DATABASE_URL="sua-url-do-banco-de-dados"
 PORT=3000
 ```
 
@@ -99,7 +99,7 @@ Abra o arquivo `index.html` localizado na pasta `public/` no seu navegador ou ut
 
 ## 🖼️ Imagens
 
-### 📋 Lista de Alunos  
+### 📋 Chamada  
 ![Lista de Alunos](https://via.placeholder.com/800x400.png?text=Lista+de+Alunos)
 
 ### 🧑 Cadastro de Professores  
