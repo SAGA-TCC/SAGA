@@ -8,13 +8,16 @@
     <link rel="stylesheet" href="../../Css Base/base.css">
     <link rel="stylesheet" href="../css/info.css">
     <link rel="stylesheet" href="../css/headerDropdown.css">
+    <link rel="stylesheet" href="../css/cadastroTurma.css">
     <script src="../../Js/menu.js"></script>
     <script src="../../Js/verificaToken.js"></script>
     <script src="../Js/cadastrarTurma.js"></script>
+
+
 </head>
 
 <body>
-<header class="navbar">
+    <header class="navbar">
         <img src="../../Img/logo.svg" alt="SAGA Logo">
 
         <nav class="nav-links">
@@ -43,7 +46,7 @@
             <a href="info.html">Info</a>
             <a href="Ajuda.html">Ajuda</a>
         </nav>
-        
+
         <div class="perfil">
             Olá, <b>Carregando...</b>
             <div class="circulo"></div>
@@ -76,10 +79,12 @@
                 </div>
 
                 <div class="input-group half-width">
-                    <label for="cursosSelect">Curso:</label>
-                    <select id="cursosSelect" required>
-                        <option value="">Selecione um curso...</option>
-                    </select>
+                    <div class="seletor-modulo">
+                        <label for="cursosSelect">Curso:</label>
+                        <select id="cursosSelect" required>
+                            <option value="">Selecione um curso...</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="input-group full-width">

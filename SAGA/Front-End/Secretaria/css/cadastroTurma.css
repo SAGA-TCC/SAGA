@@ -86,4 +86,22 @@
     flex: 1 1 250px; 
   }
   
+  .seletor-modulo {
+    text-align: center;
+}
+
+.seletor-modulo select {
+    padding: 10px;
+    background-color: white;
+    color: black;
+    font-size: 16;
+    font-weight: bold;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    text-align: justify;
+    margin-top: 20px;
+}
+
+
   
