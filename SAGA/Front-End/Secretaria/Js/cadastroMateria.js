@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('disciplinaForm');
     const cursosSelect = document.getElementById('cursoDisciplina');
+    const professoresSelect = document.getElementById('professorDisciplina');
 
     // Função para carregar cursos
     async function carregarCursos() {
@@ -40,6 +41,44 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Função para carregar professores
+    async function carregarProfessores() {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                window.location.href = '../Login/Login.html';
+                return;
+            }
+
+            const response = await fetch('http://localhost:8081/sec/listarProfessores', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao carregar professores');
+            }
+
+            const professores = await response.json();
+
+            // Limpa o select
+            professoresSelect.innerHTML = '<option value="">Selecione um professor...</option>';
+
+            // Adiciona os professores ao select
+            professores.forEach(prof => {
+                const option = document.createElement('option');
+                option.value = prof.id_professor;
+                option.textContent = prof.nome + (prof.email ? ` (${prof.email})` : '');
+                professoresSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao carregar professores. Por favor, tente novamente.');
+        }
+    }
+
     // Função para cadastrar matéria
     async function cadastrarMateria(event) {
         event.preventDefault();
@@ -49,8 +88,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const frequencia = document.getElementById('frequenciaDisciplina').value;
         const descricao = document.getElementById('descricaoDisciplina').value;
         const cursoId = cursosSelect.value;
+        const professorId = professoresSelect.value; // Pega o professor selecionado
 
-        if (!nomeDisciplina || !cargaHoraria || !frequencia || !descricao || !cursoId) {
+        if (!nomeDisciplina || !cargaHoraria || !frequencia || !descricao || !cursoId || !professorId) {
             alert('Por favor, preencha todos os campos.');
             return;
         }
@@ -63,11 +103,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
+            // Inclui o id_prof no cadastro da matéria
             const materiaData = {
                 nome: nomeDisciplina,
                 descricao: descricao,
                 ch_total: cargaHoraria.toString(),
-                freq_min: frequencia.toString()
+                freq_min: frequencia.toString(),
+                id_prof: professorId
             };
 
             const response = await fetch(`http://localhost:8081/sec/materia/${cursoId}`, {
@@ -96,6 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Adiciona o evento de submit ao formulário
     form.addEventListener('submit', cadastrarMateria);
 
-    // Carrega os cursos ao iniciar a página
+    // Carrega os cursos e professores ao iniciar a página
     carregarCursos();
+    carregarProfessores();
 });

@@ -34,7 +34,7 @@ model Professor {
   turmasRelation ProfessorTurma[]
   notas Nota[]
   Chamadas Chamada[]
-
+  materias Materia[]
   @@map("professor")
 }
 
@@ -84,9 +84,12 @@ model Materia {
   ch_total   String
   freq_min   String
   id_curso   String
-
+  id_prof    String?
+  
   curso Curso @relation(fields: [id_curso], references: [id_curso])
+  professor Professor? @relation(fields: [id_prof], references: [id_professor])
   notas Nota[]
+
 
   @@map("materia")
 }

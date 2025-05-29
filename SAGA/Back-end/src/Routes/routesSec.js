@@ -50,3 +50,4 @@ routerSec.put('/sec/Turma/editar/:id', tokenAuthenticate, secController.editarTu
 routerSec.get('/sec/Turma/consultar/:id_turma', tokenAuthenticate, secController.consultarTurma)
 routerSec.delete('/sec/Turma/removerAluno/:id_aluno', tokenAuthenticate, secController.removerAlunoTurma)
 routerSec.delete('/sec/Turma/removerProfessor/:id_professor/:id_turma', tokenAuthenticate, secController.removerProfessorTurma)
+routerSec.get('/sec/listarProfessores', tokenAuthenticate, secController.listarProfessores);
