@@ -46,4 +46,9 @@ textarea {
   textarea::placeholder {
     color: #bbb;
   }
+
+  select#professorDisciplina {
+    display: flex;
+    max-width: 55%;
+  }
   
