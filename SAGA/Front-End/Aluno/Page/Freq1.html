@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SAGA - Frequência</title>
   <link rel="stylesheet" href="../../Css Base/base.css" />
   <link rel="stylesheet" href="../Css/freq1.css" />
@@ -12,16 +13,28 @@
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script src="../../Js/verificaToken.js"></script>
+  <script src="../../Js/menu.js"></script>
 </head>
+
 <body>
-  <header class="navbar">
-    <img src="../../Img/logo.svg" alt="SAGA Logo" />
-    <nav class="nav-links">
-      <a href="HomeAluno.Html">Home</a>
-      <a href="boletim.html">Boletim</a>
-      <a href="Curso.html">Curso</a>
-    </nav>
-    <div class="profile-icon"></div>
+  <header>
+    <div class="navbar">
+      <img src="../../Img/logo.svg" alt="SAGA Logo" />
+      <nav class="nav-links">
+        <a href="HomeAluno.Html">Home</a>
+        <a href="boletim.html">Boletim</a>
+        <a href="Curso.html">Curso</a>
+      </nav>
+    </div>
+    <div class="perfil">
+      Olá, <b>Carregando...</b>
+      <div class="circulo"></div>
+      <div class="menu-suspenso" id="menuSuspenso">
+        <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
+        <p>Carregando...<br><small>Carregando...</small></p>
+        <button class="sair">Sair</button>
+      </div>
+    </div>
   </header>
 
   <main class="container">
@@ -42,11 +55,11 @@
         </div>
 
         <div class="stats">
-          <p><strong>Faltas</strong><br/>4 Ausências</p>
-          <p><strong>Frequência</strong><br/>4 Presenças</p>
-          <p><strong>Faltas Permitidas no Curso</strong><br/>75 Ausências</p>
-          <p><strong>Total de Aulas</strong><br/>100 Aulas</p>
-          <p><strong>Carga Horária</strong><br/>500 Horas</p>
+          <p><strong>Faltas</strong><br />4 Ausências</p>
+          <p><strong>Frequência</strong><br />4 Presenças</p>
+          <p><strong>Faltas Permitidas no Curso</strong><br />75 Ausências</p>
+          <p><strong>Total de Aulas</strong><br />100 Aulas</p>
+          <p><strong>Carga Horária</strong><br />500 Horas</p>
         </div>
       </div>
     </div>
@@ -58,4 +71,5 @@
 
   <script src="../Js/freq1.js"></script>
 </body>
+
 </html>

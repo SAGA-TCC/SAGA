@@ -9,18 +9,29 @@
     <link rel="stylesheet" href="../Css/info.css">
     <script src="../../Js/verificaToken.js"></script>
     <script src="../Js/infoAluno.js"></script>
+    <script src="../../Js/menu.js"></script>
 </head>
 
 <body>
-    <header class="navbar">
-        <img src="../Img/logo.svg" alt="SAGA Logo">
-        <nav class="nav-links">
-            <a href="HomeAluno.Html">Home</a>
-            <a href="Freq1.html">Frequência</a>
-            <a href="boletim.html">Boletim</a>
-            <a href="Curso.html">Curso</a>
-        </nav>
-        <div class="profile-icon"></div>
+    <header>
+        <div class="navbar">
+            <img src="../Img/logo.svg" alt="SAGA Logo">
+            <nav class="nav-links">
+                <a href="HomeAluno.Html">Home</a>
+                <a href="Freq1.html">Frequência</a>
+                <a href="boletim.html">Boletim</a>
+                <a href="Curso.html">Curso</a>
+            </nav>
+        </div>
+        <div class="perfil">
+            Olá, <b>Carregando...</b>
+            <div class="circulo"></div>
+            <div class="menu-suspenso" id="menuSuspenso">
+                <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
+                <p>Carregando...<br><small>Carregando...</small></p>
+                <button class="sair">Sair</button>
+            </div>
+        </div>
     </header>
 
     <main class="container">
@@ -51,7 +62,7 @@
                             <label for="matricula">Nº Matrícula:</label>
                             <input type="text" id="matricula" value="XXXXX">
                         </div>
-                        
+
                         <div class="input-group small-width">
                             <label for="bairro">Turma:</label>
                             <input type="text" id="turma">
@@ -61,7 +72,7 @@
                             <label for="email">Email:</label>
                             <input type="email" id="email" value="jose.silva.souza@email.example.co.br">
                         </div>
-                        
+
                         <div class="input-group half-width">
                             <label for="telefone">Curso:</label>
                             <input type="text" id="telefone">
@@ -89,7 +100,7 @@
         Copyright &copy; 2024 - All Rights Reserved - SAGA
     </footer>
     <script src="../Js/curso.js"></script>
-    
+
 </body>
 
 </html>
