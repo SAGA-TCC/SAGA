@@ -4,22 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA - Curso</title>
+    <title>SAGA - Informações</title>
     <link rel="stylesheet" href="../../Css Base/base.css">
     <link rel="stylesheet" href="../Css/info.css">
     <script src="../../Js/verificaToken.js"></script>
+    <script src="../../Js/menu.js"></script>
 </head>
 
 <body>
-    <header class="navbar">
-        <img src="../../Img/logo.svg" alt="SAGA Logo">
-        <nav class="nav-links">
-            <a href="HomeProfessor.Html">Home</a>
-            <a href="Chamada.html">Chamada</a>
-            <a href="Lancamento.html">Lançamento</a>
-            <a href="Turma.html">Turma</a>
-        </nav>
-        <div class="profile-icon"></div>
+    <header>
+        <div class="navbar">
+            <img src="../../Img/logo.svg" alt="SAGA Logo">
+            <nav class="nav-links">
+                <a href="HomeProfessor.Html">Home</a>
+                <a href="Chamada.html">Chamada</a>
+                <a href="Lancamento.html">Lançamento</a>
+                <a href="Turma.html">Turma</a>
+            </nav>
+        </div>
+        
+        <div class="perfil">
+            Olá, <b>Carregando...</b>
+            <div class="circulo"></div>
+            <div class="menu-suspenso" id="menuSuspenso">
+                <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
+                <p>Carregando...<br><small>Carregando...</small></p>
+                <button class="sair">Sair</button>
+            </div>
+        </div>
     </header>
 
     <main class="container">
@@ -73,7 +85,7 @@
                             <label for="residencia">Materia:</label>
                             <input type="text" id="materia" value="XXXX" disabled>
                         </div>
-                        
+
                         <button>Editar Dados</button>
                     </div>
                 </div>

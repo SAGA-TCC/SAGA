@@ -91,21 +91,6 @@
     width: 20%;
 }
 
-/* Botão */
-button {
-    margin-top: 20px;
-    background-color: white;
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #000;
-    border-radius: 15px;
-    background: #FFF;
-    margin-left: 90px;
-}
 
 /* Responsividade */
 @media (max-width: 768px) {
