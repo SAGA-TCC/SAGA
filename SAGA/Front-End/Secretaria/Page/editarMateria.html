@@ -6,54 +6,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SAGA - Cadastrar Disciplina</title>
   <link rel="stylesheet" href="../../Css Base/base.css" />
-  <link rel="stylesheet" href="../css/info.css" />
+  <link rel="stylesheet" href="../css/info.css"/>
   <link rel="stylesheet" href="../css/cadastroCurso.css" />
   <link rel="stylesheet" href="../css/headerDropdown.css">
+  <link rel="stylesheet" href="../css/editarTurma.css">
   <script src="../Js/editarMateria.js"></script>
   <script src="../../Js/menu.js"></script>
 </head>
 
 <body>
-<header class="navbar">
-        <img src="../../Img/logo.svg" alt="SAGA Logo">
+  <header class="navbar">
+    <img src="../../Img/logo.svg" alt="SAGA Logo">
 
-        <nav class="nav-links">
-            <a href="HomeSecretaria.html">Home</a>
+    <nav class="nav-links">
+      <a href="HomeSecretaria.html">Home</a>
 
-            <div class="dropdown">
-                <button class="dropbtn">Cadastro</button>
-                <div class="dropdown-content">
-                    <a href="Cadastro.html">Usuários</a>
-                    <a href="cadastroCurso.html">Curso</a>
-                    <a href="cadastroMateria.html">Matérias</a>
-                    <a href="CadastrarTurma.html">Turmas</a>
-                </div>
-            </div>
-
-            <div class="dropdown">
-                <button class="dropbtn">Listar</button>
-                <div class="dropdown-content">
-                    <a href="listarUsuarios.html">Usuários</a>
-                    <a href="listarCursos.html">Curso</a>
-                    <a href="listarMaterias.html">Matérias</a>
-                    <a href="listarTurmas.html">Turmas</a>
-                </div>
-            </div>
-
-            <a href="info.html">Info</a>
-            <a href="Ajuda.html">Ajuda</a>
-        </nav>
-        
-        <div class="perfil">
-            Olá, <b>Carregando...</b>
-            <div class="circulo"></div>
-            <div class="menu-suspenso" id="menuSuspenso">
-                <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
-                <p>Carregando...<br><small>Carregando...</small></p>
-                <button class="sair">Sair</button>
-            </div>
+      <div class="dropdown">
+        <button class="dropbtn">Cadastro</button>
+        <div class="dropdown-content">
+          <a href="Cadastro.html">Usuários</a>
+          <a href="cadastroCurso.html">Curso</a>
+          <a href="cadastroMateria.html">Matérias</a>
+          <a href="CadastrarTurma.html">Turmas</a>
         </div>
-    </header>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropbtn">Listar</button>
+        <div class="dropdown-content">
+          <a href="listarUsuarios.html">Usuários</a>
+          <a href="listarCursos.html">Curso</a>
+          <a href="listarMaterias.html">Matérias</a>
+          <a href="listarTurmas.html">Turmas</a>
+        </div>
+      </div>
+
+      <a href="info.html">Info</a>
+      <a href="Ajuda.html">Ajuda</a>
+    </nav>
+
+    <div class="perfil">
+      Olá, <b>Carregando...</b>
+      <div class="circulo"></div>
+      <div class="menu-suspenso" id="menuSuspenso">
+        <h5>SAGA - Sistema De Administração e Gestão Acadêmica</h5>
+        <p>Carregando...<br><small>Carregando...</small></p>
+        <button class="sair">Sair</button>
+      </div>
+    </div>
+  </header>
 
   <main class="container">
     <div class="content-box">
@@ -71,9 +72,11 @@
 
         <div class="input-group half-width">
           <label for="cursoDisciplina">Curso:</label>
-          <select id="cursoDisciplina" required>
-            <option value="">Selecione um curso...</option>
-          </select>
+          <div class="seletor-modulo">
+            <select id="cursoDisciplina" required>
+              <option value="">Selecione um curso...</option>
+            </select>
+          </div>
         </div>
 
         <div class="input-group half-width">
