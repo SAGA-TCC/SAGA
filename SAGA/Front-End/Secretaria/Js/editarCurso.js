@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             serie.value = curso.periodo;
             frequencia.value = curso.freq_min;
             descricao.value = curso.descricao;
-            codigoCurso.value = curso.id_curso;
+            codigoCurso.value = curso.codigo;
             codigoCurso.disabled = true; // O código não deve ser editável
         } catch (error) {
             console.error('Erro:', error);

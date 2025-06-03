@@ -17,6 +17,8 @@ export class commonController {
             // Retorna os dados do usuário
             return res.status(200).json({
                 id_user: user.id_user,
+                matricula: user.matricula,
+                cpf: user.cpf,
                 nome: user.nome,
                 email: user.email,
                 dt_nasc: user.dt_nasc,
