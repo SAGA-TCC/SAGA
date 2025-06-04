@@ -30,7 +30,7 @@ async function buscarInformacoesUsuario() {
         document.getElementById('nome').value = data.nome || '';
         document.getElementById('email').value = data.email || '';
         document.getElementById('nascimento').value = data.dt_nasc ? new Date(data.dt_nasc).toLocaleDateString() : '';
-        document.getElementById('matricula').value = data.id_user || '';
+        document.getElementById('matricula').value = data.matricula || '';
         document.getElementById('telefone').value = data.telefone || '';
         document.getElementById('turma').value = data.turma || '';
 
