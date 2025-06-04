@@ -77,9 +77,6 @@ select#id_turma {
   box-sizing: border-box;
 }
 
-.campos-especificos{
-    margin-top: -25px;
-}
 
 #turmas_professor{
     background-color: transparent;
