@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", async function () {
     // Variável para armazenar a foto em base64
-    let fotoPerfilBase64 = ""; 
+    let fotoPerfilBase64 = "";
     let usuarioAtual = null;
-    
+
     // Extrai o ID da URL
     const params = new URLSearchParams(window.location.search);
     const id_usuario = params.get("id_user");
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         window.location.href = "../../Front-End/Login/Login.html";
         return;
     }
-    
+
     // Função para redimensionar imagem com melhor otimização
     function resizeImage(base64Str, maxWidth = 400, maxHeight = 400) {
         return new Promise((resolve) => {
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             img.onload = () => {
                 let width = img.width;
                 let height = img.height;
-                
+
                 // Calcular novas dimensões mantendo a proporção
                 if (width > height) {
                     if (width > maxWidth) {
@@ -43,70 +43,70 @@ document.addEventListener("DOMContentLoaded", async function () {
                         height = maxHeight;
                     }
                 }
-                
+
                 const canvas = document.createElement("canvas");
                 canvas.width = width;
                 canvas.height = height;
-                
+
                 const ctx = canvas.getContext("2d");
                 ctx.drawImage(img, 0, 0, width, height);
-                
+
                 // Recuperar tamanho aproximado da imagem
                 const originalSizeKB = Math.round(base64Str.length / 1024);
-                
+
                 // Ajustar a qualidade com base no tamanho da imagem original
                 let quality = 0.7; // Qualidade padrão
-                
+
                 if (originalSizeKB > 1000) {
                     quality = 0.5; // Para imagens maiores que 1MB
                 }
                 if (originalSizeKB > 5000) {
                     quality = 0.3; // Para imagens maiores que 5MB
                 }
-                
+
                 // Retornar imagem redimensionada como base64 com qualidade ajustada
                 const optimizedImage = canvas.toDataURL("image/jpeg", quality);
-                
+
                 // Log para debug
                 console.log(`Imagem original: ~${originalSizeKB}KB, Imagem otimizada: ~${Math.round(optimizedImage.length / 1024)}KB`);
-                
+
                 resolve(optimizedImage);
             };
         });
     }
-    
+
     // Configurar o botão de upload de foto
     const photoUploadButton = document.querySelector(".profile-photo button");
-    photoUploadButton.addEventListener("click", function() {
+    photoUploadButton.addEventListener("click", function () {
         // Criar input de arquivo invisível
         const fileInput = document.createElement("input");
         fileInput.type = "file";
         fileInput.accept = "image/*";
-        
-        fileInput.addEventListener("change", async function(e) {
+
+        fileInput.addEventListener("change", async function (e) {
             const file = e.target.files[0];
             if (!file) return;
-            
+
             // Verificar tamanho do arquivo
             if (file.size > 10 * 1024 * 1024) { // Maior que 10MB
                 alert("A imagem é muito grande. Por favor, selecione uma imagem menor que 10MB.");
                 return;
             }
-            
+
             // Visualizar a imagem selecionada
             const photoPlaceholder = document.querySelector(".photo-placeholder");
             const reader = new FileReader();
-            
-            reader.onload = async function(event) {
+
+            reader.onload = async function (event) {
                 try {
                     // Redimensionar a imagem para reduzir o tamanho
                     const resizedImage = await resizeImage(event.target.result);
-                    
+
                     // Exibir a imagem
                     photoPlaceholder.style.backgroundImage = `url(${resizedImage})`;
                     photoPlaceholder.style.backgroundSize = "cover";
                     photoPlaceholder.style.backgroundPosition = "center";
-                    
+
                     // Armazenar a imagem em base64
                     fotoPerfilBase64 = resizedImage;
                 } catch (error) {
@@ -114,10 +114,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                     alert("Ocorreu um erro ao processar a imagem.");
                 }
             };
-            
+
             reader.readAsDataURL(file);
         });
-        
+
         // Simular clique no input
         fileInput.click();
     });
@@ -133,11 +133,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Container para os campos específicos
         const containerCampos = document.createElement("div");
         containerCampos.className = "campos-especificos";
-        
+
         // Inserir antes do botão
         const form = document.querySelector(".form-grid");
         const botao = form.querySelector("button");
-        
+
         try {
             if (tipo === 3) { // Aluno
                 // Carregar dados do aluno
@@ -148,12 +148,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                         "Authorization": "Bearer " + token
                     }
                 });
-                
+
                 if (!alunoResponse.ok) {
                     console.warn("Não foi possível carregar dados adicionais do aluno");
                 } else {
                     const alunoData = await alunoResponse.json();
-                    
+
                     // Carregar turmas disponíveis
                     const turmasResponse = await fetch("http://localhost:8081/sec/Turma/listar", {
                         method: "GET",
@@ -162,26 +162,22 @@ document.addEventListener("DOMContentLoaded", async function () {
                             "Authorization": "Bearer " + token
                         }
                     });
-                    
+
                     if (turmasResponse.ok) {
                         const turmas = await turmasResponse.json();
-                        
+
                         // Campo de turma
                         containerCampos.innerHTML = `
                             <div class="input-group half-width">
                                 <label for="id_turma">Turma:</label>
                                 <select id="id_turma">
                                     <option value="" selected disabled style="color: gray;">Selecione uma turma</option>
-                                    ${turmas.map(turma => 
-                                        `<option value="${turma.id_turma}" ${alunoData.id_turma === turma.id_turma ? 'selected' : ''}>
+                                    ${turmas.map(turma =>
+                            `<option value="${turma.id_turma}" ${alunoData.id_turma === turma.id_turma ? 'selected' : ''}>
                                             ${turma.nome}
                                         </option>`
-                                    ).join('')}
+                        ).join('')}
                                 </select>
-                            </div>
-                            <div class="input-group half-width">
-                                <label for="matricula">Matrícula:</label>
-                                <input type="text" id="matricula" value="${alunoData.matricula || ''}" readonly>
                             </div>
                         `;
                     }
@@ -195,7 +191,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         "Authorization": "Bearer " + token
                     }
                 });
-                
+
                 // Carregar turmas disponíveis para associar ao professor
                 const turmasResponse = await fetch("http://localhost:8081/sec/Turma/listar", {
                     method: "GET",
@@ -204,7 +200,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         "Authorization": "Bearer " + token
                     }
                 });
-                
+
                 // Carregar turmas já associadas ao professor
                 const turmasProfessorResponse = await fetch(`http://localhost:8081/sec/listarTurmasProfessor/${id_user}`, {
                     method: "GET",
@@ -216,52 +212,53 @@ document.addEventListener("DOMContentLoaded", async function () {
                     console.warn("Não foi possível carregar turmas do professor:", error);
                     return { ok: false };
                 });
-                
+
                 if (!professorResponse.ok) {
                     console.warn("Não foi possível carregar dados adicionais do professor");
                 } else {
                     const professorData = await professorResponse.json();
                     let turmasAssociadas = [];
-                    
+
                     if (turmasProfessorResponse && turmasProfessorResponse.ok) {
                         turmasAssociadas = await turmasProfessorResponse.json();
                     }
-                    
+
                     // Construir HTML base para os campos específicos de professor
                     let htmlCampos = `
-                        <div class="input-group half-width">
-                            <label for="especialidade">Especialidade:</label>
-                            <input type="text" id="especialidade" value="${professorData.especialidade || ''}">
-                        </div>
-                        <div class="input-group half-width">
-                            <label for="matricula">Matrícula:</label>
-                            <input type="text" id="matricula" value="${professorData.matricula || ''}" readonly>
-                        </div>
+                    <div class="input-group half-width" style="visibility: hidden;">
+                    <label for="especialidade">Especialidade:</label>
+                    <input type="text" id="especialidade">
+                </div>
+                <div class="input-group half-width" style="visibility: hidden;">
+                    <label for="matricula">Matrícula:</label>
+                    <input type="text" id="matricula" readonly>
+                </div>
+    
                     `;
-                    
+
                     // Adicionar seleção de turmas se disponível
                     if (turmasResponse.ok) {
                         const turmas = await turmasResponse.json();
-                        
+
                         // Criar div para seleção de turmas
                         htmlCampos += `
-                            <div class="input-group full-width">
-                                <label for="turmas_professor">Turmas associadas:</label>
-                                <div class="turmas-container">
-                                    <select id="turmas_professor" multiple>
-                                        ${turmas.map(turma => {
-                                            const isSelected = turmasAssociadas.some(t => t.id_turma === turma.id_turma);
-                                            return `<option value="${turma.id_turma}" ${isSelected ? 'selected' : ''}>${turma.nome}</option>`;
-                                        }).join('')}
-                                    </select>
-                                    <div class="turmas-help">
-                                        <small>Segure CTRL para selecionar múltiplas turmas</small>
-                                    </div>
-                                </div>
+                        <div class="input-group full-width">
+                        <label for="turmas_professor">Turmas associadas:</label>
+                        <div class="turmas-container">
+                            <select id="turmas_professor" multiple>
+                                ${turmas.map(turma => {
+                            const isSelected = turmasAssociadas.some(t => t.id_turma === turma.id_turma);
+                            return `<option value="${turma.id_turma}" ${isSelected ? 'selected' : ''}>${turma.nome}</option>`;
+                        }).join('')}
+                            </select>
+                            <div class="turmas-help">
+                                <small>Segure CTRL para selecionar múltiplas turmas</small>
                             </div>
+                        </div>
+                    </div>
                         `;
                     }
-                    
+
                     containerCampos.innerHTML = htmlCampos;
                 }
             } else if (tipo === 1) { // Secretaria
@@ -273,36 +270,32 @@ document.addEventListener("DOMContentLoaded", async function () {
                         "Authorization": "Bearer " + token
                     }
                 });
-                
+
                 if (!secretariaResponse.ok) {
                     console.warn("Não foi possível carregar dados adicionais da secretaria");
                 } else {
                     const secretariaData = await secretariaResponse.json();
-                    
+
                     // Campos específicos de secretaria
                     containerCampos.innerHTML = `
                         <div class="input-group half-width">
                             <label for="setor">Setor:</label>
                             <input type="text" id="setor" value="${secretariaData.setor || ''}">
                         </div>
-                        <div class="input-group half-width">
-                            <label for="matricula">Matrícula:</label>
-                            <input type="text" id="matricula" value="${secretariaData.matricula || ''}" readonly>
-                        </div>
                     `;
                 }
             }
-            
+
             // Adicionar os campos ao formulário
             if (containerCampos.innerHTML !== "") {
                 form.insertBefore(containerCampos, botao);
             }
-            
+
         } catch (error) {
             console.error("Erro ao carregar campos específicos:", error);
         }
     }
-    
+
     try {
         // Faz a requisição para a API
         const response = await fetch(`http://localhost:8081/sec/consultarUsuario/${id_usuario}`, {
@@ -319,7 +312,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const usuario = await response.json();
         usuarioAtual = usuario; // Salva referência para uso posterior
-        
+
 
         // Preenche os campos do formulário com os dados recebidos
         document.getElementById("nome").value = usuario.nome || "";
@@ -332,7 +325,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const dt = new Date(usuario.dt_nasc);
             document.getElementById("nascimento").value = dt.toISOString().slice(0, 16);
         }
-        
+
         // Exibe a foto de perfil, se existir
         if (usuario.ft_perfil) {
             const photoPlaceholder = document.querySelector(".photo-placeholder");
@@ -341,7 +334,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             photoPlaceholder.style.backgroundPosition = "center";
             fotoPerfilBase64 = usuario.ft_perfil;
         }
-        
+
         // Carregar campos específicos de acordo com o tipo de usuário
         await carregarCamposEspecificos(usuario.tipo, id_usuario);
     } catch (error) {
@@ -356,7 +349,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const id_usuario = new URLSearchParams(window.location.search).get("id_user");
         console.log("ID do usuário no envio do formulário:", id_usuario);
-        
+
         if (!id_usuario) {
             alert("ID do usuário não encontrado na URL.");
             return;
@@ -393,12 +386,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (cpf.trim() !== "") {
             dadosParaEnviar.cpf = cpf;
         }
-        
+
         // Adicionar foto de perfil se foi alterada
         if (fotoPerfilBase64) {
             dadosParaEnviar.ft_perfil = fotoPerfilBase64;
         }
-        
+
         // Campos específicos para cada tipo de usuário
         if (usuarioAtual) {
             if (usuarioAtual.tipo === 3) { // Aluno
@@ -436,13 +429,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                         console.error("Erro ao atualizar especialidade do professor:", error);
                     }
                 }
-                
+
                 // Atualizar turmas do professor
                 const turmasSelect = document.getElementById("turmas_professor");
                 if (turmasSelect) {
                     // Obter todas as turmas selecionadas
                     const turmasSelecionadas = Array.from(turmasSelect.selectedOptions).map(option => option.value);
-                    
+
                     // Enviar requisição para atualizar turmas do professor
                     try {
                         await fetch(`http://localhost:8081/sec/atualizarTurmasProfessor/${id_usuario}`, {
@@ -490,11 +483,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             console.log("Status da resposta:", response.status);
-            
+
             if (!response.ok) {
                 const responseText = await response.text();
                 console.error("Texto da resposta de erro:", responseText);
-                
+
                 let errorMessage = `Erro ${response.status}`;
                 try {
                     const errorData = JSON.parse(responseText);
@@ -505,7 +498,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 } catch (e) {
                     errorMessage += `: ${responseText || 'Sem detalhes disponíveis'}`;
                 }
-                
+
                 throw new Error(errorMessage);
             }
 

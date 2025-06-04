@@ -38,7 +38,6 @@
 
 /* Estilo para campos somente leitura */
 input[readonly] {
-    background-color: #f9f9f9;
     cursor: not-allowed;
     color: #666;
 }
@@ -78,3 +77,19 @@ select#id_turma {
   box-sizing: border-box;
 }
 
+.campos-especificos{
+    margin-top: -25px;
+}
+
+#turmas_professor{
+    background-color: transparent;
+}
+
+option {
+    color: white;
+    background: none;
+}
+
+option:hover{
+    background-color: none;
+}
