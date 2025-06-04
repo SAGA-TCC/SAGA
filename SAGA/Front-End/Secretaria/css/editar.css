@@ -70,3 +70,11 @@ select#id_turma {
     font-size: 12px;
     margin-top: 4px;
 }
+
+.btn-salvar {
+  height: 40px;
+  padding: 10px 20px;
+  align-self: flex-start;
+  box-sizing: border-box;
+}
+

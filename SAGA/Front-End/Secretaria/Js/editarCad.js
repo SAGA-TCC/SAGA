@@ -320,23 +320,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         const usuario = await response.json();
         usuarioAtual = usuario; // Salva referência para uso posterior
         
-        // Exibe o tipo de usuário no topo
-        const tipoUsuarioDiv = document.getElementById("tipoUsuario");
-        let tipoTexto = "";
-        switch (usuario.tipo) {
-            case 1:
-                tipoTexto = "Secretaria";
-                break;
-            case 2:
-                tipoTexto = "Professor";
-                break;
-            case 3:
-                tipoTexto = "Aluno";
-                break;
-            default:
-                tipoTexto = "Usuário";
-        }
-        tipoUsuarioDiv.textContent = `Tipo: ${tipoTexto}`;
 
         // Preenche os campos do formulário com os dados recebidos
         document.getElementById("nome").value = usuario.nome || "";
