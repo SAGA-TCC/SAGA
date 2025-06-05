@@ -48,7 +48,6 @@ model Aluno {
   notas NotaAluno[]
   presencas Presenca[]
   
-
   @@map("aluno")
 }
 

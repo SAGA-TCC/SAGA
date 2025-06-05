@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar');
-
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     locale: 'pt-br',
@@ -44,7 +43,21 @@ document.addEventListener('DOMContentLoaded', function () {
       end: 'today prev,next',
       start: 'title'
     },
+    dateClick: function(info) {
+      window.location.href = `freq2.html?data=${info.dateStr}`;
+    }
   });
-
   calendar.render();
+
+  // Buscar frequência geral do aluno
+  fetch('/aluno/listMateria', {
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    // Aqui você pode calcular a frequência geral e atualizar o gráfico
+    // Exemplo: atualizar o gráfico com os dados reais
+  });
 });

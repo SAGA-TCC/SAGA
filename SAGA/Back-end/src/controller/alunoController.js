@@ -181,4 +181,55 @@ export class AlunoController {
             return res.status(500).json({ message: "Erro interno do servidor." });
         }
     }
+
+    async getPresencasByDia(req, res) {
+        try {
+            const id_user = req.userId;
+            if (!id_user) {
+                return res.status(400).json({ message: "Usuário não autenticado." });
+            }
+
+            const { data } = req.query;
+            if (!data) {
+                return res.status(400).json({ message: "Data não fornecida. Use o parâmetro ?data=YYYY-MM-DD" });
+            }
+
+            const aluno = await prisma.aluno.findUnique({
+                where: { id_user },
+                include: { turma: true }
+            });
+
+            if (!aluno) {
+                return res.status(404).json({ message: "Aluno não encontrado." });
+            }
+
+            // Buscar todas as chamadas do dia para a turma do aluno
+            const chamadas = await prisma.chamada.findMany({
+                where: {
+                    id_turma: aluno.id_turma,
+                    data: {
+                        gte: new Date(data + "T00:00:00.000Z"),
+                        lte: new Date(data + "T23:59:59.999Z")
+                    }
+                },
+                include: {
+                    professor: { include: { user: true } },
+                    presencas: { where: { id_aluno: aluno.id_aluno } },
+                    turma: true
+                }
+            });
+
+            const result = chamadas.map(chamada => ({
+                materia: chamada.professor.materias[0]?.nome || "Desconhecida",
+                professor: chamada.professor.user.nome,
+                presente: chamada.presencas[0]?.presente ?? false
+            }));
+
+            return res.status(200).json(result);
+
+        } catch (error) {
+            console.error("Erro ao buscar presenças do dia:", error);
+            return res.status(500).json({ message: "Erro interno do servidor." });
+        }
+    }
 }

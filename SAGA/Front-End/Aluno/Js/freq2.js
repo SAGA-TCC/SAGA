@@ -11,21 +11,31 @@ document.addEventListener('DOMContentLoaded', function () {
   calendar.render();
 
   const tableBody = document.getElementById('freq2TableBody');
-  const data = [
-    { materia: "Sistemas Web", professor: "Jose" },
-    { materia: "Sistemas Web", professor: "Jose" },
-    { materia: "Sistemas Web", professor: "Josea" },
-    { materia: "Sistemas Web", professor: "Jose" },
-    { materia: "Sistemas Web", professor: "Jose" },
-    { materia: "Sistemas Web", professor: "Jose" }
-  ];
+  const urlParams = new URLSearchParams(window.location.search);
+  const data = urlParams.get('data');
 
-  data.forEach(item => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${item.materia}</td>
-      <td>${item.professor}</td>
-    `;
-    tableBody.appendChild(tr);
-  });
+  if (data) {
+    fetch(`/aluno/presencas-dia?data=${data}`, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+    .then(res => res.json())
+    .then(presencas => {
+      tableBody.innerHTML = '';
+      if (presencas.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="3">Nenhuma aula encontrada para este dia.</td></tr>';
+      } else {
+        presencas.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${item.materia}</td>
+            <td>${item.professor}</td>
+            <td>${item.presente ? 'Presente' : 'Falta'}</td>
+          `;
+          tableBody.appendChild(tr);
+        });
+      }
+    });
+  }
 });

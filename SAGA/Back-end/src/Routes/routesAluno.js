@@ -13,3 +13,5 @@ routerAluno.get('/aluno/modulo/:modulo', tokenAuthenticate, (req, res) => alunoC
 // Frequencia
 routerAluno.get('/aluno/frequencia', tokenAuthenticate, (req, res) => alunoController.getFrequenciaByData(req, res));
 
+routerAluno.get('/aluno/presencas-dia', tokenAuthenticate, (req, res) => alunoController.getPresencasByDia(req, res));
+
