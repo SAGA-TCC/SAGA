@@ -132,6 +132,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         tableBody.innerHTML = '';
         
         materias.forEach(materia => {
+            // Verificar se há um professor associado à matéria
+            let nomeProfessor = 'Não atribuído';
+            if (materia.professor && materia.professor.user) {
+                nomeProfessor = materia.professor.user.nome;
+            }
+            
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${materia.codigo || ''}</td>
@@ -139,6 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td>${materia.ch_total || ''}</td>
                 <td>${materia.freq_min || ''}</td>
                 <td>${materia.curso_nome || 'N/A'}</td>
+                
                 <td>
                     <a href="editarMateria.html?id=${materia.id_materia}">
                         <button class="editar">Editar</button>

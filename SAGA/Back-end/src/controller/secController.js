@@ -44,9 +44,7 @@ export class SecController {
         const { id_curso } = req.params;
         const curso = await prisma.curso.delete({ where: { id_curso } });
         return res.status(204).json(curso);
-    }
-
-    // => Materia
+    }    // => Materia
     async cadMateria(req, res) {
         const { id_curso } = req.params;
         const { nome, descricao, ch_total, freq_min, id_prof } = req.body;
@@ -62,42 +60,192 @@ export class SecController {
                     ...(id_prof ? { id_prof } : {})
                 }
             });
+            
+            // Se um professor foi especificado, vincular automaticamente a todas as turmas do curso
+            if (id_prof) {
+                // Buscar todas as turmas do curso
+                const turmas = await prisma.turma.findMany({
+                    where: { id_curso }
+                });
+                
+                // Para cada turma, verificar se o professor já está vinculado e, se não, criar o vínculo
+                for (const turma of turmas) {
+                    const vinculoExistente = await prisma.professorTurma.findFirst({
+                        where: {
+                            id_professor: id_prof,
+                            id_turma: turma.id_turma
+                        }
+                    });
+                    
+                    if (!vinculoExistente) {
+                        await prisma.professorTurma.create({
+                            data: {
+                                id_professor: id_prof,
+                                id_turma: turma.id_turma
+                            }
+                        });
+                    }
+                }
+            }
+            
             return res.json(materia);
         } catch (error) {
             console.error("Erro ao cadastrar matéria:", error);
             return res.status(500).json({ error: "Erro ao cadastrar matéria. " + error.message });
         }
-    }
-
-    async listarMaterias(req, res) {
+    }    async listarMaterias(req, res) {
         const { id_curso } = req.params;
-        const materias = await prisma.materia.findMany({
-            where: {
-                id_curso
-            }
-        });
-        return res.json(materias);
-    }
-
-    async editarMateria(req, res) {
-        const { id_materia } = req.params;
-        const { nome, descricao, ch_total, freq_min } = req.body;
-
-        const materia = await prisma.materia.update({
-            where: { id_materia },
-            data: { nome, descricao, ch_total, freq_min }
-        });
-
-        if (!materia) {
-            return res.status(404).json({ message: "Materia não encontrada!" });
+        try {
+            const materias = await prisma.materia.findMany({
+                where: {
+                    id_curso
+                },
+                include: {
+                    professor: {
+                        include: {
+                            user: {
+                                select: {
+                                    id_user: true,
+                                    nome: true,
+                                    email: true,
+                                    ft_perfil: true,
+                                    telefone: true
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            return res.json(materias);
+        } catch (error) {
+            console.error("Erro ao listar matérias:", error);
+            return res.status(500).json({ error: "Erro ao listar matérias. " + error.message });
         }
-        return res.status(204).json(materia);
-    }
+    }    async editarMateria(req, res) {
+        const { id_materia } = req.params;
+        const { nome, descricao, ch_total, freq_min, id_prof } = req.body;
 
-    async excluirMateria(req, res) {
+        try {
+            // Primeiro, obter o id_curso e o professor anterior
+            const materiaAnterior = await prisma.materia.findUnique({
+                where: { id_materia },
+                select: { id_curso: true, id_prof: true }
+            });
+
+            if (!materiaAnterior) {
+                return res.status(404).json({ message: "Matéria não encontrada!" });
+            }
+
+            // Atualizar a matéria
+            const materia = await prisma.materia.update({
+                where: { id_materia },
+                data: { 
+                    nome, 
+                    descricao, 
+                    ch_total, 
+                    freq_min,
+                    ...(id_prof ? { id_prof } : { id_prof: null })
+                }
+            });
+
+            // Se o professor foi alterado, atualizar os vínculos com as turmas
+            if (id_prof && id_prof !== materiaAnterior.id_prof) {
+                // Buscar todas as turmas do curso
+                const turmas = await prisma.turma.findMany({
+                    where: { id_curso: materiaAnterior.id_curso }
+                });
+                
+                // Para cada turma, verificar se o professor já está vinculado e, se não, criar o vínculo
+                for (const turma of turmas) {
+                    const vinculoExistente = await prisma.professorTurma.findFirst({
+                        where: {
+                            id_professor: id_prof,
+                            id_turma: turma.id_turma
+                        }
+                    });
+                    
+                    if (!vinculoExistente) {
+                        await prisma.professorTurma.create({
+                            data: {
+                                id_professor: id_prof,
+                                id_turma: turma.id_turma
+                            }
+                        });
+                    }
+                }
+            } else if (!id_prof && materiaAnterior.id_prof) {
+                // Se o professor foi removido, verificar se ele é professor de outras matérias
+                // e, se não for, remover os vínculos com as turmas do curso
+                const outrasMateriasComProfessor = await prisma.materia.findMany({
+                    where: {
+                        id_prof: materiaAnterior.id_prof,
+                        id_materia: { not: id_materia }
+                    }
+                });
+
+                if (outrasMateriasComProfessor.length === 0) {
+                    // Se o professor não tem mais matérias neste curso, remover os vínculos com as turmas
+                    const turmas = await prisma.turma.findMany({
+                        where: { id_curso: materiaAnterior.id_curso }
+                    });
+
+                    for (const turma of turmas) {
+                        await prisma.professorTurma.deleteMany({
+                            where: {
+                                id_professor: materiaAnterior.id_prof,
+                                id_turma: turma.id_turma
+                            }
+                        });
+                    }
+                }
+            }
+
+            return res.status(200).json(materia);
+        } catch (error) {
+            console.error("Erro ao editar matéria:", error);
+            return res.status(500).json({ error: "Erro ao editar matéria. " + error.message });
+        }
+    }async excluirMateria(req, res) {
         const { id_materia } = req.params;
         const materia = await prisma.materia.delete({ where: { id_materia } });
         return res.status(204).json(materia);
+    }
+
+    // Lista todos os professores disponíveis para vinculação
+    async listarProfessores(req, res) {
+        try {
+            const professores = await prisma.professor.findMany({
+                include: {
+                    user: {
+                        select: {
+                            id_user: true,
+                            nome: true,
+                            email: true,
+                            telefone: true,
+                            ft_perfil: true
+                        }
+                    }
+                }
+            });
+
+            // Formatar os dados para facilitar o uso no frontend
+            const professoresFormatados = professores.map(prof => ({
+                id_professor: prof.id_professor,
+                id_user: prof.user.id_user,
+                nome: prof.user.nome,
+                email: prof.user.email,
+                telefone: prof.user.telefone,
+                foto: prof.user.ft_perfil
+            }));
+
+            return res.status(200).json(professoresFormatados);
+        } catch (error) {
+            console.error("Erro ao listar professores:", error);
+            return res.status(500).json({
+                erro: "Erro ao listar professores",
+                detalhes: error.message
+            });
+        }
     }
 
 
@@ -173,24 +321,41 @@ export class SecController {
                 data: {
                     id_user: user.id_user,
                     id_turma
-                }
-            });
+                }            });
             
             console.log("Cadastro de aluno concluído com sucesso");
             return res.json({ message: "Cadastro de aluno concluído com sucesso" });
         } catch (error) {
             console.error("Erro ao cadastrar aluno:", error);
+            // Tratar erros específicos do Prisma
+            if (error.code === 'P2002') {
+                const campo = error.meta.target[0];
+                return res.status(400).json({ error: `Já existe um usuário com este ${campo}` });
+            }
             return res.status(500).json({ error: "Erro ao cadastrar aluno", detalhes: error.message });
         }
-    }
-
-    //cadastrar usuario professor
+    }    //cadastrar usuario professor
     async cadProfessor(req, res) {
         const { nome, email, senha, dt_nasc, telefone, cpf, ft_perfil} = req.body;
+        
+        // Verificar se o email já existe
         const emailHsh = await prisma.user.findUnique({ where: { email } });
         if (emailHsh) {
             return res.json({ error: "Email já cadastrado" });
         }
+        
+        // Verificar se o telefone já existe
+        const telefoneExistente = await prisma.user.findUnique({ where: { telefone } });
+        if (telefoneExistente) {
+            return res.json({ error: "Telefone já cadastrado" });
+        }
+        
+        // Verificar se o CPF já existe
+        const cpfExistente = await prisma.user.findUnique({ where: { cpf } });
+        if (cpfExistente) {
+            return res.json({ error: "CPF já cadastrado" });
+        }
+        
         const senhaHash = await bcrypt.hash(senha, 10);
         try {
             // Cria o usuário
@@ -218,17 +383,35 @@ export class SecController {
             return res.json({ message: "Cadastro de professor concluído com sucesso" });
         } catch (error) {
             console.error("Erro ao cadastrar professor:", error);
+            // Tratar erros específicos do Prisma
+            if (error.code === 'P2002') {
+                const campo = error.meta.target[0];
+                return res.status(400).json({ error: `Já existe um usuário com este ${campo}` });
+            }
             return res.status(500).json({ error: "Erro ao cadastrar professor", detalhes: error.message });
         }
-    }
-
-    //cadastrar usuario secretaria
+    }    //cadastrar usuario secretaria
     async cadSecretaria(req, res) {
         const { nome, email, senha, dt_nasc, telefone, cpf, ft_perfil } = req.body;
+        
+        // Verificar se o email já existe
         const emailHsh = await prisma.user.findUnique({ where: { email } });
         if (emailHsh) {
             return res.json({ error: "Email já cadastrado" });
         }
+        
+        // Verificar se o telefone já existe
+        const telefoneExistente = await prisma.user.findUnique({ where: { telefone } });
+        if (telefoneExistente) {
+            return res.json({ error: "Telefone já cadastrado" });
+        }
+        
+        // Verificar se o CPF já existe
+        const cpfExistente = await prisma.user.findUnique({ where: { cpf } });
+        if (cpfExistente) {
+            return res.json({ error: "CPF já cadastrado" });
+        }
+        
         const senhaHash = await bcrypt.hash(senha, 10);
         try {
             // Cria o usuário
@@ -251,10 +434,14 @@ export class SecController {
                 }
             });
             console.log("Cadastro de secretaria concluído com sucesso");
-            return res.json({ message: "Cadastro de secretaria concluído com sucesso" });
-        }
+            return res.json({ message: "Cadastro de secretaria concluído com sucesso" });        }
         catch (error) {
             console.error("Erro ao cadastrar secretaria:", error);
+            // Tratar erros específicos do Prisma
+            if (error.code === 'P2002') {
+                const campo = error.meta.target[0];
+                return res.status(400).json({ error: `Já existe um usuário com este ${campo}` });
+            }
             return res.status(500).json({ error: "Erro ao cadastrar secretaria", detalhes: error.message });
         }
     }
@@ -830,14 +1017,26 @@ export class SecController {
                 detalhes: error.message
             });
         }
-    }
-
-    async listarTurmas(req, res) {
+    }    async listarTurmas(req, res) {
         try {
             const turmas = await prisma.turma.findMany({
                 include: {
                     curso: true,
-                    professoresRelation: true,
+                    professoresRelation: {
+                        include: {
+                            professor: {
+                                include: {
+                                    user: {
+                                        select: {
+                                            nome: true,
+                                            email: true,
+                                            ft_perfil: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     alunos: true
                 }
             });

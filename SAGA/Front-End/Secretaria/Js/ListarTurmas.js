@@ -62,20 +62,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     function formatarData(data) {
         if (!data) return 'N/A';
         return new Date(data).toLocaleDateString('pt-BR');
-    }
-
-    // Função para exibir as turmas na tabela
+    }    // Função para exibir as turmas na tabela
     function exibirTurmas(turmas) {
         tableBody.innerHTML = '';
         
-        turmas.forEach(turma => {
+        turmas.forEach(turma => {            // Contar professores vinculados à turma através da relação professoresRelation
+            const numProfessores = turma.professoresRelation ? turma.professoresRelation.length : 0;
+            
+            // Criar lista de nomes dos professores para o tooltip
+            let tooltipProfessores = '';
+            if (numProfessores > 0) {
+                const nomesProfessores = turma.professoresRelation.map(rel => {
+                    return rel.professor?.user?.nome || 'Professor sem nome';
+                }).join('\\n');
+                tooltipProfessores = `title="${nomesProfessores}"`;
+            }
+            
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${turma.codigo}</td>
                 <td>${turma.nome}</td>
                 <td>${turma.curso?.nome || 'N/A'}</td>
                 <td>${formatarData(turma.dt_inicio)}</td>
-                <td>${turma.semestres}</td>                <td>${turma.alunos?.length || 0}</td>
+                <td>${turma.semestres}</td>
+                <td>${turma.alunos?.length || 0}</td>
+                <td class="cell-professores" ${tooltipProfessores}>${numProfessores}</td>
                 <td>
                     <a href="consultarTurma.html?id=${turma.id_turma}">
                         <button class="visualizar">Visualizar</button>

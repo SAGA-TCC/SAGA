@@ -1,0 +1,31 @@
+/* Estilos para a página de listar turmas */
+
+.cell-professores {
+    cursor: help;
+    position: relative;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cell-professores:hover {
+    background-color: #f0f0f0;
+}
+
+/* Estilo para o tooltip (aparece ao passar o mouse) */
+[title]:hover:after {
+    content: attr(title);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 100;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: max-content;
+    max-width: 300px;
+    white-space: pre-line;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    font-weight: normal;
+    text-align: left;
+}

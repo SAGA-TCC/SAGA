@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             row.innerHTML = `
                 <td>${curso.codigo}</td>
                 <td>${curso.nome}</td>
-                <td>${new Date(curso.created_at).toLocaleDateString('pt-BR')}</td>
+                
                 <td>
                     <a href="editarCurso.html?id=${curso.id_curso}">
                         <button class="editar">Editar</button>

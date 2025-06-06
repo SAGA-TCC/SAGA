@@ -1,17 +1,14 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('disciplinaForm');
     const params = new URLSearchParams(window.location.search);
-    const materiaId = params.get('id');
-
-    // Elementos do formulário
+    const materiaId = params.get('id');    // Elementos do formulário
     const nomeDisciplina = document.getElementById('nomeDisciplina');
     const cargaHoraria = document.getElementById('cargaHorariaDisc');
     const serie = document.getElementById('serieDisciplina');
     const frequencia = document.getElementById('frequenciaDisciplina');
     const descricao = document.getElementById('descricaoDisciplina');
     const cursoDisciplina = document.getElementById('cursoDisciplina');
-
-    // Função para carregar cursos
+    const professorDisciplina = document.getElementById('professorDisciplina');    // Função para carregar cursos
     async function carregarCursos() {
         try {
             const token = localStorage.getItem('token');
@@ -46,35 +43,105 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert('Erro ao carregar cursos. Por favor, tente novamente.');
         }
     }
+    
+    // Função para carregar professores
+    async function carregarProfessores() {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                window.location.href = '../Login/Login.html';
+                return;
+            }
 
-    // Função para carregar dados da matéria
+            const response = await fetch('http://localhost:8081/sec/listarProfessores', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao carregar professores');
+            }
+
+            const professores = await response.json();
+            professorDisciplina.innerHTML = '<option value="">Selecione um professor...</option>';
+            
+            professores.forEach(prof => {
+                const option = document.createElement('option');
+                option.value = prof.id_professor;
+                option.textContent = prof.nome + (prof.email ? ` (${prof.email})` : '');
+                professorDisciplina.appendChild(option);
+            });
+            
+            return professores;
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao carregar professores. Por favor, tente novamente.');
+        }
+    }    // Função para carregar dados da matéria
     async function carregarDadosMateria() {
         try {
             const token = localStorage.getItem('token');
             const cursos = await carregarCursos();
+            await carregarProfessores();
             
-            // Encontrar a matéria no curso correspondente
-            let materiaEncontrada = null;
-            for (const curso of cursos) {
-                const materia = curso.materias.find(m => m.id_materia === materiaId);
-                if (materia) {
-                    materiaEncontrada = materia;
-                    cursoDisciplina.value = curso.id_curso;
-                    break;
+            // Primeiro, tente carregar a matéria diretamente pelo ID
+            const response = await fetch(`http://localhost:8081/sec/listarMaterias/${cursoDisciplina.value}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Erro ao carregar dados da matéria');
+            }
+            
+            const materias = await response.json();
+            const materiaEncontrada = materias.find(m => m.id_materia === materiaId);
+            
+            if (!materiaEncontrada) {
+                // Se não encontrar diretamente, tente buscar nos cursos
+                let materiaFound = null;
+                for (const curso of cursos) {
+                    const materia = curso.materias?.find(m => m.id_materia === materiaId);
+                    if (materia) {
+                        materiaFound = materia;
+                        cursoDisciplina.value = curso.id_curso;
+                        break;
+                    }
+                }
+                
+                if (!materiaFound) {
+                    alert('Matéria não encontrada');
+                    window.location.href = 'ListarMaterias.html';
+                    return;
+                }
+                
+                // Preencher o formulário com os dados da matéria encontrada
+                nomeDisciplina.value = materiaFound.nome;
+                cargaHoraria.value = materiaFound.ch_total;
+                frequencia.value = materiaFound.freq_min;
+                descricao.value = materiaFound.descricao;
+                
+                // Verificar se há professor atribuído
+                if (materiaFound.id_prof) {
+                    professorDisciplina.value = materiaFound.id_prof;
+                }
+            } else {
+                // Preencher o formulário com os dados da matéria encontrada diretamente
+                nomeDisciplina.value = materiaEncontrada.nome;
+                cargaHoraria.value = materiaEncontrada.ch_total;
+                frequencia.value = materiaEncontrada.freq_min;
+                descricao.value = materiaEncontrada.descricao;
+                
+                // Verificar se há professor atribuído
+                if (materiaEncontrada.id_prof) {
+                    professorDisciplina.value = materiaEncontrada.id_prof;
+                } else if (materiaEncontrada.professor && materiaEncontrada.professor.id_professor) {
+                    professorDisciplina.value = materiaEncontrada.professor.id_professor;
                 }
             }
-
-            if (!materiaEncontrada) {
-                alert('Matéria não encontrada');
-                window.location.href = 'ListarMaterias.html';
-                return;
-            }
-
-            // Preencher o formulário
-            nomeDisciplina.value = materiaEncontrada.nome;
-            cargaHoraria.value = materiaEncontrada.ch_total;
-            frequencia.value = materiaEncontrada.freq_min;
-            descricao.value = materiaEncontrada.descricao;
             
             // Desabilitar a mudança de curso
             cursoDisciplina.disabled = true;
@@ -92,13 +159,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!nomeDisciplina.value || !cargaHoraria.value || !frequencia.value || !descricao.value) {
             alert('Por favor, preencha todos os campos obrigatórios.');
             return;
-        }
-
-        try {
+        }        try {
             const token = localStorage.getItem('token');
             const materiaData = {
                 nome: nomeDisciplina.value,
                 descricao: descricao.value,
+                id_prof: professorDisciplina.value || null,
                 ch_total: cargaHoraria.value.toString(),
                 freq_min: frequencia.value.toString()
             };
