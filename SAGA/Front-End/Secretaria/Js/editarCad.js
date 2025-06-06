@@ -242,20 +242,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                         // Criar div para seleção de turmas
                         htmlCampos += `
-                        <div class="input-group full-width">
-                        <label for="turmas_professor">Turmas associadas:</label>
-                        <div class="turmas-container">
-                            <select id="turmas_professor" multiple>
-                                ${turmas.map(turma => {
-                            const isSelected = turmasAssociadas.some(t => t.id_turma === turma.id_turma);
-                            return `<option value="${turma.id_turma}" ${isSelected ? 'selected' : ''}>${turma.nome}</option>`;
-                        }).join('')}
-                            </select>
-                            <div class="turmas-help">
-                                <small>Segure CTRL para selecionar múltiplas turmas</small>
-                            </div>
-                        </div>
-                    </div>
+                        
                         `;
                     }
 
@@ -278,10 +265,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                     // Campos específicos de secretaria
                     containerCampos.innerHTML = `
-                        <div class="input-group half-width">
-                            <label for="setor">Setor:</label>
-                            <input type="text" id="setor" value="${secretariaData.setor || ''}">
-                        </div>
+
                     `;
                 }
             }
