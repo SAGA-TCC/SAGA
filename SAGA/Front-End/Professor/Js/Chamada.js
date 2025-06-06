@@ -4,11 +4,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Recupera token e id_user do localStorage
     const token = localStorage.getItem("token");
-    const id_user = localStorage.getItem("userId");
-
-    if (!token || !id_user) {
+    const id_user = localStorage.getItem("userId");    if (!token || !id_user) {
         alert("Usuário não autenticado!");
-        window.location.href = "../../index.html";
+        window.location.href = "../../Login/Login.html";
         return;
     }
 

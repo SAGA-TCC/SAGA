@@ -8,13 +8,11 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export class LoginController {
     async auth(req, res) {
-        const { email, senha } = req.body;
-
-        const userExists = await prisma.user.findUnique({ where: { email } });
+        const { email, senha } = req.body;        const userExists = await prisma.user.findUnique({ where: { email } });
 
 
         if (!userExists) {
-            return res.status(401).json({ error: "Email não encontrado!" });
+            return res.status(401).json({ error: "Cadastro não existe. Entre em contato com a secretaria para realizar seu cadastro." });
         }
 
         const isPasswordValid = await bcrypt.compare(senha, userExists.senha);
@@ -53,9 +51,7 @@ export class LoginController {
         const payload = ticket.getPayload();
         const email = payload.email;
         const nome = payload.name;
-        const ft_perfil = payload.picture;
-
-        // Busca ou cria usuário no banco
+        const ft_perfil = payload.picture;        // Busca ou cria usuário no banco
         let user = await prisma.user.findUnique({ where: { email } });
         if (!user) {
             user = await prisma.user.create({
@@ -64,7 +60,10 @@ export class LoginController {
                     nome,
                     ft_perfil,
                     senha: '', // Não tem senha, pois é login social
-                    tipo: 'google'
+                    tipo: 0, // 0 para indicar login pelo Google (ajuste conforme sua lógica)
+                    dt_nasc: new Date(), // Data atual como fallback
+                    telefone: `google_${Date.now()}`, // Valor temporário único
+                    cpf: `google_${Date.now()}` // Valor temporário único
                 }
             });
         }

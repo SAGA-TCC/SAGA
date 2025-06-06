@@ -107,15 +107,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         default:
                             console.log('Tipo de usuário recebido:', data.tipo);
                             showErrorMessage('Tipo de usuário não reconhecido (código: ' + data.tipo + ')');
-                            resetLoginButton();
-                    }
+                            resetLoginButton();                    }
                 } else {
                     // Redirecionamento padrão se o tipo não for especificado
-                    window.location.href = '../index.html';
-                }
-            } else {
+                    window.location.href = '../Login/Login.html';                }} else {
                 // Login falhou
-                showErrorMessage('Erro de login: ' + (data.message || 'Verifique suas credenciais'));
+                const errorMessage = data.error || 'Verifique suas credenciais';
+                // Mostrar erro na página sem alerta
+                showErrorMessage('Erro de login: ' + errorMessage);
                 resetLoginButton();
             }
         } catch (error) {
@@ -182,14 +181,23 @@ document.addEventListener('DOMContentLoaded', function() {
                         window.location.href = '../Secretaria/Page/HomeSecretaria.html';
                         break;
                     case 'aluno':
-                    case 3:
-                        window.location.href = '../Aluno/Page/HomeAluno.html';
+                    case 3:                        window.location.href = '../Aluno/Page/HomeAluno.html';
                         break;
                     default:
-                        window.location.href = '../index.html';
+                        window.location.href = '../Login/Login.html';
+                }} else {
+                const errorMessage = data.error || 'Tente novamente.';                // Verificar se é o erro específico de usuário não cadastrado
+                if (errorMessage.includes('Cadastro não existe')) {
+                    // Mostrar alerta separado com instruções claras
+                    alert('Cadastro não existe. Entre em contato com a secretaria para realizar seu cadastro.');
+                    // Não redirecionar, apenas resetar a interface se necessário
+                    if (loginButton) {
+                        resetLoginButton();
+                    }
+                } else {
+                    // Mostrar erro na página
+                    showErrorMessage('Erro no login com Google: ' + errorMessage);
                 }
-            } else {
-                showErrorMessage('Erro no login com Google: ' + (data.error || 'Tente novamente.'));
             }
         } catch (error) {
             showErrorMessage('Erro ao conectar com o servidor: ' + error.message);

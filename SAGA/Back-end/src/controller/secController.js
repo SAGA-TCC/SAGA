@@ -49,19 +49,24 @@ export class SecController {
     // => Materia
     async cadMateria(req, res) {
         const { id_curso } = req.params;
-        const { nome, descricao, ch_total, freq_min, id_prof } = req.body; // Adiciona id_prof
+        const { nome, descricao, ch_total, freq_min, id_prof } = req.body;
 
-        const materia = await prisma.materia.create({
-            data: {
-                nome,
-                descricao,
-                ch_total,
-                freq_min,
-                id_curso,
-                id_prof // Salva o professor na matéria
-            }
-        });
-        return res.json(materia);
+        try {
+            const materia = await prisma.materia.create({
+                data: {
+                    nome,
+                    descricao,
+                    ch_total,
+                    freq_min,
+                    id_curso,
+                    ...(id_prof ? { id_prof } : {})
+                }
+            });
+            return res.json(materia);
+        } catch (error) {
+            console.error("Erro ao cadastrar matéria:", error);
+            return res.status(500).json({ error: "Erro ao cadastrar matéria. " + error.message });
+        }
     }
 
     async listarMaterias(req, res) {
@@ -353,8 +358,7 @@ export class SecController {
                     where: { id_user: id_user }
                 });
                 
-                if (aluno) {
-                    // Excluir registros de presença relacionados ao aluno
+                if (aluno) {                    // Excluir registros de presença relacionados ao aluno
                     if (prisma.presenca) {
                         await prisma.presenca.deleteMany({
                             where: { id_aluno: aluno.id_aluno }
@@ -362,8 +366,8 @@ export class SecController {
                     }
                     
                     // Excluir registros de notas relacionados ao aluno
-                    if (prisma.nota) {
-                        await prisma.nota.deleteMany({
+                    if (prisma.notaAluno) {
+                        await prisma.notaAluno.deleteMany({
                             where: { id_aluno: aluno.id_aluno }
                         });
                     }

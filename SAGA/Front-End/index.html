@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGA - Sistema Acadêmico</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin: 1rem 0;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background-color: #4A90E2;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #357ABD;
+        }
+    </style>
+    <script>
+        // Redirecionar para a página de login após 3 segundos
+        window.onload = function() {
+            setTimeout(function() {
+                window.location.href = './Login/Login.html';
+            }, 2000);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo ao SAGA</h1>
+        <p>Sistema Acadêmico de Gestão e Avaliação</p>
+        <p>Redirecionando para a página de login...</p>
+        <a href="./Login/Login.html" class="btn">Ir para Login</a>
+    </div>
+</body>
+</html>
