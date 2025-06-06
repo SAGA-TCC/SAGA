@@ -21,8 +21,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Mostrar um indicador de carregamento
         tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Carregando dados...</td></tr>';
         
-        // Fazer a requisição para a API
-        const response = await fetch(`http://localhost:8081/prof/turmas/${professorId}`, {
+        // Primeiro, vamos verificar se temos o ID do professor (não do usuário)
+        let idProfessor = localStorage.getItem('professorId');
+        
+        // Se não temos o ID do professor, vamos buscá-lo
+        if (!idProfessor) {
+            const profResponse = await fetch(`http://localhost:8081/professor/user/${professorId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!profResponse.ok) {
+                throw new Error(`Erro ao buscar informações do professor! Status: ${profResponse.status}`);
+            }
+            
+            const profData = await profResponse.json();
+            idProfessor = profData.id_professor;
+            
+            // Salvar para uso futuro
+            localStorage.setItem('professorId', idProfessor);
+        }
+        
+        // Agora fazemos a requisição para buscar as turmas com o ID correto do professor
+        const response = await fetch(`http://localhost:8081/prof/turmas/${idProfessor}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -31,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`Erro ao buscar turmas! Status: ${response.status}`);
         }
         
         const turmas = await response.json();
@@ -61,7 +85,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <td>${semestres}</td>
                 <td>${cargaHoraria} Horas</td>
             `;
-              // Adicionar evento de clique para navegação ou ações adicionais
+            
+            // Adicionar classe para indicar que a linha é clicável
+            row.classList.add('clickable-row');
+            
+            // Adicionar evento de clique para navegação ou ações adicionais
             row.addEventListener('click', () => {
                 // Armazenar o ID da turma selecionada para uso em outras páginas
                 localStorage.setItem('selectedTurmaId', turma.id_turma);

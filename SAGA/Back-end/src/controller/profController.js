@@ -4,12 +4,20 @@ import { Prisma } from '@prisma/client';
 
 
 
-export class ProfController {
-    // Retorna todas as turmas associadas ao professor
+export class ProfController {    // Retorna todas as turmas associadas ao professor
     async listarTurmasProf(req, res) {
         const { id_professor } = req.params;
         try {
-            const turmas = await prisma.professorTurma.findMany({
+            // Verificar se o professor existe
+            const professor = await prisma.professor.findUnique({
+                where: { id_professor }
+            });
+
+            if (!professor) {
+                return res.status(404).json({ erro: "Professor não encontrado" });
+            }
+
+            const professorTurmas = await prisma.professorTurma.findMany({
                 where: { id_professor },
                 include: {
                     turma: {
@@ -19,9 +27,13 @@ export class ProfController {
                     }
                 }
             });
-            // Retorna apenas os dados da turma
-            return res.status(200).json(turmas.map(v => v.turma));
+
+            // Extrair apenas as turmas com as informações do curso
+            const turmas = professorTurmas.map(pt => pt.turma);
+            
+            return res.status(200).json(turmas);
         } catch (error) {
+            console.error("Erro ao buscar turmas do professor:", error);
             return res.status(500).json({ erro: "Erro ao buscar turmas do professor", detalhes: error.message });
         }
     }

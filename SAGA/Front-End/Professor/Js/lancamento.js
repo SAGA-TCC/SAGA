@@ -3,11 +3,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btnLancar = document.querySelector(".btn-lancar");
     const selectModulo = document.getElementById("selectModulo");
     const selectMateria = document.getElementById("selectMateria");
+    const selectBimestre = document.getElementById("selectBimestre");
 
     let alunos = [];
     let id_turma = "";
     let id_professor = "";
     let id_materia = "";
+    let bimestreAtual = "";
 
     const token = localStorage.getItem("token");
     const id_user = localStorage.getItem("userId");
@@ -51,11 +53,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 selectMateria.innerHTML += `<option value="${materia.id_materia}">${materia.nome}</option>`;
             });
         }
-    }
-
-    // Busca alunos da turma selecionada
+    }    // Busca alunos da turma selecionada
     async function buscarAlunos() {
-        if (!id_turma || !id_materia) {
+        if (!id_turma || !id_materia || !bimestreAtual) {
             tabela.innerHTML = "";
             return;
         }
@@ -74,8 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             row.innerHTML = `
                 <td>${idx + 1}</td>
                 <td>${aluno.nome}</td>
-                <td><input type="number" min="0" max="10" step="0.1" class="nota1" data-id="${aluno.id_user}"></td>
-                <td><input type="number" min="0" max="10" step="0.1" class="nota2" data-id="${aluno.id_user}"></td>
+                <td><input type="number" min="0" max="10" step="0.1" class="nota-aluno" data-id="${aluno.id_aluno}" placeholder="0.0"></td>
             `;
             tabela.appendChild(row);
         });
@@ -84,32 +83,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Eventos de mudança nos selects
     selectModulo.addEventListener("change", () => {
         id_turma = selectModulo.value;
-        buscarAlunos();
+        verificarFormularioPreenchido();
     });
+    
     selectMateria.addEventListener("change", () => {
         id_materia = selectMateria.value;
-        buscarAlunos();
+        verificarFormularioPreenchido();
     });
-
-    // Lançar notas
+    
+    selectBimestre.addEventListener("change", () => {
+        bimestreAtual = selectBimestre.value;
+        verificarFormularioPreenchido();
+    });
+    
+    // Verifica se todos os selects foram preenchidos
+    function verificarFormularioPreenchido() {
+        if (id_turma && id_materia && bimestreAtual) {
+            buscarAlunos();
+        }
+    }    // Lançar notas
     btnLancar.addEventListener("click", async () => {
-        if (!id_professor || !id_turma || !id_materia) {
-            alert("Selecione módulo e matéria!");
+        if (!id_professor || !id_turma || !id_materia || !bimestreAtual) {
+            alert("Selecione módulo, matéria e bimestre!");
             return;
         }
-        // 1º Bimestre
-        const notas1 = Array.from(document.querySelectorAll(".nota1")).map(input => ({
-            id_aluno: input.dataset.id,
-            valor: parseFloat(input.value)
-        })).filter(n => !isNaN(n.valor));
-        // 2º Bimestre
-        const notas2 = Array.from(document.querySelectorAll(".nota2")).map(input => ({
+        
+        // Coleta as notas preenchidas
+        const notas = Array.from(document.querySelectorAll(".nota-aluno")).map(input => ({
             id_aluno: input.dataset.id,
             valor: parseFloat(input.value)
         })).filter(n => !isNaN(n.valor));
 
-        if (notas1.length > 0) {
-            await fetch("http://localhost:8081/prof/lancarNotas", {
+        if (notas.length === 0) {
+            alert("Nenhuma nota preenchida para lançamento!");
+            return;
+        }
+
+        try {
+            // Define o texto do bimestre baseado no valor selecionado
+            const textosBimestres = {
+                "1": "1º Bimestre",
+                "2": "2º Bimestre",
+                "3": "3º Bimestre",
+                "4": "4º Bimestre"
+            };
+            
+            const bimestreTexto = textosBimestres[bimestreAtual];
+            
+            const response = await fetch("http://localhost:8081/prof/lancarNotas", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -120,29 +141,26 @@ document.addEventListener("DOMContentLoaded", async () => {
                     id_turma,
                     id_materia,
                     tipo_avaliacao: "Prova",
-                    bimestre: "1º Bimestre",
-                    notas: notas1
+                    bimestre: bimestreTexto,
+                    notas: notas
                 })
             });
+
+            if (response.ok) {
+                alert(`Notas do ${bimestreTexto} lançadas com sucesso!`);
+                
+                // Limpa os campos de notas
+                document.querySelectorAll(".nota-aluno").forEach(input => {
+                    input.value = "";
+                });
+            } else {
+                const error = await response.json();
+                throw new Error(error.erro || 'Erro ao lançar notas');
+            }
+        } catch (error) {
+            alert(`Erro ao lançar notas: ${error.message}`);
+            console.error("Erro:", error);
         }
-        if (notas2.length > 0) {
-            await fetch("http://localhost:8081/prof/lancarNotas", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    id_professor,
-                    id_turma,
-                    id_materia,
-                    tipo_avaliacao: "Prova",
-                    bimestre: "2º Bimestre",
-                    notas: notas2
-                })
-            });
-        }
-        alert("Notas lançadas com sucesso!");
     });
 
     // Inicialização: buscar id_professor antes de popular selects

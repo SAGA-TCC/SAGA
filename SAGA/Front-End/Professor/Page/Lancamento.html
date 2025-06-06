@@ -34,9 +34,7 @@
 
     <main class="container">
         <div class="content-box">
-            <h1>Lançamento</h1>
-
-            <div class="select-group">
+            <h1>Lançamento</h1>            <div class="select-group">
                 <select id="selectModulo">
                     <option value="">Selecione o Módulo</option>
                     <!-- Preencher via JS -->
@@ -45,6 +43,13 @@
                     <option value="">Selecione a Matéria</option>
                     <!-- Preencher via JS -->
                 </select>
+                <select id="selectBimestre">
+                    <option value="">Selecione o Bimestre</option>
+                    <option value="1">1º Bimestre</option>
+                    <option value="2">2º Bimestre</option>
+                    <option value="3">3º Bimestre</option>
+                    <option value="4">4º Bimestre</option>
+                </select>
             </div>
 
             <table>
@@ -52,8 +57,7 @@
                     <tr>
                         <th>Nº</th>
                         <th>Nome</th>
-                        <th>1º Bimestre</th>
-                        <th>2º Bimestre</th>
+                        <th>Nota</th>
                     </tr>
                 </thead>
                 <tbody id="tabelaLancamento">

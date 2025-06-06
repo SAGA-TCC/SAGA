@@ -53,6 +53,27 @@ tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.clickable-row {
+    position: relative;
+}
+
+.clickable-row::after {
+    content: '→';
+    position: absolute;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.clickable-row:hover::after {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 /* Feedback visual quando o usuário clica na linha */
 tbody tr:active {
     background-color: rgba(255, 255, 255, 0.2);
