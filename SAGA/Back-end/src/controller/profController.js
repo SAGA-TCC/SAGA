@@ -85,12 +85,12 @@ export class ProfController {    // Retorna todas as turmas associadas ao profes
             return res.status(500).json({ erro: "Erro ao buscar matérias do professor", detalhes: error.message });
         }
     }
-
-
     // Realiza a chamada dos alunos de uma turma associada ao professor
     async realizarChamada(req, res) {
         try {
             const { id_professor, id_turma, data, presencas } = req.body;
+            
+            console.log("Recebido payload para chamada:", { id_professor, id_turma, data, presencas });
 
             if (!id_professor || !id_turma || !data || !Array.isArray(presencas)) {
                 return res.status(400).json({ erro: "Dados obrigatórios faltando ou inválidos." });
@@ -99,13 +99,56 @@ export class ProfController {    // Retorna todas as turmas associadas ao profes
             if (presencas.length === 0) {
                 return res.status(400).json({ erro: "Nenhuma presença informada." });
             }
+            
+            // Verificar se o professor existe
+            const professor = await prisma.professor.findUnique({
+                where: { id_professor }
+            });
+            
+            if (!professor) {
+                return res.status(404).json({ erro: "Professor não encontrado" });
+            }
+            
+            // Verificar se a turma existe
+            const turma = await prisma.turma.findUnique({
+                where: { id_turma }
+            });
+            
+            if (!turma) {
+                return res.status(404).json({ erro: "Turma não encontrada" });
+            }
+            
+            // Verificar se todos os alunos existem
+            const alunosIds = presencas.map(p => p.id_aluno);
+            const alunosExistentes = await prisma.aluno.findMany({
+                where: {
+                    id_aluno: {
+                        in: alunosIds
+                    }
+                }
+            });
+            
+            if (alunosExistentes.length !== alunosIds.length) {
+                return res.status(400).json({ erro: "Um ou mais alunos não existem" });
+            }
+            
+            // Converter a data string para objeto Date
+            let dataObj;
+            try {
+                dataObj = new Date(data);
+                if (isNaN(dataObj)) {
+                    throw new Error("Data inválida");
+                }
+            } catch (err) {
+                return res.status(400).json({ erro: "Formato de data inválido", detalhes: err.message });
+            }
 
             // Cria a chamada e as presenças associadas
             const chamada = await prisma.chamada.create({
                 data: {
                     id_professor,
                     id_turma,
-                    data: new Date(data),
+                    data: dataObj,
                     presencas: {
                         create: presencas.map(p => ({
                             id_aluno: p.id_aluno,

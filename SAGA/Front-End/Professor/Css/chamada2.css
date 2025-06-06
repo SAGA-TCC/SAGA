@@ -1,11 +1,12 @@
 .chamada-box {
     width: 100%;
     max-width: 80%;
-    background-color: rgba(25, 25, 57, 0.9);
+    background-color: rgba(0, 0, 50, 0.5);
     padding: 30px;
-    border-radius: 15px;
+    border-radius: 20px;
     color: white;
     text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
 
 .tabela-chamada {
@@ -72,20 +73,26 @@
 
 .botao-lancar {
     margin-top: 40px;
-    padding: 12px 25px;
+    padding: 12px 30px;
     background-color: white;
     color: black;
     font-weight: bold;
     font-size: 18px;
-    border-radius: 20px;
+    border-radius: 15px;
     border: none;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .botao-lancar:hover {
-    background-color: black;
-    color: white;
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.botao-lancar:active {
+    transform: translateY(0);
 }
 
 .tabela-chamada {
@@ -128,22 +135,85 @@
     border-bottom: none;
 }
 
-.status-btn.verde {
-    background-color: #27ae60;
-    color: #fff;
+.status-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     border: none;
     font-weight: bold;
-    border-radius: 4px;
-    padding: 6px 16px;
+    font-size: 16px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.status-btn.verde {
+    background-color: #27ae60;
+    color: white;
+}
+
+.status-btn.verde:hover {
+    background-color: #2ecc71;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .status-btn.vermelho {
     background-color: #e74c3c;
-    color: #fff;
+    color: white;
+}
+
+.status-btn.vermelho:hover {
+    background-color: #c0392b;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.date-selector {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 30px;
+}
+
+.date-field {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 10px;
+    gap: 15px;
+}
+
+.date-field label {
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.date-field input[type="date"] {
+    background-color: white;
+    color: black;
+    padding: 8px 15px;
     border: none;
-    font-weight: bold;
-    border-radius: 4px;
-    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
+    font-family: inherit;
+}
+
+.date-field input[type="date"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.5);
+}
+
+/* Remove o ícone de calendário no Edge e Chrome */
+.date-field input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    color: black;
+    cursor: pointer;
+    padding: 5px;
 }

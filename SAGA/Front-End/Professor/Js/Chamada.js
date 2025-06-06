@@ -98,15 +98,22 @@ document.addEventListener("DOMContentLoaded", async function () {
         const row = document.createElement("tr");
         row.innerHTML = `<td colspan="4" style="text-align:center;">Nenhuma turma/matéria encontrada.</td>`;
         tableBody.appendChild(row);
-    }
-
-    // Evento do botão Selecionar
+    }    // Evento do botão Selecionar
     tableBody.addEventListener("click", function (e) {
         if (e.target.classList.contains("btn-selecionar")) {
             const id_turma = e.target.getAttribute("data-id-turma");
             const id_materia = e.target.getAttribute("data-id-materia");
+            const row = e.target.closest("tr");
+            
+            // Pegar os nomes da turma e matéria a partir das células da tabela
+            const nomeTurma = row.cells[0].textContent;
+            const nomeMateria = row.cells[1].textContent;
+            
             localStorage.setItem("id_turma_selecionada", id_turma);
             localStorage.setItem("id_materia_selecionada", id_materia);
+            localStorage.setItem("selectedTurmaNome", nomeTurma);
+            localStorage.setItem("selectedMateriaNome", nomeMateria);
+            
             window.location.href = "Chamada2.html";
         }
     });
