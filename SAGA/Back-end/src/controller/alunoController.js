@@ -9,16 +9,22 @@ export class AlunoController {
                 return res.status(400).json({ message: "Usuário não autenticado." });
             }
 
+            // Inclui o professor e o user do professor em cada matéria
             const aluno = await prisma.aluno.findUnique({
                 where: { id_user },
                 include: {
                     turma: {
                         include: {
-                            curso: { include: { materias: true } },
-                            professoresRelation: {
+                            curso: {
                                 include: {
-                                    professor: {
-                                        include: { user: true }
+                                    materias: {
+                                        include: {
+                                            professor: {
+                                                include: {
+                                                    user: true
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -31,16 +37,14 @@ export class AlunoController {
                 return res.status(404).json({ message: "Informações do curso não encontradas." });
             }
 
-            const materias = (aluno.turma.curso.materias || []).map(materia => {
-                const relacao = (aluno.turma.professoresRelation || []).find(
-                    rel => rel.professor.id_materia === materia.id_materia
-                );
-                return {
-                    materia: materia.nome,
-                    cargaHoraria: materia.ch_total,
-                    professor: relacao ? relacao.professor.user.nome : "Não definido"
-                };
-            });
+            // Para cada matéria, pega o nome do professor vinculado (se houver)
+            const materias = (aluno.turma.curso.materias || []).map(materia => ({
+                materia: materia.nome,
+                cargaHoraria: materia.ch_total,
+                professor: materia.professor && materia.professor.user
+                    ? materia.professor.user.nome
+                    : "Não definido"
+            }));
 
             return res.status(200).json(materias);
 
@@ -59,6 +63,7 @@ export class AlunoController {
 
             const { modulo } = req.params;
 
+            // Busca o aluno, turma e curso
             const aluno = await prisma.aluno.findUnique({
                 where: { id_user },
                 include: {
@@ -68,55 +73,61 @@ export class AlunoController {
                                 include: {
                                     materias: true
                                 }
-                            },
-                            Chamadas: {
-                                include: {
-                                    presencas: {
-                                        where: { id_aluno: id_user }
-                                    }
-                                }
                             }
                         }
                     }
                 }
             });
 
-            if (!aluno) {
-                return res.status(404).json({ message: "Aluno não encontrado." });
-            }
-
-            if (!aluno.turma || !aluno.turma.curso) {
+            if (!aluno || !aluno.turma || !aluno.turma.curso) {
                 return res.status(404).json({ message: "Informações do curso não encontradas." });
             }
 
-            const materiasInfo = aluno.turma.curso.materias
-                .filter(materia => materia.codigo.toString().startsWith(modulo))
-                .map(materia => ({
+            // Filtra as matérias do módulo da turma do aluno
+            const materiasModulo = aluno.turma.curso.materias
+                .filter(materia => materia.codigo.toString().startsWith(modulo));
+
+            // Para cada matéria, busca as notas do aluno
+            const materiasInfo = await Promise.all(materiasModulo.map(async materia => {
+                // Busca as notas do aluno para esta matéria e turma
+                const notasAluno = await prisma.notaAluno.findMany({
+                    where: {
+                        id_aluno: aluno.id_aluno,
+                        nota: {
+                            id_materia: materia.id_materia,
+                            id_turma: aluno.turma.id_turma
+                        }
+                    },
+                    include: {
+                        nota: true
+                    }
+                });
+
+                // Separe por tipo de avaliação (exemplo: "B1", "B2", etc)
+                const notaB1 = notasAluno.find(n => n.nota.tipo_avaliacao === "B1")?.valor ?? "-";
+                const notaB2 = notasAluno.find(n => n.nota.tipo_avaliacao === "B2")?.valor ?? "-";
+
+                return {
                     nome: materia.nome,
                     codigo: materia.codigo,
                     descricao: materia.descricao,
-                    ch_total: materia.ch_total
-                }));
-
-            const totalChamadas = aluno.turma.Chamadas.length;
-            const presencas = aluno.turma.Chamadas.flatMap(chamada =>
-                chamada.presencas.filter(presenca => presenca.presente)
-            ).length;
-
-            const frequencia = totalChamadas > 0 ? (presencas / totalChamadas) * 100 : 0;
+                    ch_total: materia.ch_total,
+                    notaB1,
+                    notaB2
+                };
+            }));
 
             const response = {
                 curso: aluno.turma.curso.nome,
                 turma: aluno.turma.nome,
                 modulo,
-                materias: materiasInfo,
-                frequencia: `${frequencia.toFixed(2)}%`
+                materias: materiasInfo
             };
 
             return res.status(200).json(response);
 
         } catch (error) {
-            console.error("Erro ao listar informações do módulo:", error.message);
+            console.error("Erro ao listar informações do módulo:", error);
             return res.status(500).json({ message: "Erro interno do servidor." });
         }
     }
