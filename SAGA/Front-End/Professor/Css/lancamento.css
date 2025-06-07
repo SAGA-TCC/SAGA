@@ -85,6 +85,7 @@ tr:not(:last-child) {
     border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-top: -9px;
 }
 
 .btn-lancar:hover {
