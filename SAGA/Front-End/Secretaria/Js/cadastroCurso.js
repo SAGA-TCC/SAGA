@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Valida se todos os campos foram preenchidos
         if (!nomeCurso || !cargaHoraria || !serie || !frequencia || !descricao) {
-            alert('Por favor, preencha todos os campos.');
+            mostrarModal('Por favor, preencha todos os campos.');
             return;
         }
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Obtém o token do localStorage
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
                 window.location.href = '../Login/Login.html';
                 return;
             }            // Prepara os dados para enviar
@@ -71,12 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const result = await response.json();
-            alert('Curso cadastrado com sucesso!');
+            mostrarModal('Curso cadastrado com sucesso!');
 
 
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao cadastrar curso. Por favor, tente novamente.');
+            mostrarModal('Erro ao cadastrar curso. Por favor, tente novamente.');
         }
     });
 });
