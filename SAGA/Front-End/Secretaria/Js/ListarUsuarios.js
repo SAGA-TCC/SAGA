@@ -1,8 +1,31 @@
+function mostrarModal(mensagem) {
+    const antigo = document.querySelector('.modal-overlay');
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+
+    const texto = document.createElement('p');
+    texto.innerText = mensagem;
+
+    const botao = document.createElement('button');
+    botao.innerText = 'OK';
+    botao.onclick = () => overlay.remove();
+
+    box.appendChild(texto);
+    box.appendChild(botao);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem('token');
     if (!token) {
-        alert("Token não encontrado. Faça login novamente.");
-        window.location.href = "../../Front-End/Login/Login.html";
+        mostrarModal("Token não encontrado. Faça login novamente.");
+        window.location.href = "../../Login/Login.html";
         return;
     }
 
@@ -45,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function editar(id_user) {
     const token = localStorage.getItem('token');
     if (!token) {
-        alert("Token não encontrado. Faça login novamente.");
+        mostrarModal("Token não encontrado. Faça login novamente.");
         window.location.href = "../../Front-End/Login/Login.html";
         return;
     }
@@ -60,8 +83,8 @@ function editar(id_user) {
 function excluir(id_user) {
     const token = localStorage.getItem('token');
     if (!token) {
-        alert("Token não encontrado. Faça login novamente.");
-        window.location.href = "../../Front-End/Login/Login.html";
+        mostrarModal("Token não encontrado. Faça login novamente.");
+        window.location.href = "../../Login/Login.html";
         return;
     }
 
@@ -104,13 +127,13 @@ function excluir(id_user) {
             }
         })
         .then(data => {
-            alert("Usuário excluído com sucesso!");
+            mostrarModal("Usuário excluído com sucesso!");
             // Recarrega a página para atualizar a lista
             window.location.reload();
         })
         .catch(error => {
             console.error("Erro ao excluir usuário:", error);
-            alert(`Erro ao excluir usuário: ${error.message}`);
+            mostrarModal(`Erro ao excluir usuário: ${error.message}`);
         });
 }
 

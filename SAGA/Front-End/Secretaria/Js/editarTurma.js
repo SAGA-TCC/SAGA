@@ -9,13 +9,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dataInicio = document.getElementById('dataInicio');
     const semestres = document.getElementById('semestres');
 
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
+
     // Função para carregar cursos
     async function carregarCursos() {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
-                window.location.href = '../Login/Login.html';
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
+                window.location.href = '../../Login/Login.html';
                 return;
             }
 
@@ -41,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return cursos;
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar cursos. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar cursos. Por favor, tente novamente.');
         }
     }
 
@@ -63,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const turma = turmas.find(t => t.id_turma === turmaId);
 
             if (!turma) {
-                alert('Turma não encontrada');
+                mostrarModal('Turma não encontrada');
                 window.location.href = 'ListarTurmas.html';
                 return;
             }
@@ -76,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar dados da turma. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar dados da turma. Por favor, tente novamente.');
         }
     }
 
@@ -85,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         event.preventDefault();
 
         if (!nomeTurma.value || !dataInicio.value || !semestres.value || !cursosSelect.value) {
-            alert('Por favor, preencha todos os campos obrigatórios.');
+            mostrarModal('Por favor, preencha todos os campos obrigatórios.');
             return;
         }
 
@@ -111,11 +135,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error('Erro ao atualizar turma');
             }
 
-            alert('Turma atualizada com sucesso!');
+            mostrarModal('Turma atualizada com sucesso!');
             window.location.href = 'ListarTurmas.html';
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao atualizar turma. Por favor, tente novamente.');
+            mostrarModal('Erro ao atualizar turma. Por favor, tente novamente.');
         }
     }
 

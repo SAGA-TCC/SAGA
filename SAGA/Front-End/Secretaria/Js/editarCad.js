@@ -3,6 +3,30 @@ document.addEventListener("DOMContentLoaded", async function () {
     let fotoPerfilBase64 = "";
     let usuarioAtual = null;
 
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
+
     // Extrai o ID da URL
     const params = new URLSearchParams(window.location.search);
     const id_usuario = params.get("id_user");
@@ -10,15 +34,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log("ID do usuário extraído da URL:", id_usuario);
 
     if (!id_usuario) {
-        alert("ID do usuário não encontrado na URL.");
+        mostrarModal("ID do usuário não encontrado na URL.");
         return;
     }
 
     // Recupera o token do localStorage
     const token = localStorage.getItem("token");
     if (!token) {
-        alert("Token não encontrado. Faça login novamente.");
-        window.location.href = "../../Front-End/Login/Login.html";
+        mostrarModal("Token não encontrado. Faça login novamente.");
+        window.location.href = "../../Login/Login.html";
         return;
     }
 
@@ -89,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             // Verificar tamanho do arquivo
             if (file.size > 10 * 1024 * 1024) { // Maior que 10MB
-                alert("A imagem é muito grande. Por favor, selecione uma imagem menor que 10MB.");
+                mostrarModal("A imagem é muito grande. Por favor, selecione uma imagem menor que 10MB.");
                 return;
             }
 
@@ -111,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     fotoPerfilBase64 = resizedImage;
                 } catch (error) {
                     console.error("Erro ao processar imagem:", error);
-                    alert("Ocorreu um erro ao processar a imagem.");
+                    mostrarModal("Ocorreu um erro ao processar a imagem.");
                 }
             };
 
@@ -323,7 +347,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         await carregarCamposEspecificos(usuario.tipo, id_usuario);
     } catch (error) {
         console.error("Erro ao buscar dados do usuário:", error);
-        alert("Erro ao carregar os dados do usuário. Verifique o console para mais detalhes.");
+        mostrarModal("Erro ao carregar os dados do usuário. Verifique o console para mais detalhes.");
     }
 
     // Captura o evento de envio do formulário
@@ -335,13 +359,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("ID do usuário no envio do formulário:", id_usuario);
 
         if (!id_usuario) {
-            alert("ID do usuário não encontrado na URL.");
+            mostrarModal("ID do usuário não encontrado na URL.");
             return;
         }
 
         const token = localStorage.getItem("token");
         if (!token) {
-            alert("Token não encontrado. Faça login novamente.");
+            mostrarModal("Token não encontrado. Faça login novamente.");
             window.location.href = "../../Front-End/Login/Login.html";
             return;
         }
@@ -486,11 +510,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 throw new Error(errorMessage);
             }
 
-            alert("Dados atualizados com sucesso!");
+            mostrarModal("Dados atualizados com sucesso!");
             window.location.href = "ListarUsuarios.html"; // Redireciona após sucesso
         } catch (error) {
             console.error("Erro ao editar os dados do usuário:", error);
-            alert(`Erro ao salvar os dados do usuário: ${error.message}`);
+            mostrarModal(`Erro ao salvar os dados do usuário: ${error.message}`);
         }
     });
 });

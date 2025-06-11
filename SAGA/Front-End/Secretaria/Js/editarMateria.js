@@ -9,11 +9,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     const descricao = document.getElementById('descricaoDisciplina');
     const cursoDisciplina = document.getElementById('cursoDisciplina');
     const professorDisciplina = document.getElementById('professorDisciplina');    // Função para carregar cursos
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
     async function carregarCursos() {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
                 window.location.href = '../Login/Login.html';
                 return;
             }
@@ -40,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return cursos;
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar cursos. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar cursos. Por favor, tente novamente.');
         }
     }
     
@@ -49,8 +72,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
-                window.location.href = '../Login/Login.html';
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
+                window.location.href = '../../Login/Login.html';
                 return;
             }
 
@@ -77,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return professores;
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar professores. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar professores. Por favor, tente novamente.');
         }
     }    // Função para carregar dados da matéria
     async function carregarDadosMateria() {
@@ -113,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 
                 if (!materiaFound) {
-                    alert('Matéria não encontrada');
+                    mostrarModal('Matéria não encontrada');
                     window.location.href = 'ListarMaterias.html';
                     return;
                 }
@@ -148,7 +171,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar dados da matéria. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar dados da matéria. Por favor, tente novamente.');
         }
     }
 
@@ -157,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         event.preventDefault();
 
         if (!nomeDisciplina.value || !cargaHoraria.value || !frequencia.value || !descricao.value) {
-            alert('Por favor, preencha todos os campos obrigatórios.');
+            mostrarModal('Por favor, preencha todos os campos obrigatórios.');
             return;
         }        try {
             const token = localStorage.getItem('token');
@@ -182,11 +205,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error('Erro ao atualizar matéria');
             }
 
-            alert('Matéria atualizada com sucesso!');
+            mostrarModal('Matéria atualizada com sucesso!');
             window.location.href = 'ListarMaterias.html';
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao atualizar matéria. Por favor, tente novamente.');
+            mostrarModal('Erro ao atualizar matéria. Por favor, tente novamente.');
         }
     }
 

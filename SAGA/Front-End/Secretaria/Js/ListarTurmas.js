@@ -3,13 +3,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchInput = document.querySelector('.search-box input');
     let turmas = [];
 
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
     // Função para carregar turmas
     async function carregarTurmas() {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
-                window.location.href = '../Login/Login.html';
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
+                window.location.href = '../../Login/Login.html';
                 return;
             }
 
@@ -27,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             exibirTurmas(turmas);
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar turmas. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar turmas. Por favor, tente novamente.');
         }
     }
 
@@ -50,11 +73,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error('Erro ao excluir turma');
             }
 
-            alert('Turma excluída com sucesso!');
+            mostrarModal('Turma excluída com sucesso!');
             carregarTurmas(); // Recarrega a lista
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao excluir turma. Por favor, tente novamente.');
+            mostrarModal('Erro ao excluir turma. Por favor, tente novamente.');
         }
     }
 

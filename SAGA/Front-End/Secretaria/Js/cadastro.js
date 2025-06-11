@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             const token = localStorage.getItem("token");
             if (!token) {
-                alert("Token não encontrado. Faça login novamente.");
+                mostrarModal("Token não encontrado. Faça login novamente.");
                 window.location.href = "../../Front-End/Login/Login.html";
                 return;
             }
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Recuperar o token do localStorage
         const token = localStorage.getItem("token");
         if (!token && tipoUsuario !== "1") { // Verificação apenas para rotas que exigem token
-            alert("Token não encontrado. Faça login novamente.");
+            mostrarModal("Token não encontrado. Faça login novamente.");
             window.location.href = "../../Front-End/Login/Login.html";
             return;
         }
@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (tipoUsuario === "3") {
             const id_turma = document.getElementById("id_turma").value;
             if (!id_turma) {
-                alert("Selecione uma turma para o aluno!");
+                mostrarModal("Selecione uma turma para o aluno!");
                 return;
             }
             dadosParaEnviar.id_turma = id_turma;
@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 requiresToken = false; // A rota de secretaria não exige token
                 break;
             default:
-                alert("Tipo de usuário inválido!");
+                mostrarModal("Tipo de usuário inválido!");
                 return;
         }
         
@@ -357,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 throw new Error(result.error);
             }
             
-            alert(result.message || "Cadastro realizado com sucesso!");
+            mostrarModal(result.message || "Cadastro realizado com sucesso!");
             
             // Limpar campos após cadastro
             document.getElementById("nome").value = "";
@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
         } catch (error) {
             console.error("Erro ao cadastrar:", error);
-            alert(`Erro ao realizar cadastro: ${error.message}`);
+            mostrarModal(`Erro ao realizar cadastro: ${error.message}`);
         }
     });
     

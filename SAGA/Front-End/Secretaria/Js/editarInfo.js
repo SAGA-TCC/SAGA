@@ -16,6 +16,30 @@ document.addEventListener('DOMContentLoaded', async function () {
     let fotoPerfilBase64 = '';
     let userData = null;
 
+      function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
+
     // Verificar se o usuário está autenticado
     async function verificarToken() {
         const token = localStorage.getItem('token');
@@ -326,14 +350,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
 
             // Exibir mensagem de sucesso
-            alert('Informações atualizadas com sucesso!');
+            mostrarModal('Informações atualizadas com sucesso!');
             
             // Redirecionar para a página de informações
             window.location.href = 'info.html';
 
         } catch (error) {
             console.error('Erro ao salvar alterações:', error);
-            alert(`Erro ao salvar alterações: ${error.message}`);
+            mostrarModal(`Erro ao salvar alterações: ${error.message}`);
         }
     }
 
@@ -359,13 +383,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             
             // Verificar se o arquivo é uma imagem
             if (!file.type.match('image.*')) {
-                alert('Por favor, selecione uma imagem.');
+                mostrarModal('Por favor, selecione uma imagem.');
                 return;
             }
             
             // Verificar o tamanho do arquivo (máximo 5MB)
             if (file.size > 5 * 1024 * 1024) {
-                alert('A imagem deve ter no máximo 5MB.');
+                mostrarModal('A imagem deve ter no máximo 5MB.');
                 return;
             }
             

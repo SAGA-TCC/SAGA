@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     if (!token) {
-        alert('Usuário não autenticado. Por favor, faça login novamente.');
-        window.location.href = '../Login/Login.html';
+        mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
+        window.location.href = '../../Login/Login.html';
         return;
     }
 
@@ -15,6 +15,29 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', cadastrarTurma);
     }
 });
+
+function mostrarModal(mensagem) {
+    const antigo = document.querySelector('.modal-overlay');
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+
+    const texto = document.createElement('p');
+    texto.innerText = mensagem;
+
+    const botao = document.createElement('button');
+    botao.innerText = 'OK';
+    botao.onclick = () => overlay.remove();
+
+    box.appendChild(texto);
+    box.appendChild(botao);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
 
 // Função para carregar cursos disponíveis para o select
 async function carregarCursos() {
@@ -35,7 +58,7 @@ async function carregarCursos() {
 
         const cursos = await response.json();
         console.log('Cursos recebidos:', cursos); // Adicionando log para debug
-        
+
         // Limpar opções existentes, exceto a primeira
         while (selectCursos.options.length > 1) {
             selectCursos.remove(1);
@@ -53,47 +76,47 @@ async function carregarCursos() {
         });
     } catch (error) {
         console.error('Erro ao carregar cursos:', error);
-        alert('Não foi possível carregar a lista de cursos. Por favor, tente novamente mais tarde.');
+        mostrarModal('Não foi possível carregar a lista de cursos. Por favor, tente novamente mais tarde.');
     }
 }
 
 // Função para cadastrar uma nova turma
 async function cadastrarTurma(event) {
-    event.preventDefault();    const nomeTurma = document.getElementById('nomeTurma').value.trim();
+    event.preventDefault(); const nomeTurma = document.getElementById('nomeTurma').value.trim();
     const dataInicio = document.getElementById('dataInicio').value;
     const semestres = document.getElementById('semestres').value;
     const idCurso = document.getElementById('cursosSelect').value;
 
     // Validações básicas
     if (!nomeTurma) {
-        alert('Por favor, informe o nome da turma');
+        mostrarModal('Por favor, informe o nome da turma');
         return;
     }
 
     if (!dataInicio) {
-        alert('Por favor, selecione a data de início');
+        mostrarModal('Por favor, selecione a data de início');
         return;
     }
 
     if (!semestres || parseInt(semestres) < 1) {
-        alert('Por favor, informe um número válido de semestres');
+        mostrarModal('Por favor, informe um número válido de semestres');
         return;
     }
 
     if (!idCurso) {
-        alert('Por favor, selecione um curso');
+        mostrarModal('Por favor, selecione um curso');
         return;
     }
 
     const token = localStorage.getItem('token');
-      try {
+    try {
         console.log('Enviando dados:', {
             nome: nomeTurma,
             dt_inicio: dataInicio,
             semestres: semestres.toString(), // Convertendo para string
             id_curso: idCurso
         });
-        
+
         const response = await fetch('http://localhost:8081/sec/Turma/cadastrar', {
             method: 'POST',
             headers: {
@@ -115,16 +138,16 @@ async function cadastrarTurma(event) {
             throw new Error(responseData.erro || responseData.error || responseData.message || 'Erro ao cadastrar turma');
         }
 
-        alert('Turma cadastrada com sucesso!');
-        
+        mostrarModal('Turma cadastrada com sucesso!');
+
         // Limpar o formulário
         document.getElementById('cadastrarTurmaForm').reset();
-        
+
         // Opcional: redirecionar para a lista de turmas
         window.location.href = 'ListarTurmas.html';
-        
+
     } catch (error) {
         console.error('Erro no cadastro de turma:', error);
-        alert(`Erro ao cadastrar turma: ${error.message}`);
+        mostrarModal(`Erro ao cadastrar turma: ${error.message}`);
     }
 }

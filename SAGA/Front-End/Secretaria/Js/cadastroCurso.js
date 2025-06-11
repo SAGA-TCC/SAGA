@@ -1,6 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('cursoForm');
     const cadastrarButton = form.querySelector('button[type="button"]');
+    
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
 
     cadastrarButton.addEventListener('click', async () => {
         // Coleta os dados do formulário

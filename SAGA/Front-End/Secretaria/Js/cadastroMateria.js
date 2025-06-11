@@ -3,12 +3,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     const cursosSelect = document.getElementById('cursoDisciplina');
     const professoresSelect = document.getElementById('professorDisciplina');
 
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
+
     // Função para carregar cursos
     async function carregarCursos() {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
                 window.location.href = '../Login/Login.html';
                 return;
             }
@@ -37,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar cursos. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar cursos. Por favor, tente novamente.');
         }
     }
 
@@ -46,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
                 window.location.href = '../Login/Login.html';
                 return;
             }
@@ -75,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar professores. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar professores. Por favor, tente novamente.');
         }
     }
 
@@ -91,14 +115,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const professorId = professoresSelect.value; // Pega o professor selecionado
 
         if (!nomeDisciplina || !cargaHoraria || !frequencia || !descricao || !cursoId || !professorId) {
-            alert('Por favor, preencha todos os campos.');
+            mostrarModal('Por favor, preencha todos os campos.');
             return;
         }
 
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
                 window.location.href = '../Login/Login.html';
                 return;
             }
@@ -126,12 +150,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             const result = await response.json();
-            alert('Matéria cadastrada com sucesso!');
+            mostrarModal('Matéria cadastrada com sucesso!');
             form.reset();
             
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao cadastrar matéria. Por favor, tente novamente.');
+            mostrarModal('Erro ao cadastrar matéria. Por favor, tente novamente.');
         }
     }
 

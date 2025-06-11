@@ -1,3 +1,26 @@
+function mostrarModal(mensagem) {
+    const antigo = document.querySelector('.modal-overlay');
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+
+    const texto = document.createElement('p');
+    texto.innerText = mensagem;
+
+    const botao = document.createElement('button');
+    botao.innerText = 'OK';
+    botao.onclick = () => overlay.remove();
+
+    box.appendChild(texto);
+    box.appendChild(botao);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
+
 // Função para verificar o token
 function verificaToken() {
     console.log("Verificando token armazenado...");
@@ -5,7 +28,7 @@ function verificaToken() {
     
     if (!token) {
         console.error("Token não encontrado no localStorage");
-        alert("Token não encontrado. Faça login novamente.");
+        mostrarModal("Token não encontrado. Faça login novamente.");
         window.location.href = "../../Login/Login.html";
         return;
     }
@@ -38,7 +61,7 @@ function verificaToken() {
                 // Remover token inválido do localStorage
                 localStorage.removeItem('token');
                 
-                alert("Sua sessão expirou. Por favor, faça login novamente.");
+                mostrarModal("Sua sessão expirou. Por favor, faça login novamente.");
                 window.location.href = "../../Login/Login.html";
             } else {
                 console.error(`Erro na verificação do token: ${response.status} - ${response.statusText}`);
@@ -53,7 +76,7 @@ function verificaToken() {
         
         if (error.message && error.message.includes('Failed to fetch')) {
             console.error("Erro de conexão com o servidor");
-            alert("Não foi possível conectar ao servidor. Verifique sua conexão de internet e se o servidor está em execução.");
+            mostrarModal("Não foi possível conectar ao servidor. Verifique sua conexão de internet e se o servidor está em execução.");
         }
     });
 }

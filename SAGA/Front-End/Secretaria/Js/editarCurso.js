@@ -11,13 +11,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     const descricao = document.getElementById('descricao');
     const codigoCurso = document.getElementById('codigoCurso');
 
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
+
     // Carregar dados do curso
     async function carregarDadosCurso() {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
-                window.location.href = '../Login/Login.html';
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
+                window.location.href = '../../Login/Login.html';
                 return;
             }
 
@@ -35,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const curso = cursos.find(c => c.id_curso === cursoId);
 
             if (!curso) {
-                alert('Curso não encontrado');
+                mostrarModal('Curso não encontrado');
                 window.location.href = 'ListarCursos.html';
                 return;
             }
@@ -50,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             codigoCurso.disabled = true; // O código não deve ser editável
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar dados do curso. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar dados do curso. Por favor, tente novamente.');
         }
     }
 
@@ -59,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         event.preventDefault();
 
         if (!nomeCurso.value || !cargaHoraria.value || !serie.value || !frequencia.value || !descricao.value) {
-            alert('Por favor, preencha todos os campos.');
+            mostrarModal('Por favor, preencha todos os campos.');
             return;
         }
 
@@ -86,11 +110,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error('Erro ao atualizar curso');
             }
 
-            alert('Curso atualizado com sucesso!');
+            mostrarModal('Curso atualizado com sucesso!');
             window.location.href = 'ListarCursos.html';
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao atualizar curso. Por favor, tente novamente.');
+            mostrarModal('Erro ao atualizar curso. Por favor, tente novamente.');
         }
     }
 

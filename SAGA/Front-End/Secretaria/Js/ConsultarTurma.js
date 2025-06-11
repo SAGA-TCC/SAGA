@@ -1,8 +1,31 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
     // Verificar a autenticação
     const token = localStorage.getItem('token');
     if (!token) {
-        alert('Usuário não autenticado. Por favor, faça login novamente.');
+        mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
         window.location.href = '../../Login/Login.html';
         return;
     }
@@ -12,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const idTurma = params.get('id');
     
     if (!idTurma) {
-        alert('ID da turma não informado. Redirecionando para a lista de turmas.');
+        mostrarModal('ID da turma não informado. Redirecionando para a lista de turmas.');
         window.location.href = 'ListarTurmas.html';
         return;
     }
@@ -42,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error('Erro ao carregar detalhes da turma:', error);
         loadingIndicator.textContent = 'Erro ao carregar informações da turma.';
-        alert('Erro ao carregar detalhes da turma. Por favor, tente novamente.');
+        mostrarModal('Erro ao carregar detalhes da turma. Por favor, tente novamente.');
     }
 });
 
@@ -264,7 +287,7 @@ async function removerAluno(idAluno, nomeAluno) {
             throw new Error(`Erro ao remover aluno: ${response.status}`);
         }
         
-        alert(`Aluno ${nomeAluno} removido da turma com sucesso!`);
+        mostrarModal(`Aluno ${nomeAluno} removido da turma com sucesso!`);
         
         // Recarregar os dados da turma
         const params = new URLSearchParams(window.location.search);
@@ -274,7 +297,7 @@ async function removerAluno(idAluno, nomeAluno) {
         
     } catch (error) {
         console.error('Erro ao remover aluno:', error);
-        alert('Erro ao remover aluno da turma. Por favor, tente novamente.');
+        mostrarModal('Erro ao remover aluno da turma. Por favor, tente novamente.');
     }
 }
 
@@ -300,7 +323,7 @@ async function removerProfessor(idProfessor, idTurma, nomeProfessor) {
             throw new Error(`Erro ao remover professor: ${response.status}`);
         }
         
-        alert(`Professor ${nomeProfessor} removido da turma com sucesso!`);
+        mostrarModal(`Professor ${nomeProfessor} removido da turma com sucesso!`);
         
         // Recarregar os dados da turma
         const turma = await buscarDetalhesTurma(idTurma, token);
@@ -308,7 +331,7 @@ async function removerProfessor(idProfessor, idTurma, nomeProfessor) {
         
     } catch (error) {
         console.error('Erro ao remover professor:', error);
-        alert('Erro ao remover professor da turma. Por favor, tente novamente.');
+        mostrarModal('Erro ao remover professor da turma. Por favor, tente novamente.');
     }
 }
 

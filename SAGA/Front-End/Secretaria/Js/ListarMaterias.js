@@ -5,12 +5,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     let materias = [];
     let cursos = [];
 
+
+    function mostrarModal(mensagem) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => overlay.remove();
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
     // Função para carregar cursos
     async function carregarCursos() {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
                 window.location.href = '../Login/Login.html';
                 return;
             }
@@ -29,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             preencherSelectCursos(cursos);
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar cursos. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar cursos. Por favor, tente novamente.');
         }
     }
 
@@ -49,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Usuário não autenticado. Por favor, faça login novamente.');
+                mostrarModal('Usuário não autenticado. Por favor, faça login novamente.');
                 window.location.href = '../Login/Login.html';
                 return;
             }
@@ -96,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             exibirMaterias(materias);
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao carregar matérias. Por favor, tente novamente.');
+            mostrarModal('Erro ao carregar matérias. Por favor, tente novamente.');
         }
     }
 
@@ -119,11 +143,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error('Erro ao excluir matéria');
             }
 
-            alert('Matéria excluída com sucesso!');
+            mostrarModal('Matéria excluída com sucesso!');
             carregarMaterias(cursosSelect.value); // Recarrega a lista
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao excluir matéria. Por favor, tente novamente.');
+            mostrarModal('Erro ao excluir matéria. Por favor, tente novamente.');
         }
     }
 
