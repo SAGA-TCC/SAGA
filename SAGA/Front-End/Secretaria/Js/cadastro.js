@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const token = localStorage.getItem("token");
             if (!token) {
                 mostrarModal("Token não encontrado. Faça login novamente.");
-                window.location.href = "../../Front-End/Login/Login.html";
+                window.location.href = "../../Login/Login.html";
                 return;
             }
             
@@ -97,28 +97,31 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function mostrarModal(mensagem) {
-    const antigo = document.querySelector('.modal-overlay');
-    if (antigo) antigo.remove();
+    function mostrarModal(mensagem, callback) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
 
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
 
-    const box = document.createElement('div');
-    box.className = 'modal-box';
+        const box = document.createElement('div');
+        box.className = 'modal-box';
 
-    const texto = document.createElement('p');
-    texto.innerText = mensagem;
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
 
-    const botao = document.createElement('button');
-    botao.innerText = 'OK';
-    botao.onclick = () => overlay.remove();
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => {
+            overlay.remove();
+            if (typeof callback === 'function') callback();
+        };
 
-    box.appendChild(texto);
-    box.appendChild(botao);
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-}
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
     
     function atualizarFormulario() {
         const tipoUsuario = selectPerson.value;
@@ -277,8 +280,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // Recuperar o token do localStorage
         const token = localStorage.getItem("token");
         if (!token && tipoUsuario !== "1") { // Verificação apenas para rotas que exigem token
-            mostrarModal("Token não encontrado. Faça login novamente.");
-            window.location.href = "../../Front-End/Login/Login.html";
+            mostrarModal("Token não encontrado. Faça login novamente.", () => {
+                window.location.href = "../../Login/Login.html";
+            });
             return;
         }
         

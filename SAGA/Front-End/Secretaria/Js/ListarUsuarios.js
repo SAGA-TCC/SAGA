@@ -1,4 +1,4 @@
-function mostrarModal(mensagem) {
+function mostrarModal(mensagem, callback) {
     const antigo = document.querySelector('.modal-overlay');
     if (antigo) antigo.remove();
 
@@ -13,12 +13,52 @@ function mostrarModal(mensagem) {
 
     const botao = document.createElement('button');
     botao.innerText = 'OK';
-    botao.onclick = () => overlay.remove();
+    botao.onclick = () => {
+        overlay.remove();
+        if (typeof callback === 'function') callback();
+    };
 
     box.appendChild(texto);
     box.appendChild(botao);
     overlay.appendChild(box);
     document.body.appendChild(overlay);
+}
+
+function mostrarModalConfirm(mensagem) {
+    return new Promise((resolve) => {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+
+        const btnOk = document.createElement('button');
+        btnOk.innerText = 'OK';
+        btnOk.onclick = () => {
+            overlay.remove();
+            resolve(true);
+        };
+
+        const btnCancel = document.createElement('button');
+        btnCancel.innerText = 'Cancelar';
+        btnCancel.style.marginLeft = '10px';
+        btnCancel.onclick = () => {
+            overlay.remove();
+            resolve(false);
+        };
+
+        box.appendChild(texto);
+        box.appendChild(btnOk);
+        box.appendChild(btnCancel);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -52,10 +92,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${item.nome}</td>
                     <td>${item.email}</td>
                     <td>${new Date(item.dt_nasc).toLocaleDateString()}</td>
-                    <td><button onclick="editar('${item.id_user}')">Editar</button></td>
-                    <td><button onclick="excluir('${item.id_user}')">Excluir</button></td>
+                    <td><button class="btn-editar" data-id="${item.id_user}">Editar</button></td>
+                    <td><button class="btn-excluir" data-id="${item.id_user}">Excluir</button></td>
                 `;
                 tableBody.appendChild(row);
+            });
+
+            // Adiciona os event listeners para os botões após inserir as linhas
+            document.querySelectorAll('.btn-editar').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    editar(this.getAttribute('data-id'));
+                });
+            });
+            document.querySelectorAll('.btn-excluir').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    excluir(this.getAttribute('data-id'));
+                });
             });
         })
         .catch(error => {
@@ -80,15 +132,17 @@ function editar(id_user) {
 
 
 // Função de exclusão
-function excluir(id_user) {
+async function excluir(id_user) {
     const token = localStorage.getItem('token');
     if (!token) {
-        mostrarModal("Token não encontrado. Faça login novamente.");
-        window.location.href = "../../Login/Login.html";
+        mostrarModal("Token não encontrado. Faça login novamente.", () => {
+            window.location.href = "../../Login/Login.html";
+        });
         return;
     }
 
-    if (!confirm('Tem certeza que deseja excluir este usuário?')) {
+    const confirmado = await mostrarModalConfirm('Tem certeza que deseja excluir este usuário?');
+    if (!confirmado) {
         return;
     }
 
@@ -127,9 +181,10 @@ function excluir(id_user) {
             }
         })
         .then(data => {
-            mostrarModal("Usuário excluído com sucesso!");
-            // Recarrega a página para atualizar a lista
-            window.location.reload();
+            mostrarModal("Usuário excluído com sucesso!", () => {
+                // Recarrega a página para atualizar a lista somente após clicar em OK
+                window.location.reload();
+            });
         })
         .catch(error => {
             console.error("Erro ao excluir usuário:", error);
