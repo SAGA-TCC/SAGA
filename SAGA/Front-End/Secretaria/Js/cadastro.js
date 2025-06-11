@@ -93,11 +93,33 @@ document.addEventListener("DOMContentLoaded", function() {
             
         } catch (error) {
             console.error("Erro ao carregar turmas:", error);
-            alert("Erro ao carregar a lista de turmas. Por favor, tente novamente.");
+            mostrarModal("Erro ao carregar a lista de turmas. Por favor, tente novamente.");
         }
     }
+
+    function mostrarModal(mensagem) {
+    const antigo = document.querySelector('.modal-overlay');
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+
+    const texto = document.createElement('p');
+    texto.innerText = mensagem;
+
+    const botao = document.createElement('button');
+    botao.innerText = 'OK';
+    botao.onclick = () => overlay.remove();
+
+    box.appendChild(texto);
+    box.appendChild(botao);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
     
-    // Adicionar campo de turma quando o tipo for aluno
     function atualizarFormulario() {
         const tipoUsuario = selectPerson.value;
         
@@ -201,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
             // Verificar tamanho do arquivo
             if (file.size > 10 * 1024 * 1024) { // Maior que 10MB
-                alert("A imagem é muito grande. Por favor, selecione uma imagem menor que 10MB.");
+                mostrarModal("A imagem é muito grande. Por favor, selecione uma imagem menor que 10MB.");
                 return;
             }
             
@@ -248,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         // Validação básica
         if (!nome || !email || !senha || !dt_nasc || !telefone || !cpf) {
-            alert("Preencha todos os campos obrigatórios!");
+            mostrarModal("Preencha todos os campos obrigatórios!");
             return;
         }
         
