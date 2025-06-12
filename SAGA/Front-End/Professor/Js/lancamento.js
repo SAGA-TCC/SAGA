@@ -14,6 +14,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     const id_user = localStorage.getItem("userId");
 
+    function mostrarModal(mensagem, callback) {
+    const antigo = document.querySelector('.modal-overlay');
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+
+    const texto = document.createElement('p');
+    texto.innerText = mensagem;
+
+    const botao = document.createElement('button');
+    botao.innerText = 'OK';
+    botao.onclick = () => {
+        overlay.remove();
+        if (typeof callback === 'function') callback();
+    };
+
+    box.appendChild(texto);
+    box.appendChild(botao);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
+
     // Busca o id_professor pelo id_user
     async function buscarIdProfessor() {
         if (!id_user) return "";
@@ -104,7 +130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }    // Lançar notas
     btnLancar.addEventListener("click", async () => {
         if (!id_professor || !id_turma || !id_materia || !bimestreAtual) {
-            alert("Selecione módulo, matéria e bimestre!");
+            mostrarModal("Selecione módulo, matéria e bimestre!");
             return;
         }
         
@@ -115,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         })).filter(n => !isNaN(n.valor));
 
         if (notas.length === 0) {
-            alert("Nenhuma nota preenchida para lançamento!");
+            mostrarModal("Nenhuma nota preenchida para lançamento!");
             return;
         }
 
@@ -147,7 +173,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             if (response.ok) {
-                alert(`Notas do ${bimestreTexto} lançadas com sucesso!`);
+                mostrarModal(`Notas do ${bimestreTexto} lançadas com sucesso!`);
                 
                 // Limpa os campos de notas
                 document.querySelectorAll(".nota-aluno").forEach(input => {
@@ -158,7 +184,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 throw new Error(error.erro || 'Erro ao lançar notas');
             }
         } catch (error) {
-            alert(`Erro ao lançar notas: ${error.message}`);
+            mostrarModal(`Erro ao lançar notas: ${error.message}`);
             console.error("Erro:", error);
         }
     });
@@ -166,7 +192,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Inicialização: buscar id_professor antes de popular selects
     id_professor = await buscarIdProfessor();
     if (!id_professor) {
-        alert("Usuário não é professor ou não está cadastrado corretamente!");
+        mostrarModal("Usuário não é professor ou não está cadastrado corretamente!");
         return;
     }
     await popularModulos();
