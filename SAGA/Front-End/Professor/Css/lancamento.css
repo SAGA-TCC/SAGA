@@ -14,7 +14,7 @@ body {
     color: white;
     text-align: center;
     max-height: 80vh;
-    overflow: hidden;
+    /* overflow: hidden; */
     display: flex;
     flex-direction: column;
 }

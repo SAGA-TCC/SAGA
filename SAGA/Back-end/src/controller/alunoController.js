@@ -1,15 +1,14 @@
 import prisma from "../util/prisma.js";
-// import { startOfDay, endOfDay } from "date-fns";
+import { startOfDay, endOfDay } from "date-fns";
 
 export class AlunoController {
-    async listInfoCurso(req, res) {
-        try {
+    async listInfoCurso(req, res) {        try {
             const id_user = req.userId;
             if (!id_user) {
-                return res.status(400).json({ message: "Usuário não autenticado." });
+                return res.status(400).json({ erro: "Usuário não autenticado." });
             }
 
-            // Inclui o professor e o user do professor em cada matéria
+            // Busca o aluno com suas informações de turma e curso
             const aluno = await prisma.aluno.findUnique({
                 where: { id_user },
                 include: {
@@ -34,10 +33,10 @@ export class AlunoController {
             });
 
             if (!aluno || !aluno.turma || !aluno.turma.curso) {
-                return res.status(404).json({ message: "Informações do curso não encontradas." });
+                return res.status(404).json({ erro: "Informações do curso não encontradas." });
             }
 
-            // Para cada matéria, pega o nome do professor vinculado (se houver)
+            // Mapeia as matérias com informações do professor
             const materias = (aluno.turma.curso.materias || []).map(materia => ({
                 materia: materia.nome,
                 cargaHoraria: materia.ch_total,
@@ -49,19 +48,22 @@ export class AlunoController {
             return res.status(200).json(materias);
 
         } catch (error) {
-            console.error("Erro ao listar informações do curso:", error, error.stack);
-            return res.status(500).json({ message: "Erro interno do servidor." });
+            console.error("Erro ao listar informações do curso:", error);
+            return res.status(500).json({ erro: "Erro ao listar informações do curso", detalhes: error.message });
         }
     }
 
-    async listModuloInfo(req, res) {
-        try {
+    async listModuloInfo(req, res) {        try {
             const id_user = req.userId;
             if (!id_user) {
-                return res.status(400).json({ message: "Usuário não autenticado." });
+                return res.status(400).json({ erro: "Usuário não autenticado." });
             }
 
             const { modulo } = req.params;
+
+            if (!modulo) {
+                return res.status(400).json({ erro: "Parâmetro módulo é obrigatório." });
+            }
 
             // Busca o aluno, turma e curso
             const aluno = await prisma.aluno.findUnique({
@@ -80,12 +82,16 @@ export class AlunoController {
             });
 
             if (!aluno || !aluno.turma || !aluno.turma.curso) {
-                return res.status(404).json({ message: "Informações do curso não encontradas." });
+                return res.status(404).json({ erro: "Informações do curso não encontradas." });
             }
 
-            // Filtra as matérias do módulo da turma do aluno
+            // Filtra as matérias do módulo específico
             const materiasModulo = aluno.turma.curso.materias
                 .filter(materia => materia.codigo.toString().startsWith(modulo));
+
+            if (materiasModulo.length === 0) {
+                return res.status(404).json({ erro: "Nenhuma matéria encontrada para este módulo." });
+            }
 
             // Para cada matéria, busca as notas do aluno
             const materiasInfo = await Promise.all(materiasModulo.map(async materia => {
@@ -103,7 +109,7 @@ export class AlunoController {
                     }
                 });
 
-                // Separe por tipo de avaliação (exemplo: "B1", "B2", etc)
+                // Separa por tipo de avaliação (B1, B2, etc)
                 const notaB1 = notasAluno.find(n => n.nota.tipo_avaliacao === "B1")?.valor ?? "-";
                 const notaB2 = notasAluno.find(n => n.nota.tipo_avaliacao === "B2")?.valor ?? "-";
 
@@ -128,35 +134,51 @@ export class AlunoController {
 
         } catch (error) {
             console.error("Erro ao listar informações do módulo:", error);
-            return res.status(500).json({ message: "Erro interno do servidor." });
+            return res.status(500).json({ erro: "Erro ao listar informações do módulo", detalhes: error.message });
         }
     }
 
-    async getFrequenciaByData(req, res) {
-        try {
+    async getFrequenciaByData(req, res) {        try {
             const id_user = req.userId;
             if (!id_user) {
-                return res.status(400).json({ message: "Usuário não autenticado." });
+                return res.status(400).json({ erro: "Usuário não autenticado." });
             }
 
             const { data } = req.query;
 
             if (!data) {
-                return res.status(400).json({ message: "Data não fornecida. Use o parâmetro ?data=YYYY-MM-DD" });
+                return res.status(400).json({ erro: "Data não fornecida. Use o parâmetro ?data=YYYY-MM-DD" });
             }
 
+            // Busca o aluno
             const aluno = await prisma.aluno.findUnique({
                 where: { id_user },
                 include: { turma: true }
             });
 
             if (!aluno) {
-                return res.status(404).json({ message: "Aluno não encontrado." });
+                return res.status(404).json({ erro: "Aluno não encontrado." });
             }
 
-            const start = startOfDay(new Date(data));
-            const end = endOfDay(new Date(data));
+            if (!aluno.id_turma) {
+                return res.status(404).json({ erro: "Aluno não está vinculado a uma turma." });
+            }
 
+            // Converte a data para o formato correto
+            let dataObj;
+            try {
+                dataObj = new Date(data);
+                if (isNaN(dataObj)) {
+                    throw new Error("Data inválida");
+                }
+            } catch (err) {
+                return res.status(400).json({ erro: "Formato de data inválido. Use YYYY-MM-DD", detalhes: err.message });
+            }
+
+            const start = startOfDay(dataObj);
+            const end = endOfDay(dataObj);
+
+            // Busca a chamada do dia para a turma
             const chamada = await prisma.chamada.findFirst({
                 where: {
                     id_turma: aluno.id_turma,
@@ -168,9 +190,10 @@ export class AlunoController {
             });
 
             if (!chamada) {
-                return res.status(404).json({ message: "Nenhuma chamada encontrada para a data informada." });
+                return res.status(404).json({ erro: "Nenhuma chamada encontrada para a data informada." });
             }
 
+            // Busca a presença do aluno na chamada
             const presenca = await prisma.presenca.findFirst({
                 where: {
                     id_chamada: chamada.id_chamada,
@@ -179,7 +202,7 @@ export class AlunoController {
             });
 
             if (!presenca) {
-                return res.status(404).json({ message: "Presença do aluno não encontrada na chamada desta data." });
+                return res.status(404).json({ erro: "Presença do aluno não encontrada na chamada desta data." });
             }
 
             return res.status(200).json({
@@ -188,30 +211,45 @@ export class AlunoController {
             });
 
         } catch (error) {
-            console.error("Erro ao buscar frequência por data:", error.message);
-            return res.status(500).json({ message: "Erro interno do servidor." });
+            console.error("Erro ao buscar frequência por data:", error);
+            return res.status(500).json({ erro: "Erro ao buscar frequência por data", detalhes: error.message });
         }
     }
 
-    async getPresencasByDia(req, res) {
-        try {
+    async getPresencasByDia(req, res) {        try {
             const id_user = req.userId;
             if (!id_user) {
-                return res.status(400).json({ message: "Usuário não autenticado." });
+                return res.status(400).json({ erro: "Usuário não autenticado." });
             }
 
             const { data } = req.query;
             if (!data) {
-                return res.status(400).json({ message: "Data não fornecida. Use o parâmetro ?data=YYYY-MM-DD" });
+                return res.status(400).json({ erro: "Data não fornecida. Use o parâmetro ?data=YYYY-MM-DD" });
             }
 
+            // Busca o aluno
             const aluno = await prisma.aluno.findUnique({
                 where: { id_user },
                 include: { turma: true }
             });
 
             if (!aluno) {
-                return res.status(404).json({ message: "Aluno não encontrado." });
+                return res.status(404).json({ erro: "Aluno não encontrado." });
+            }
+
+            if (!aluno.id_turma) {
+                return res.status(404).json({ erro: "Aluno não está vinculado a uma turma." });
+            }
+
+            // Valida e converte a data
+            let dataObj;
+            try {
+                dataObj = new Date(data);
+                if (isNaN(dataObj)) {
+                    throw new Error("Data inválida");
+                }
+            } catch (err) {
+                return res.status(400).json({ erro: "Formato de data inválido. Use YYYY-MM-DD", detalhes: err.message });
             }
 
             // Buscar todas as chamadas do dia para a turma do aluno
@@ -224,14 +262,22 @@ export class AlunoController {
                     }
                 },
                 include: {
-                    professor: { include: { user: true } },
-                    presencas: { where: { id_aluno: aluno.id_aluno } },
-                    turma: true
+                    professor: { 
+                        include: { 
+                            user: true,
+                            materias: true
+                        } 
+                    },
+                    presencas: { where: { id_aluno: aluno.id_aluno } }
                 }
             });
 
+            if (chamadas.length === 0) {
+                return res.status(404).json({ erro: "Nenhuma chamada encontrada para esta data." });
+            }
+
             const result = chamadas.map(chamada => ({
-                materia: chamada.professor.materias[0]?.nome || "Desconhecida",
+                materia: chamada.professor.materias[0]?.nome || "Não definido",
                 professor: chamada.professor.user.nome,
                 presente: chamada.presencas[0]?.presente ?? false
             }));
@@ -240,7 +286,7 @@ export class AlunoController {
 
         } catch (error) {
             console.error("Erro ao buscar presenças do dia:", error);
-            return res.status(500).json({ message: "Erro interno do servidor." });
+            return res.status(500).json({ erro: "Erro ao buscar presenças do dia", detalhes: error.message });
         }
     }
 }
