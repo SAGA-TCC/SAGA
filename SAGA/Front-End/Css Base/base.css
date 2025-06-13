@@ -112,12 +112,22 @@ header button {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+.nav-links{
+    display: flex
+    ;
+        align-items: center;
+        height: 56px;
+        gap: 20px;
+        flex-grow: 1;
+        margin-left: 0px;
+}
+
 .navbar {
     background: #1a1a4b;
     color: white;
     display: flex;
     align-items: center;
-    padding: 5px 10px;
+
 }
 
 .navbar img {

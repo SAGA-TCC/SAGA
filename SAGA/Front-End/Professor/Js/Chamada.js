@@ -2,10 +2,36 @@ document.addEventListener("DOMContentLoaded", async function () {
     const tableBody = document.getElementById("listaChamadaBody");
     const turmaHeader = document.getElementById("turmaHeader");
 
+    function mostrarModal(mensagem, callback) {
+        const antigo = document.querySelector('.modal-overlay');
+        if (antigo) antigo.remove();
+    
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+    
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+    
+        const texto = document.createElement('p');
+        texto.innerText = mensagem;
+    
+        const botao = document.createElement('button');
+        botao.innerText = 'OK';
+        botao.onclick = () => {
+            overlay.remove();
+            if (typeof callback === 'function') callback();
+        };
+    
+        box.appendChild(texto);
+        box.appendChild(botao);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
     // Recupera token e id_user do localStorage
     const token = localStorage.getItem("token");
     const id_user = localStorage.getItem("userId");    if (!token || !id_user) {
-        alert("Usuário não autenticado!");
+        mostrarModal("Usuário não autenticado!");
         window.location.href = "../../Login/Login.html";
         return;
     }
@@ -20,12 +46,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         const prof = await resp.json();
         id_professor = prof.id_professor;
     } catch (e) {
-        alert("Erro ao buscar professor.");
+        mostrarModal("Erro ao buscar professor.");
         return;
     }
 
     if (!id_professor) {
-        alert("Professor não encontrado.");
+        mostrarModal("Professor não encontrado.");
         return;
     }
 
@@ -37,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         turmas = await turmasResp.json();
     } catch (e) {
-        alert("Erro ao buscar turmas.");
+        mostrarModal("Erro ao buscar turmas.");
         return;
     }
 
@@ -49,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         materias = await materiasResp.json();
     } catch (e) {
-        alert("Erro ao buscar matérias.");
+        mostrarModal("Erro ao buscar matérias.");
         return;
     }
 
