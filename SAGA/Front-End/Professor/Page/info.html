@@ -7,9 +7,9 @@
     <title>SAGA - Informações</title>
     <link rel="stylesheet" href="../../Css Base/base.css">
     <link rel="stylesheet" href="../../Css Base/modal.css" />
-    <link rel="stylesheet" href="../Css/info.css">
-    <script src="../../Js/verificaToken.js"></script>
+    <link rel="stylesheet" href="../Css/info.css">    <script src="../../Js/verificaToken.js"></script>
     <script src="../../Js/menu.js"></script>
+    <script src="../../Js/mascaras.js"></script>
 </head>
 
 <body>
@@ -65,11 +65,9 @@
                         <div class="input-group full-width">
                             <label for="email">Email:</label>
                             <input type="email" id="email" value="jose.silva.souza@email.example.co.br" disabled>
-                        </div>
-
-                        <div class="input-group half-width">
+                        </div>                        <div class="input-group half-width">
                             <label for="telefone">Nº de Telefone:</label>
-                            <input type="text" id="telefone" value="(19) 99999 - 9999" disabled>
+                            <input type="text" id="telefone" value="(19) 99999 - 9999" disabled maxlength="14">
                         </div>
 
                         <div class="input-group half-width">

@@ -319,14 +319,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         const usuario = await response.json();
-        usuarioAtual = usuario; // Salva referência para uso posterior
-
-
-        // Preenche os campos do formulário com os dados recebidos
+        usuarioAtual = usuario; // Salva referência para uso posterior        // Preenche os campos do formulário com os dados recebidos
         document.getElementById("nome").value = usuario.nome || "";
         document.getElementById("email").value = usuario.email || "";
         document.getElementById("telefone").value = usuario.telefone || "";
         document.getElementById("cpf").value = usuario.cpf || "";
+
+        // Aplicar máscaras após carregar os dados
+        if (typeof aplicarMascarasAposDados === 'function') {
+            aplicarMascarasAposDados();
+        }
 
         // Formata a data de nascimento para o input datetime-local
         if (usuario.dt_nasc) {

@@ -40,9 +40,13 @@ async function buscarInformacoesUsuario() {
             fotoElement.style.backgroundSize = 'cover';
             fotoElement.style.backgroundPosition = 'center';
         }
-        
-        document.getElementById('telefone').value = data.telefone || '';
+          document.getElementById('telefone').value = data.telefone || '';
         document.getElementById('cpf').value = data.cpf || '';
+
+        // Aplicar máscaras após carregar os dados
+        if (typeof aplicarMascarasAposDados === 'function') {
+            aplicarMascarasAposDados();
+        }
 
     } catch (error) {
         console.error('Erro:', error);
