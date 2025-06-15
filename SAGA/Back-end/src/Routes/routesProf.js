@@ -23,6 +23,9 @@ routerProf.post("/prof/chamada", tokenAuthenticate, (req, res) => profController
 
 routerProf.get("/prof/chamada/:id_turma", tokenAuthenticate, (req, res) => profController.listarChamada(req, res));
 
+// Rota para buscar chamada específica por data
+routerProf.get("/prof/chamada/:id_turma/data", tokenAuthenticate, (req, res) => profController.buscarChamadaPorData(req, res));
+
 routerProf.post("/prof/lancarNotas", tokenAuthenticate, (req, res) => profController.lancarNotas(req, res));
 
 routerProf.get("/professor/user/:id_user", tokenAuthenticate, (req, res) => profController.buscarProfessorPorUser(req, res));

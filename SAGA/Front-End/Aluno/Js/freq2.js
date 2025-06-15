@@ -15,12 +15,24 @@ document.addEventListener('DOMContentLoaded', function () {
   const data = urlParams.get('data');
 
   if (data) {
-    fetch(`/aluno/presencas-dia?data=${data}`, {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      tableBody.innerHTML = '<tr><td colspan="3">Token de acesso não encontrado.</td></tr>';
+      return;
+    }
+
+    fetch(`http://localhost:8081/aluno/presencas-dia?data=${data}`, {
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(presencas => {
       tableBody.innerHTML = '';
       if (presencas.length === 0) {
@@ -31,11 +43,19 @@ document.addEventListener('DOMContentLoaded', function () {
           tr.innerHTML = `
             <td>${item.materia}</td>
             <td>${item.professor}</td>
-            <td>${item.presente ? 'Presente' : 'Falta'}</td>
+            <td style="color: ${item.presente ? '#00B000' : '#D00000'}; font-weight: bold;">
+              ${item.presente ? 'Presente' : 'Falta'}
+            </td>
           `;
           tableBody.appendChild(tr);
         });
       }
+    })
+    .catch(error => {
+      console.error('Erro ao buscar presenças:', error);
+      tableBody.innerHTML = '<tr><td colspan="3">Erro ao carregar dados de frequência.</td></tr>';
     });
+  } else {
+    tableBody.innerHTML = '<tr><td colspan="3">Data não informada.</td></tr>';
   }
 });

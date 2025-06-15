@@ -140,6 +140,7 @@ model Nota {
   id_turma        String
   id_materia      String
   tipo_avaliacao  String?     // exemplo: "Prova", "Trabalho", etc.
+  bimestre        String?     // exemplo: "1º Bimestre", "2º Bimestre", etc.
   data_lancamento DateTime    @default(now())
 
   professor       Professor   @relation(fields: [id_professor], references: [id_professor])

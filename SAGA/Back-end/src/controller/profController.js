@@ -169,10 +169,10 @@ export class ProfController {
                 return res.status(400).json({ erro: "Usuário não autenticado." });
             }
 
-            const { id_turma, id_materia, data, presencas } = req.body;
+            const { id_turma, data, presencas } = req.body;
 
-            if (!id_turma || !id_materia || !data || !Array.isArray(presencas)) {
-                return res.status(400).json({ erro: "Dados obrigatórios: id_turma, id_materia, data e presencas (array)." });
+            if (!id_turma || !data || !Array.isArray(presencas)) {
+                return res.status(400).json({ erro: "Dados obrigatórios: id_turma, data e presencas (array)." });
             }
 
             const professor = await prisma.professor.findUnique({
@@ -194,48 +194,53 @@ export class ProfController {
                 return res.status(403).json({ erro: "Professor não tem acesso a esta turma." });
             }
 
-            const materia = await prisma.materia.findFirst({
+            const dataFormatada = new Date(data);
+            const resultados = [];
+
+            // Buscar ou criar a chamada para a turma e data
+            let chamada = await prisma.chamada.findFirst({
                 where: {
-                    id_materia,
-                    id_professor: professor.id_professor
+                    id_professor: professor.id_professor,
+                    id_turma,
+                    data: dataFormatada
                 }
             });
 
-            if (!materia) {
-                return res.status(403).json({ erro: "Professor não tem acesso a esta matéria." });
+            if (!chamada) {
+                chamada = await prisma.chamada.create({
+                    data: {
+                        id_professor: professor.id_professor,
+                        id_turma,
+                        data: dataFormatada
+                    }
+                });
             }
-
-            const dataFormatada = new Date(data);
-            const resultados = [];
 
             for (const presenca of presencas) {
                 const { id_aluno, presente } = presenca;
 
-                if (typeof id_aluno !== 'number' || typeof presente !== 'boolean') {
-                    return res.status(400).json({ erro: "Cada presença deve ter id_aluno (number) e presente (boolean)." });
+                if (typeof id_aluno !== 'string' || typeof presente !== 'boolean') {
+                    return res.status(400).json({ erro: "Cada presença deve ter id_aluno (string) e presente (boolean)." });
                 }
 
-                const chamadaExistente = await prisma.chamada.findFirst({
+                // Buscar ou criar/atualizar a presença do aluno para essa chamada
+                let presencaExistente = await prisma.presenca.findFirst({
                     where: {
-                        id_aluno,
-                        id_turma,
-                        id_materia,
-                        data: dataFormatada
+                        id_chamada: chamada.id_chamada,
+                        id_aluno
                     }
                 });
 
-                if (chamadaExistente) {
-                    await prisma.chamada.update({
-                        where: { id_chamada: chamadaExistente.id_chamada },
+                if (presencaExistente) {
+                    await prisma.presenca.update({
+                        where: { id_presenca: presencaExistente.id_presenca },
                         data: { presente }
                     });
                 } else {
-                    await prisma.chamada.create({
+                    await prisma.presenca.create({
                         data: {
+                            id_chamada: chamada.id_chamada,
                             id_aluno,
-                            id_turma,
-                            id_materia,
-                            data: dataFormatada,
                             presente
                         }
                     });
@@ -312,10 +317,10 @@ export class ProfController {
                 return res.status(400).json({ erro: "Usuário não autenticado." });
             }
 
-            const { id_turma, id_materia, notas } = req.body;
+            const { id_turma, id_materia, tipo_avaliacao, bimestre, notas } = req.body;
 
-            if (!id_turma || !id_materia || !Array.isArray(notas)) {
-                return res.status(400).json({ erro: "Dados obrigatórios: id_turma, id_materia e notas (array)." });
+            if (!id_turma || !id_materia || !tipo_avaliacao || !bimestre || !Array.isArray(notas)) {
+                return res.status(400).json({ erro: "Dados obrigatórios: id_turma, id_materia, tipo_avaliacao, bimestre e notas (array)." });
             }
 
             const professor = await prisma.professor.findUnique({
@@ -340,7 +345,7 @@ export class ProfController {
             const materia = await prisma.materia.findFirst({
                 where: {
                     id_materia,
-                    id_professor: professor.id_professor
+                    id_prof: professor.id_professor // Corrigido de id_professor para id_prof
                 }
             });
 
@@ -353,35 +358,29 @@ export class ProfController {
             for (const notaAluno of notas) {
                 const { id_aluno, valor } = notaAluno;
 
-                if (typeof id_aluno !== 'number' || typeof valor !== 'number') {
-                    return res.status(400).json({ erro: "Cada nota deve ter id_aluno (number) e valor (number)." });
+                if (typeof id_aluno !== 'string' || typeof valor !== 'number') {
+                    return res.status(400).json({ erro: "Cada nota deve ter id_aluno (string) e valor (number)." });
                 }
 
                 if (valor < 0 || valor > 10) {
                     return res.status(400).json({ erro: "Valor da nota deve estar entre 0 e 10." });
-                }
-
-                const notaExistente = await prisma.nota.findFirst({
-                    where: {
-                        id_aluno,
-                        id_materia
+                }                // Criar nova nota
+                const novaNota = await prisma.nota.create({
+                    data: {
+                        id_professor: professor.id_professor,
+                        id_turma,
+                        id_materia,
+                        tipo_avaliacao,
+                        bimestre,
+                        data_lancamento: new Date(),
+                        notasAlunos: {
+                            create: {
+                                id_aluno,
+                                valor
+                            }
+                        }
                     }
                 });
-
-                if (notaExistente) {
-                    await prisma.nota.update({
-                        where: { id_nota: notaExistente.id_nota },
-                        data: { valor }
-                    });
-                } else {
-                    await prisma.nota.create({
-                        data: {
-                            id_aluno,
-                            id_materia,
-                            valor
-                        }
-                    });
-                }
 
                 resultados.push({ id_aluno, valor });
             }
@@ -390,6 +389,76 @@ export class ProfController {
         } catch (error) {
             console.error("Erro ao lançar notas:", error);
             return res.status(500).json({ erro: "Erro ao lançar notas", detalhes: error.message });
+        }
+    }
+
+    async buscarChamadaPorData(req, res) {
+        try {
+            const id_user = req.userId;
+            if (!id_user) {
+                return res.status(400).json({ erro: "Usuário não autenticado." });
+            }
+
+            const { id_turma } = req.params;
+            const { data } = req.query;
+
+            if (!id_turma || !data) {
+                return res.status(400).json({ erro: "ID da turma e data são obrigatórios." });
+            }
+
+            const professor = await prisma.professor.findUnique({
+                where: { id_user }
+            });
+
+            if (!professor) {
+                return res.status(404).json({ erro: "Professor não encontrado." });
+            }
+
+            const professorTurma = await prisma.professorTurma.findFirst({
+                where: {
+                    id_professor: professor.id_professor,
+                    id_turma
+                }
+            });
+
+            if (!professorTurma) {
+                return res.status(403).json({ erro: "Professor não tem acesso a esta turma." });
+            }
+
+            // Converte a data para o formato correto
+            const dataInicio = new Date(data + "T00:00:00.000Z");
+            const dataFim = new Date(data + "T23:59:59.999Z");
+
+            const chamada = await prisma.chamada.findFirst({
+                where: {
+                    id_turma,
+                    data: {
+                        gte: dataInicio,
+                        lte: dataFim
+                    }
+                },
+                include: {
+                    presencas: {
+                        include: {
+                            aluno: {
+                                include: {
+                                    user: true
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (!chamada) {
+                return res.status(404).json({ erro: "Nenhuma chamada encontrada para esta data." });
+            }
+
+            return res.status(200).json(chamada);
+
+        } catch (error) {
+            console.error("Erro ao buscar chamada por data:", error);
+            return res.status(500).json({ erro: "Erro ao buscar chamada por data", detalhes: error.message });
         }
     }
 }
