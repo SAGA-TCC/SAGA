@@ -1,27 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
     const tableBody = document.getElementById("boletimTableBody");
-    const moduloSelect = document.getElementById("moduloSelect");
+    const bimestreSelect = document.getElementById("bimestreSelect");
 
-    // Adiciona opções dos módulos
-    moduloSelect.innerHTML = `
-        <option value="1">1º Módulo</option>
-        <option value="2">2º Módulo</option>
-        <option value="3">3º Módulo</option>
+    // Adiciona opções dos bimestres
+    bimestreSelect.innerHTML = `
+        <option value="1">1º Bimestre</option>
+        <option value="2">2º Bimestre</option>
+        <option value="3">3º Bimestre</option>
+        <option value="4">4º Bimestre</option>
     `;
 
-    // Função para buscar e exibir dados do módulo selecionado
-    async function carregarModulo(modulo) {
+    // Função para buscar e exibir dados do bimestre selecionado
+    async function carregarBimestre(bimestre) {
         tableBody.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:8081/aluno/modulo/${modulo}`, {
+            const response = await fetch(`http://localhost:8081/aluno/bimestre/${bimestre}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
                 }
             });
             if (!response.ok) {
-                tableBody.innerHTML = `<tr><td colspan='4'>Erro ao carregar dados do módulo.</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan='4'>Erro ao carregar dados do bimestre.</td></tr>`;
                 return;
             }
             const data = await response.json();
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     `;
                 });
             } else {
-                tableBody.innerHTML = "<tr><td colspan='4'>Nenhuma matéria encontrada para este módulo.</td></tr>";
+                tableBody.innerHTML = "<tr><td colspan='4'>Nenhuma matéria encontrada para este bimestre.</td></tr>";
             }
         } catch (err) {
             tableBody.innerHTML = `<tr><td colspan='4'>Erro ao carregar dados.</td></tr>`;
@@ -47,11 +48,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Evento de mudança do select
-    moduloSelect.addEventListener("change", function () {
-        const modulo = this.value;
-        carregarModulo(modulo);
+    bimestreSelect.addEventListener("change", function () {
+        const bimestre = this.value;
+        carregarBimestre(bimestre);
     });
 
-    // Carrega o 1º módulo ao iniciar
-    carregarModulo("1");
+    // Carrega o 1º bimestre ao iniciar
+    carregarBimestre("1");
 });
