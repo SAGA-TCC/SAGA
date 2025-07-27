@@ -15,7 +15,7 @@ Sistema completo para gerenciamento de escolas, com funcionalidades robustas de 
 - [📌 Funcionalidades](#-funcionalidades)  
 - [🖼️ Imagens](#-imagens)  
 - [🤝 Contribuições](#-contribuições)  
-- [🧑‍💻 Contato](#-contato)  
+- [🧑‍💻 Desenvolvedores](#-desenvovedores)  
 - [📄 Licença](#-licença)  
 
 ---
@@ -80,7 +80,7 @@ npm run dev
 Servidor disponível em: `http://localhost:3000`
 
 ### 🌐 Frontend
-Abra o arquivo `index.html` localizado na pasta `public/` no seu navegador ou utilize um servidor como o [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (VSCode).
+Abra o arquivo `index.html` localizado na pasta `login/` no seu navegador ou utilize um servidor como o [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (VSCode).
 
 ---
 
@@ -91,9 +91,8 @@ Abra o arquivo `index.html` localizado na pasta `public/` no seu navegador ou ut
 - ✅ Criação e atribuição de **turmas**
 - ✅ Relacionamento entre alunos, professores e turmas
 - ✅ Matrículas
-- 🔜 (Em desenvolvimento): Lançamento de notas
-- 🔜 (Em desenvolvimento): Sistema de frequência
-- 🔜 (Em desenvolvimento): Comunicação interna (chat/sistema de avisos)
+- ✅ Lançamento de notas
+- ✅ Sistema de frequência
 
 ---
 
@@ -122,11 +121,9 @@ Contribuições são bem-vindas! Sinta-se livre para abrir uma _issue_ ou enviar
 
 ---
 
-## 🧑‍💻 Contato
+## 🧑‍💻 Desenvolvedores 
 
-Desenvolvido com 💙 por [Seu Nome].  
-📧 Email: [seuemail@exemplo.com]  
-🐙 GitHub: [https://github.com/seu-usuario](https://github.com/seu-usuario)
+Desenvolvido por [Felipe Farias](https://github.com/Felipe-dev01), Brenno Mello, Jéssica Oliveira e Hugo Rocha.  
 
 ---
 
