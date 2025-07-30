@@ -22,7 +22,7 @@ Sistema completo para gerenciamento de escolas, com funcionalidades robustas de 
 
 ## 🧠 Sobre o Projeto
 
-O **Sistema de Gestão Escolar** foi desenvolvido para facilitar a administração acadêmica, proporcionando uma interface intuitiva tanto para o time pedagógico quanto administrativo.  
+O **Sistema de Administração e Gestão Acadêmica** foi desenvolvido para facilitar a administração acadêmica, proporcionando uma interface intuitiva tanto para o time pedagógico quanto administrativo.  
 A estrutura do sistema é modular e escalável, permitindo expansões futuras como integração de boletins, presença, mensagens internas e mais.
 
 ---
